@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  
+  --color-primary: #b42222;
+  --color-drift-silver: #DDE3EA;
+  --color-background-light: #f8fafc;
+  --color-background-dark: #0f172a;
+  --color-panel-dark: #1e293b;
+}
+
+@layer base {
+  body {
+    @apply bg-background-dark text-slate-100 min-h-screen font-sans;
+  }
+}
+
+@layer utilities {
+  .industrial-texture {
+    background-image: radial-gradient(rgba(180, 34, 34, 0.05) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #b4222233;
+    border-radius: 10px;
+  }
+}
