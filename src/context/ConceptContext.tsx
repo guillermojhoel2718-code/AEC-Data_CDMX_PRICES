@@ -157,48 +157,9 @@ export const ConceptProvider = ({ children }: { children: ReactNode }) => {
     setLoading(true);
     setError(null);
     try {
-      const { data: conceptRows, error: conceptError } = await supabase
-        .from('concepts')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (conceptError) throw conceptError;
-      if (!conceptRows || conceptRows.length === 0) {
-        setConcepts([]);
-        setLoading(false);
-        return;
-      }
-
-      const conceptIds = conceptRows.map((c: any) => c.id);
-
-      // Fetch all related data in parallel
-      const [materialsRes, laborRes, equipmentRes, subcontractsRes, overcostRes] = await Promise.all([
-        supabase.from('concept_materials').select('*').in('concept_id', conceptIds).order('sort_order'),
-        supabase.from('concept_labor').select('*').in('concept_id', conceptIds).order('sort_order'),
-        supabase.from('concept_equipment').select('*').in('concept_id', conceptIds).order('sort_order'),
-        supabase.from('concept_subcontracts').select('*').in('concept_id', conceptIds).order('sort_order'),
-        supabase.from('concept_overcost').select('*').in('concept_id', conceptIds),
-      ]);
-
-      const materials = materialsRes.data || [];
-      const labor = laborRes.data || [];
-      const equipment = equipmentRes.data || [];
-      const subcontracts = subcontractsRes.data || [];
-      const overcost = overcostRes.data || [];
-
-      const mapped = conceptRows.map((row: any) => {
-        const cId = row.id;
-        return mapDbConcept(
-          row,
-          materials.filter((m: any) => m.concept_id === cId),
-          labor.filter((l: any) => l.concept_id === cId),
-          equipment.filter((e: any) => e.concept_id === cId),
-          subcontracts.filter((s: any) => s.concept_id === cId),
-          overcost.find((o: any) => o.concept_id === cId) || null,
-        );
-      });
-
-      setConcepts(mapped);
+      // Temporarily using mock data instead of Supabase as per user request
+      const { MOCK_CONCEPTS } = await import('../lib/mockData');
+      setConcepts(MOCK_CONCEPTS);
     } catch (err: any) {
       console.error('Error fetching concepts:', err);
       setError(err.message || 'Error loading concepts');

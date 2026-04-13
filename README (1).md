@@ -157,8 +157,7 @@ El workflow agential permite iteraciones técnicas de alta precisión sin sacrif
 
 - Node.js `>=18.x`
 - npm `>=9.x` o pnpm `>=8.x`
-- Cuenta en [Supabase](https://supabase.com) (tier gratuito suficiente para desarrollo local)
-- Variables de entorno configuradas (ver abajo)
+- Código de acceso al proyecto
 
 ### Installation
 
@@ -172,7 +171,7 @@ npm install
 
 # 3. Configurar variables de entorno
 cp .env.example .env
-# Editar .env con tus claves (ver sección Environment Variables)
+# El sistema funcionará con datos de ejemplo (Mock Data) por defecto.
 
 # 4. Iniciar el servidor de desarrollo
 npm run dev
@@ -180,29 +179,12 @@ npm run dev
 
 La aplicación estará disponible en `http://localhost:5173`.
 
-### Environment Variables
-
-Crea un archivo `.env` en la raíz del proyecto con las siguientes variables:
-
 ```env
-# Supabase
-VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
-VITE_SUPABASE_ANON_KEY=tu-anon-key
-
-# Blockchain (Polygon / Base)
-VITE_RPC_URL=https://polygon-rpc.com
-VITE_CONTRACT_ADDRESS_APUC=0x...
-VITE_CONTRACT_ADDRESS_MARKETPLACE=0x...
-
-# Payments (PCI Gateway)
-VITE_PAYMENT_GATEWAY_PUBLIC_KEY=pk_...
-
-# CEDIA Audit API
-VITE_CEDIA_API_URL=https://api.apucmx.mx/audit
-VITE_CEDIA_API_KEY=tu-api-key
+# MODO DEMO (Sin Base de Datos)
+VITE_USE_MOCK_DATA=true
 ```
 
-> ⚠️ **Nunca expongas claves privadas en el frontend.** Las operaciones de firma de blockchain y procesamiento de pagos se ejecutan exclusivamente en Supabase Edge Functions.
+> ⚠️ **Nota:** El sistema está operando actualmente con una base de datos de ejemplo local (Mock Data) para facilitar la visualización del despliegue sin dependencias externas.
 
 ### Available Scripts
 
