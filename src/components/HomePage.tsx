@@ -31,8 +31,8 @@ export const HomePage = () => {
         <div className="w-full max-w-[1024px] px-6 py-12 flex flex-col gap-12">
           
           <div className="text-center space-y-4">
-            <h1 className="text-5xl font-black text-white tracking-tight uppercase">Base de Precios Unitarios <span className="text-primary">Inmutable</span></h1>
-            <p className="text-slate-400 text-lg max-w-2xl mx-auto">Consulta precios unitarios validados por expertos y registrados en blockchain para máxima transparencia.</p>
+            <h1 className="text-5xl font-black text-white tracking-tight uppercase">Base de Precios Unitarios <span className="text-primary">Validada</span></h1>
+            <p className="text-slate-400 text-lg max-w-2xl mx-auto">Consulta precios unitarios validados por expertos para máxima transparencia y precisión.</p>
           </div>
 
           <form onSubmit={handleSearch} className="w-full max-w-4xl mx-auto flex flex-col md:flex-row gap-4">
@@ -104,7 +104,7 @@ export const HomePage = () => {
             <div className="absolute -bottom-10 -right-10 size-64 bg-primary/5 rounded-full blur-3xl"></div>
             <div className="flex flex-col gap-3 relative z-10">
               <h3 className="text-white font-black text-2xl uppercase tracking-tight">¿Necesitas una base personalizada?</h3>
-              <p className="text-slate-400 text-base max-w-xl">Contamos con más de 15,000 conceptos actualizados semanalmente y validados en blockchain.</p>
+              <p className="text-slate-400 text-base max-w-xl">Contamos con más de 15,000 conceptos actualizados semanalmente y validados por nuestra red de expertos.</p>
             </div>
             <div className="flex gap-4 relative z-10">
               <button 
@@ -122,7 +122,7 @@ export const HomePage = () => {
       </main>
       <footer className="mt-auto py-10 border-t border-white/5 px-6 md:px-20 bg-slate-950 text-center md:text-left">
         <div className="max-w-[1024px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-slate-500 text-sm font-medium">© 2026 APUCMX. Tecnología Blockchain aplicada a la construcción.</div>
+          <div className="text-slate-500 text-sm font-medium">© 2026 APUCMX. Plataforma inteligente de costos de construcción.</div>
           <div className="flex gap-8 text-slate-500 text-sm font-bold">
             <button 
               onClick={() => window.dispatchEvent(new Event('open-terms-modal'))}

@@ -5,13 +5,14 @@ import { AppHeader, BlockchainBadge, MembershipTier } from './Common';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
 import { useConcepts } from '../context/ConceptContext';
+import { useAuth } from '../context/AuthContext';
 
 export const DetailPage = () => {
   const { id } = useParams();
   const { concepts, loading } = useConcepts();
+  const { membership } = useAuth();
 
   const [activeTab, setActiveTab] = useState('tecnico');
-  const [membership, setMembership] = useState<MembershipTier>((localStorage.getItem('membership') as MembershipTier) || 'gratis');
 
   const concept = useMemo(() => {
     return concepts.find(c => c.id === id) || concepts[0] || null;
@@ -48,13 +49,6 @@ export const DetailPage = () => {
     );
   }
 
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setMembership((localStorage.getItem('membership') as MembershipTier) || 'gratis');
-    };
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
 
   const totals = useMemo(() => {
     const matTotal = concept.materials?.reduce((acc, m) => acc + (m.costLab + m.fletes + m.maniobra + m.almacenaje) * m.fcActual, 0) || 0;

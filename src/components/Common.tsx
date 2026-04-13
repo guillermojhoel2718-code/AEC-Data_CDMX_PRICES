@@ -484,7 +484,7 @@ const AuthModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
                 <label className="flex items-start gap-3 cursor-pointer group">
                   <input type="checkbox" checked={termsAccepted} onChange={e => setTermsAccepted(e.target.checked)} className="mt-1 accent-primary" />
                   <span className="text-[10px] text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors">
-                    Acepto los <span className="text-primary hover:underline">Términos de Servicio</span> y la <span className="text-primary hover:underline">Política de Privacidad</span>. Entiendo que APUCMX es una plataforma descentralizada.
+                    Acepto los <span className="text-primary hover:underline">Términos de Servicio</span> y la <span className="text-primary hover:underline">Política de Privacidad</span>.
                   </span>
                 </label>
               </div>
@@ -596,14 +596,14 @@ const MembershipModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
               </div>
               {/* Creador */}
               <div className="bg-gradient-to-br from-slate-800/60 to-primary/10 border border-primary/60 rounded-2xl p-6 flex flex-col relative">
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-amber-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase">$APUC</div>
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-amber-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase">PRO</div>
                 <h3 className="text-white font-bold text-lg mb-1">Creador</h3>
                 <div className="text-2xl font-black text-white mb-1">$500 <span className="text-xs text-slate-500 font-normal uppercase">MXN / Mes</span></div>
-                <p className="text-[10px] text-primary font-bold mb-4 uppercase tracking-wide">+ Acumula créditos $APUC</p>
+                <p className="text-[10px] text-primary font-bold mb-4 uppercase tracking-wide">+ Acceso Total a Datos</p>
                 <ul className="space-y-2 mb-8 flex-1 text-xs text-slate-300">
                   <li className="flex gap-2"><Check size={14} className="text-primary shrink-0" /> Todo lo del plan Mensual</li>
                   <li className="flex gap-2"><Check size={14} className="text-primary shrink-0" /> Publicar activos en Marketplace</li>
-                  <li className="flex gap-2"><Check size={14} className="text-primary shrink-0" /> Ganar $APUC por contribuciones</li>
+                  <li className="flex gap-2"><Check size={14} className="text-primary shrink-0" /> Ganar insignias por contribuciones</li>
                   <li className="flex gap-2"><Check size={14} className="text-primary shrink-0" /> Reputación CEDIA verificable</li>
                   <li className="flex gap-2"><Check size={14} className="text-primary shrink-0" /> Sello de Auditoría Técnica</li>
                 </ul>
@@ -789,9 +789,9 @@ export const BlockchainBadge = ({ isVisible = true }: { isVisible?: boolean }) =
           <ShieldCheck size={16} />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-[8px] uppercase font-black text-primary tracking-tighter mb-0.5 truncate">Sello Inmutable</div>
-          <div className="text-[10px] font-bold text-slate-900 dark:text-white leading-tight truncate">Certificado APUCMX</div>
-          <div className="text-[7px] font-mono text-slate-500 mt-0.5 uppercase">Verificado 2024</div>
+          <div className="text-[8px] uppercase font-black text-primary tracking-tighter mb-0.5 truncate">Sello de Calidad</div>
+          <div className="text-[10px] font-bold text-slate-900 dark:text-white leading-tight truncate">Verificación Técnica</div>
+          <div className="text-[7px] font-mono text-slate-500 mt-0.5 uppercase">Revisado 2024</div>
         </div>
       </div>
     </div>
@@ -845,7 +845,7 @@ const TermsModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
         <div className="p-8 overflow-y-auto space-y-6 text-slate-300 text-sm leading-relaxed">
           <section>
             <h3 className="text-white font-bold mb-2 uppercase text-xs tracking-widest">1. Aceptación de Términos</h3>
-            <p>Al acceder a APUCMX, aceptas cumplir con nuestros términos de servicio. Esta plataforma utiliza tecnología blockchain para garantizar la inmutabilidad de los datos de costos de construcción.</p>
+            <p>Al acceder a APUCMX, aceptas cumplir con nuestros términos de servicio. Esta plataforma utiliza tecnologías modernas para garantizar la integridad de los datos de costos de construcción.</p>
           </section>
           <section>
             <h3 className="text-white font-bold mb-2 uppercase text-xs tracking-widest">2. Privacidad de Datos</h3>
@@ -857,7 +857,7 @@ const TermsModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
           </section>
           <section>
             <h3 className="text-white font-bold mb-2 uppercase text-xs tracking-widest">4. Propiedad Intelectual</h3>
-            <p>Los análisis de precios unitarios validados pertenecen a la comunidad APUCMX bajo licencias de uso compartido para miembros activos.</p>
+            <p>Los análisis de precios unitarios validados pertenecen a la plataforma APUCMX bajo licencias de uso para miembros activos.</p>
           </section>
         </div>
         <div className="p-6 border-t border-white/5 bg-slate-800/30">
@@ -907,8 +907,8 @@ const ValidationExplanationModal = ({ isOpen, onClose }: { isOpen: boolean; onCl
               <Globe className="text-primary" size={24} />
             </div>
             <div>
-              <h3 className="text-white font-bold mb-1">Registro en Blockchain</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">La información del análisis de precios unitarios se registra en una red descentralizada, lo que garantiza que el dato no pueda ser alterado maliciosamente.</p>
+              <h3 className="text-white font-bold mb-1">Registro Digital Seguro</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">La información del análisis de precios unitarios se registra en un sistema confiable, previendo futuras integraciones Web3 para mayor inmutabilidad.</p>
             </div>
           </div>
           <div className="flex gap-4">

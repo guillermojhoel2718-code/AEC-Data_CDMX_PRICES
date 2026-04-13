@@ -4,13 +4,15 @@ import { Search, ChevronDown, Verified, Clock, Package, HardHat, BarChart3, Tren
 import { AppHeader, BlockchainBadge } from './Common';
 import { motion } from 'motion/react';
 import Fuse from 'fuse.js';
-import { cn } from '@/src/lib/utils';
+import { cn } from '../lib/utils';
 import { useConcepts } from '../context/ConceptContext';
+import { useAuth } from '../context/AuthContext';
 import { REGIONS, REGION_LABELS } from '../lib/supabase';
 import { MachineryDetailPanel, useMachineryPanel } from './MachineryDetailPanel';
 
 export const ExplorerPage = () => {
   const { concepts, loading } = useConcepts();
+  const { membership } = useAuth();
 
   const location = useLocation();
   const [selectedId, setSelectedId] = useState('CLAVE-001');
@@ -215,7 +217,7 @@ export const ExplorerPage = () => {
               </div>
             </div>
 
-            {localStorage.getItem('membership') === 'gratis' && (
+            {membership === 'gratis' && (
               <div className="mt-4 p-3 bg-primary/10 border border-primary/20 rounded-xl animate-pulse">
                 <p className="text-[8px] text-primary leading-relaxed font-bold text-center uppercase tracking-widest">
                   Actualiza a Membresía PRO para ver análisis detallados y descargar matrices completas.
@@ -414,7 +416,7 @@ export const ExplorerPage = () => {
             <Link to={`/detail/${selectedConcept.id}`} className="w-full py-4 bg-primary text-white rounded-xl font-bold text-base uppercase tracking-widest flex items-center justify-center gap-3 hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-primary/20">
               <BarChart3 size={20} /> VER MATRIZ
             </Link>
-            <p className="text-center text-[9px] text-slate-500 mt-3 font-mono uppercase">GAS FEE ESTIMADO: 0.00042 ETH</p>
+            <p className="text-center text-[9px] text-slate-500 mt-3 font-mono uppercase">Integración Web3 en planeación</p>
             </div>
           </>
           )}
