@@ -10,7 +10,8 @@ import { REGIONS, REGION_LABELS } from '../lib/supabase';
 import { MachineryDetailPanel, useMachineryPanel } from './MachineryDetailPanel';
 
 export const ExplorerPage = () => {
-  const { concepts } = useConcepts();
+  const { concepts, loading } = useConcepts();
+
   const location = useLocation();
   const [selectedId, setSelectedId] = useState('CLAVE-001');
   const [regionFilter, setRegionFilter] = useState('Todas');
@@ -43,7 +44,22 @@ export const ExplorerPage = () => {
     return results;
   }, [searchTerm, regionFilter, fuse, concepts]);
 
-  const selectedConcept = concepts.find(c => c.id === selectedId) || filteredConcepts[0] || concepts[1];
+  const selectedConcept = useMemo(() => {
+    if (selectedId && concepts.length > 0) {
+      const found = concepts.find(c => c.id === selectedId);
+      if (found) return found;
+    }
+    return filteredConcepts[0] || concepts[0] || null;
+  }, [selectedId, concepts, filteredConcepts]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col h-screen bg-slate-900 items-center justify-center">
+        <div className="size-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <p className="mt-4 text-slate-400 font-bold uppercase tracking-widest animate-pulse">Cargando Inteligencia APU...</p>
+      </div>
+    );
+  }
 
   return (
     <motion.div 
@@ -141,7 +157,20 @@ export const ExplorerPage = () => {
 
         {/* Right Section: Drawer */}
         <aside className="hidden lg:flex w-[360px] bg-panel-dark border-l border-primary/10 flex-col shadow-2xl">
-          <div className="p-5 border-b border-white/5 bg-background-dark/50">
+          {!selectedConcept ? (
+            <div className="flex-1 flex flex-col items-center justify-center p-10 text-center space-y-4">
+              <div className="bg-slate-800 p-4 rounded-full border border-white/5">
+                <Search className="text-slate-500" size={32} />
+              </div>
+              <h3 className="text-white font-bold uppercase tracking-widest text-xs">Sin Datos</h3>
+              <p className="text-slate-500 text-[10px] leading-relaxed">
+                No se encontraron conceptos en la base de datos de Supabase. Verifica la conexión o los filtros aplicados.
+              </p>
+            </div>
+          ) : (
+            <>
+              <div className="p-5 border-b border-white/5 bg-background-dark/50">
+
             <div className="flex justify-between items-start mb-3">
               <div>
                 <span className="text-primary font-bold tracking-widest text-[9px] uppercase">Análisis de Concepto</span>
@@ -386,10 +415,12 @@ export const ExplorerPage = () => {
               <BarChart3 size={20} /> VER MATRIZ
             </Link>
             <p className="text-center text-[9px] text-slate-500 mt-3 font-mono uppercase">GAS FEE ESTIMADO: 0.00042 ETH</p>
-          </div>
+            </div>
+          </>
+          )}
         </aside>
       </main>
-      <BlockchainBadge isVisible={selectedConcept.status === 'verified'} />
+      {selectedConcept && <BlockchainBadge isVisible={selectedConcept.status === 'verified'} />}
       <MachineryDetailPanel 
         isOpen={isPanelOpen} 
         codigoMaquina={selectedMaquina} 

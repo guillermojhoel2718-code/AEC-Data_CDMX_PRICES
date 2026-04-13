@@ -8,13 +8,45 @@ import { useConcepts } from '../context/ConceptContext';
 
 export const DetailPage = () => {
   const { id } = useParams();
-  const { concepts } = useConcepts();
+  const { concepts, loading } = useConcepts();
+
   const [activeTab, setActiveTab] = useState('tecnico');
   const [membership, setMembership] = useState<MembershipTier>((localStorage.getItem('membership') as MembershipTier) || 'gratis');
 
   const concept = useMemo(() => {
-    return concepts.find(c => c.id === id) || concepts[0];
+    return concepts.find(c => c.id === id) || concepts[0] || null;
   }, [id, concepts]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col min-h-screen bg-slate-900 items-center justify-center">
+        <div className="size-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <p className="mt-4 text-slate-400 font-bold uppercase tracking-widest animate-pulse">Analizando Matriz...</p>
+      </div>
+    );
+  }
+
+  if (!concept) {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <AppHeader />
+        <main className="flex-1 flex flex-col items-center justify-center p-10 text-center space-y-6 bg-slate-950">
+          <div className="bg-slate-900 p-8 rounded-full border border-white/5 shadow-2xl">
+            <Info className="text-primary" size={64} />
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-3xl font-black text-white uppercase tracking-tight">Concepto No Encontrado</h2>
+            <p className="text-slate-400 max-w-md mx-auto">
+              El código de concepto <span className="text-primary font-mono font-bold">{id}</span> no existe en nuestra base de datos o hubo un error al cargar la información.
+            </p>
+          </div>
+          <Link to="/explorer" className="px-8 py-3 bg-primary text-white font-bold rounded-xl hover:brightness-110 transition-all flex items-center gap-2">
+             <ChevronRight className="rotate-180" size={18} /> Volver al Explorador
+          </Link>
+        </main>
+      </div>
+    );
+  }
 
   useEffect(() => {
     const handleStorageChange = () => {
