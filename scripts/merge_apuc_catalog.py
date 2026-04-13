@@ -28,7 +28,7 @@ import pandas as pd
 
 # ── Rutas ──────────────────────────────────────────────────────────────────────
 BASE_DIR   = Path(__file__).parent.parent
-PROC_DIR   = BASE_DIR / "data" / "processed"
+PROC_DIR   = BASE_DIR / "data_processed"
 FUENTE_1   = PROC_DIR / "insumos_apuc_norm.csv"
 FUENTE_2   = PROC_DIR / "ppto_reftab_apuc_norm.csv"
 SALIDA_CSV = PROC_DIR / "catalogo_apuc_mvp.csv"
@@ -45,6 +45,7 @@ COLUMNAS_APUC = [
     "fuente",
     "fecha_fuente",
     "unidad_inferida",
+    "tipo_registro",
 ]
 
 
@@ -83,6 +84,33 @@ def main():
     print(f"  Duplicados eliminados:     {duplicados}")
     print(f"  Catálogo final:            {len(df_dedup)} registros")
 
+    # -- Unificar categorías mínimas --
+    CATEGORIA_CANONICAL = {
+        "Material Eléctrico": "Materiales Eléctricos",
+        "Material": "Materiales Generales",
+        "Materiales": "Materiales Generales",
+        "Materiales y Básicos": "Materiales Generales",
+        "Herramientas y Equipo": "Herramienta y Equipo",
+        "Equipos": "Herramienta y Equipo",
+        "Equipo": "Herramienta y Equipo",
+    }
+    df_dedup["categoria"] = df_dedup["categoria"].replace(CATEGORIA_CANONICAL)
+
+    # -- Añadir tipo_registro --
+    def inferir_tipo_registro(row):
+        desc = str(row["descripcion"]).upper()
+        cat = str(row["categoria"]).upper()
+        
+        if any(x in desc for x in ["%AND", "%CDO", "%EPP", "%", "PORCENTAJE", "HERRAMIENTA MENOR", "EQUIPO DE SEGURIDAD", "MANDO INTERMEDIO", "MANDO MEDIO"]):
+            return "indirecto"
+        if "MANO DE OBRA" in cat or any(x in desc for x in ["AYUDANTE", "OFICIAL", "PEÓN", "PEON", "CABO", "JORNAL", "CUADRILLA"]):
+            return "mano_obra"
+        if "EQUIPO" in cat or "MAQUINARIA" in cat:
+            return "equipo"
+        return "material"
+
+    df_dedup["tipo_registro"] = df_dedup.apply(inferir_tipo_registro, axis=1)
+
     # -- Ordenar: por categoria y descripcion --
     df_dedup = df_dedup.sort_values(["categoria", "descripcion"]).reset_index(drop=True)
 
@@ -104,6 +132,7 @@ def main():
             "fuente":          row["fuente"],
             "fecha_fuente":    str(row["fecha_fuente"]),
             "unidad_inferida": bool(row["unidad_inferida"]),
+            "tipo_registro":   row["tipo_registro"],
         })
 
     with open(SALIDA_JSON, "w", encoding="utf-8") as f:
@@ -111,7 +140,7 @@ def main():
     print(f"  Guardado JSON: {SALIDA_JSON}")
 
     # -- Resumen final --
-    print("\n── Resumen del Catálogo MVP APUCMX ─────────────────────────────")
+    print("\n-- Resumen del Catálogo MVP APUCMX -----------------------------")
     print(f"  Total registros:  {len(df_dedup)}")
     print(f"  Fuentes incluidas: {df_dedup['fuente'].unique().tolist()}")
     print(f"\n  Por categoría:")
@@ -124,7 +153,7 @@ def main():
     print(f"    Med: ${df_dedup['precio_unitario'].median():,.2f} MXN")
     print(f"\n  Unidades inferidas por regex: "
           f"{df_dedup['unidad_inferida'].sum()} de {len(df_dedup)}")
-    print("─────────────────────────────────────────────────────────────────")
+    print("-----------------------------------------------------------------")
 
 
 if __name__ == "__main__":

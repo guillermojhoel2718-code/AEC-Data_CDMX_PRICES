@@ -44,8 +44,8 @@ import pandas as pd
 
 # ── Rutas ──────────────────────────────────────────────────────────────────────
 BASE_DIR   = Path(__file__).parent.parent
-FUENTE     = BASE_DIR / "Documentos_Precios" / "Ppto_Gestion_Prueba_02.xlsm"
-SALIDA_DIR = BASE_DIR / "data" / "processed"
+FUENTE     = BASE_DIR / "data_raw" / "Documentos_Precios" / "Ppto_Gestion_Prueba_02.xlsm"
+SALIDA_DIR = BASE_DIR / "data_processed"
 SALIDA     = SALIDA_DIR / "ppto_reftab_apuc_norm.csv"
 
 SALIDA_DIR.mkdir(parents=True, exist_ok=True)

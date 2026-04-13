@@ -32,8 +32,8 @@ import pandas as pd
 
 # ── Rutas ──────────────────────────────────────────────────────────────────────
 BASE_DIR   = Path(__file__).parent.parent
-FUENTE     = BASE_DIR / "Documentos_Precios" / "Insumos.xls"
-SALIDA_DIR = BASE_DIR / "data" / "processed"
+FUENTE     = BASE_DIR / "data_raw" / "Documentos_Precios" / "Insumos.xls"
+SALIDA_DIR = BASE_DIR / "data_processed"
 SALIDA     = SALIDA_DIR / "insumos_apuc_norm.csv"
 
 SALIDA_DIR.mkdir(parents=True, exist_ok=True)
@@ -73,7 +73,9 @@ UNIT_RULES = [
     (r"\bLOTE\b|\bLOT\b|\bBULTO\b", "lote"),
     (r"\bPZA\b|\bPIEZA\b|\bPIEZAS\b|\bUNIDAD\b|\bC/U\b|\bCU\b", "pza"),
     # Metros genérico (sin modificador) — va al final
-    (r"\bM\b", "m"),
+    # Version segura: solo detecta contexto numérico (ej. "5.50 m", "360 M", "1.00 M.")
+    # Evita falsos positivos en modelos como "ASIENTO M-130"
+    (r"\d+(?:\.\d+)?\s*M(?:\.|\b)", "m"),
 ]
 
 # ── Tabla de reglas para inferir categoría ────────────────────────────────────
