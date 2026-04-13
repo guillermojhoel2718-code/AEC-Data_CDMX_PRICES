@@ -222,7 +222,7 @@ export const DetailPage = () => {
                       </tr>
                     </thead>
                     <tbody className="text-sm">
-                      {concept.materials?.map((m, i) => (
+                      {concept.materials && concept.materials.length > 0 ? concept.materials.map((m, i) => (
                         <tr key={i} className="border-b border-white/5 hover:bg-white/5">
                           <td className="px-6 py-4 font-mono text-xs text-slate-400">{m.code}</td>
                           <td className="px-6 py-4 text-slate-300">{m.description}</td>
@@ -234,7 +234,14 @@ export const DetailPage = () => {
                             ${((m.costLab + m.fletes + m.maniobra + m.almacenaje) * m.fcActual).toFixed(2)}
                           </td>
                         </tr>
-                      ))}
+                      )) : (
+                        <tr>
+                          {/* PATRÓN DEFENSIVO: Ocultar columnas de costo y usar colSpan completo para estados funcionales limpios */}
+                          <td colSpan={7} className="px-6 py-8 text-center text-slate-500 italic text-[11px] tracking-wide">
+                            Este concepto no requiere materiales directos
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </section>
@@ -259,7 +266,7 @@ export const DetailPage = () => {
                       </tr>
                     </thead>
                     <tbody className="text-sm text-slate-300">
-                      {concept.labor?.map((l, i) => (
+                      {concept.labor && concept.labor.length > 0 ? concept.labor.map((l, i) => (
                         <tr key={i} className="border-b border-white/5 hover:bg-white/5">
                           <td className="px-6 py-4">{l.description}</td>
                           <td className="px-4 py-4 text-center text-slate-400 font-mono">${l.baseSalary.toFixed(2)}</td>
@@ -270,7 +277,14 @@ export const DetailPage = () => {
                             ${(l.baseSalary * l.fsi * l.fasar * l.quantity).toFixed(2)}
                           </td>
                         </tr>
-                      ))}
+                      )) : (
+                        <tr>
+                          {/* PATRÓN DEFENSIVO: Ocultar columnas de costo y usar colSpan completo para estados funcionales limpios */}
+                          <td colSpan={6} className="px-6 py-8 text-center text-slate-500 italic text-[11px] tracking-wide">
+                            Este concepto no requiere mano de obra directa
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </section>

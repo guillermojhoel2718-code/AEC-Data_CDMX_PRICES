@@ -179,6 +179,18 @@ npm run dev
 
 La aplicación estará disponible en `http://localhost:5173`.
 
+### 🔌 Cambio Rápido de Datos Mock a Supabase Real
+
+Para la fase de demostración inicial, el frontend carga por defecto los **3 Conceptos Seed** desde el archivo local `src/lib/mockData.ts`. 
+
+Cuando `Computer` o el equipo backend haya cargado los datos reales en Supabase, realizar el cambio es inmediato:
+1. Abre el archivo `src/context/ConceptContext.tsx`.
+2. Busca la función `fetchConcepts` (aprox. línea 157).
+3. **Comenta** el bloque de código de **MOCK DATA**.
+4. **Descomenta** el bloque marcado como **SUPABASE REAL**.
+
+Guardas el archivo y la aplicación comenzará a extraer la información, líneas y sobrecostos directamente desde el backend de Supabase.
+
 ```env
 # MODO DEMO (Sin Base de Datos)
 VITE_USE_MOCK_DATA=true

@@ -15,7 +15,7 @@ export const ExplorerPage = () => {
   const { membership } = useAuth();
 
   const location = useLocation();
-  const [selectedId, setSelectedId] = useState('CLAVE-001');
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [regionFilter, setRegionFilter] = useState('Todas');
   const [searchTerm, setSearchTerm] = useState('');
   const { isPanelOpen, selectedMaquina, openPanel, closePanel } = useMachineryPanel();
@@ -62,6 +62,39 @@ export const ExplorerPage = () => {
       </div>
     );
   }
+
+  const getConceptStatus = (concept: any) => {
+    const hasMaterials = concept.materials && concept.materials.length > 0;
+    const hasLabor = concept.labor && concept.labor.length > 0;
+    const hasEquipment = concept.equipment && concept.equipment.length > 0;
+    
+    if (hasMaterials && hasLabor && hasEquipment) return 'VALIDADO';
+    if (!hasMaterials && !hasLabor && !hasEquipment) return 'INCOMPLETO';
+    return 'PARCIAL';
+  };
+
+  const getStatusStyles = (status: string) => {
+    if (status === 'VALIDADO') return "bg-emerald-500/10 border-emerald-500/30 text-emerald-500 group-hover/badge:bg-emerald-500/20";
+    if (status === 'INCOMPLETO') return "bg-red-500/10 border-red-500/30 text-red-500 group-hover/badge:bg-red-500/20";
+    return "bg-amber-500/10 border-amber-500/30 text-amber-500 group-hover/badge:bg-amber-500/20";
+  };
+
+  const getStatusIcon = (status: string) => {
+    if (status === 'VALIDADO') return <Verified className="text-emerald-500 group-hover/badge:scale-110 transition-transform" size={14} />;
+    if (status === 'INCOMPLETO') return <div className="size-3.5 rounded-full border-2 border-red-500/50 flex items-center justify-center"><div className="size-1.5 bg-red-500 rounded-full" /></div>;
+    return <Clock className="text-amber-500 group-hover/badge:scale-110 transition-transform" size={14} />;
+  };
+
+  const getParsedPrice = (priceStr: string) => {
+    const numStr = String(priceStr).replace(/[^0-9.-]+/g,"");
+    return parseFloat(numStr) || 0;
+  };
+
+  const formatPrice = (priceStr: string) => {
+    const num = getParsedPrice(priceStr);
+    if (num === 0) return "—";
+    return `$${num.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  };
 
   return (
     <motion.div 
@@ -111,48 +144,55 @@ export const ExplorerPage = () => {
                 <div className="col-span-1 text-right">Región</div>
               </div>
 
-              {filteredConcepts.map((concept) => (
-                <div 
-                  key={concept.id}
-                  onClick={() => setSelectedId(concept.id)}
-                  className={`grid grid-cols-12 items-center px-6 py-3 rounded-lg border transition-all cursor-pointer shadow-md ${selectedId === concept.id ? 'bg-primary/20 border-primary/40 text-white' : 'bg-slate-800/50 border-white/5 text-slate-400 hover:bg-slate-800'}`}
-                >
-                    <div 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        window.dispatchEvent(new Event('open-validation-modal'));
-                      }}
-                      className="col-span-2 flex items-center gap-2 cursor-help group/badge"
-                    >
-                      {concept.status === 'verified' ? (
-                        <Verified className="text-primary group-hover/badge:scale-110 transition-transform" size={14} />
-                      ) : (
-                        <Clock className="text-slate-500" size={14} />
+              {filteredConcepts.map((concept) => {
+                const statusLabel = getConceptStatus(concept);
+                const priceNum = getParsedPrice(concept.price);
+                const isHighValue = priceNum > 1000;
+                const formattedPrice = formatPrice(concept.price);
+                
+                return (
+                  <div 
+                    key={concept.id}
+                    onClick={() => setSelectedId(concept.id)}
+                    className={`grid grid-cols-12 items-center px-6 py-3 rounded-lg border transition-all duration-300 ease-in-out cursor-pointer shadow-md ${selectedId === concept.id ? 'bg-primary/20 border-primary/40 text-white ring-1 ring-primary/30 shadow-primary/10' : 'bg-slate-800/30 border-white/5 text-slate-400 hover:bg-slate-800/80 hover:border-white/10 hover:shadow-lg'}`}
+                  >
+                      <div 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.dispatchEvent(new Event('open-validation-modal'));
+                        }}
+                        className="col-span-2 flex items-center gap-2 cursor-help group/badge"
+                      >
+                        {getStatusIcon(statusLabel)}
+                        <span className={cn(
+                          "text-[8px] px-1.5 py-0.5 rounded-full border font-black uppercase transition-all",
+                          getStatusStyles(statusLabel)
+                        )}>
+                          {statusLabel}
+                        </span>
+                      </div>
+                    <div className="col-span-2 font-mono font-bold text-[11px]">
+                      {concept.id}
+                    </div>
+                    <div className="col-span-3 font-medium truncate pr-4 text-[12px]">{concept.name}</div>
+                    <div className="col-span-2 text-right">
+                      {concept.type && (
+                        <span className="bg-primary/10 text-primary text-[8px] px-2 py-0.5 rounded-full border border-primary/30 font-bold uppercase">
+                          {concept.type}
+                        </span>
                       )}
-                      <span className={cn(
-                        "text-[8px] px-1.5 py-0.5 rounded-full border font-black uppercase transition-all",
-                        concept.status === 'verified' ? "bg-primary/10 border-primary/30 text-primary group-hover/badge:bg-primary/20" : "bg-slate-800 border-white/10 text-slate-500"
-                      )}>
-                        {concept.status === 'verified' ? 'VALIDADO' : 'PENDIENTE'}
+                    </div>
+                    <div className={`col-span-2 text-right font-bold font-mono text-[12px] ${isHighValue ? 'text-primary' : (selectedId === concept.id ? 'text-white' : 'text-slate-300')}`}>
+                      {formattedPrice} {formattedPrice !== "—" && <span className="text-[10px] opacity-60">/ {concept.unit}</span>}
+                    </div>
+                    <div className="col-span-1 flex justify-end">
+                      <span className="bg-slate-800/50 border border-white/10 text-slate-400 text-[8px] px-1.5 py-0.5 rounded-full font-black uppercase tracking-widest">
+                        {concept.region}
                       </span>
                     </div>
-                  <div className="col-span-2 font-mono font-bold text-[11px]">
-                    {concept.id}
                   </div>
-                  <div className="col-span-3 font-medium truncate pr-4 text-[12px]">{concept.name}</div>
-                  <div className="col-span-2 text-right">
-                    {concept.type && (
-                      <span className="bg-primary/10 text-primary text-[8px] px-2 py-0.5 rounded-full border border-primary/30 font-bold uppercase">
-                        {concept.type}
-                      </span>
-                    )}
-                  </div>
-                  <div className={`col-span-2 text-right font-bold font-mono text-[12px] ${selectedId === concept.id ? 'text-primary' : 'text-slate-300'}`}>
-                    {concept.price} <span className="text-[10px] opacity-60">/ {concept.unit}</span>
-                  </div>
-                  <div className="col-span-1 text-right font-bold text-[10px] uppercase">{concept.region}</div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
@@ -293,8 +333,10 @@ export const ExplorerPage = () => {
                     </tr>
                   )) : (
                     <tr className="border-b border-white/5">
-                      <td className="py-2 text-slate-500 italic">Sin materiales registrados</td>
-                      <td className="py-2 text-right font-mono text-slate-400">$0.00</td>
+                      {/* PATRÓN DEFENSIVO: Ocultar columnas de costo y usar colSpan completo para estados funcionales limpios */}
+                      <td colSpan={2} className="py-3 text-slate-500 italic text-center text-[9px] tracking-wide">
+                        Este concepto no requiere materiales directos
+                      </td>
                     </tr>
                   )}
                 </tbody>
@@ -318,8 +360,10 @@ export const ExplorerPage = () => {
                     </tr>
                   )) : (
                     <tr className="border-b border-white/5">
-                      <td className="py-2 text-slate-500 italic">Sin mano de obra registrada</td>
-                      <td className="py-2 text-right font-mono text-slate-400">$0.00</td>
+                      {/* PATRÓN DEFENSIVO: Ocultar columnas de costo y usar colSpan completo para estados funcionales limpios */}
+                      <td colSpan={2} className="py-3 text-slate-500 italic text-center text-[9px] tracking-wide">
+                        Este concepto no requiere mano de obra directa
+                      </td>
                     </tr>
                   )}
                 </tbody>
@@ -350,8 +394,10 @@ export const ExplorerPage = () => {
                     </tr>
                   )) : (
                     <tr className="border-b border-white/5">
-                      <td className="py-2 text-slate-500 italic">Sin equipo registrado</td>
-                      <td className="py-2 text-right font-mono text-slate-400">$0.00</td>
+                      {/* PATRÓN DEFENSIVO: Ocultar columnas de costo y usar colSpan completo para estados funcionales limpios */}
+                      <td colSpan={2} className="py-3 text-slate-500 italic text-center text-[9px] tracking-wide">
+                        Este concepto no requiere equipo ni maquinaria directa
+                      </td>
                     </tr>
                   )}
                 </tbody>
@@ -375,8 +421,10 @@ export const ExplorerPage = () => {
                     </tr>
                   )) : (
                     <tr className="border-b border-white/5">
-                      <td className="py-2 text-slate-500 italic">Sin subcontratos registrados</td>
-                      <td className="py-2 text-right font-mono text-slate-400">$0.00</td>
+                      {/* PATRÓN DEFENSIVO: Ocultar columnas de costo y usar colSpan completo para estados funcionales limpios */}
+                      <td colSpan={2} className="py-3 text-slate-500 italic text-center text-[9px] tracking-wide">
+                        Este concepto no requiere subcontratos directos
+                      </td>
                     </tr>
                   )}
                 </tbody>
