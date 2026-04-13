@@ -107,7 +107,7 @@ export const ExplorerPage = () => {
         {/* Left Section: Search & List */}
         <section className="flex-1 flex flex-col bg-slate-900 industrial-texture overflow-hidden">
           <div className="p-6 bg-primary/5 border-b border-primary/10">
-            <div className="max-w-5xl mx-auto flex gap-0 shadow-2xl">
+            <div className="max-w-5xl mx-auto flex gap-0 shadow-2xl items-stretch">
               <div className="relative">
                 <select 
                   value={regionFilter}
@@ -123,13 +123,20 @@ export const ExplorerPage = () => {
               </div>
               <div className="relative flex-1">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                <input 
+                <input
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full h-14 bg-panel-dark border border-white/10 pl-14 pr-6 focus:ring-0 focus:border-primary text-white text-base placeholder:text-slate-500 outline-none rounded-r-lg" 
-                  placeholder="Buscar conceptos, códigos o materiales..." 
+                  className="w-full h-14 bg-panel-dark border border-white/10 pl-14 pr-6 focus:ring-0 focus:border-primary text-white text-base placeholder:text-slate-500 outline-none rounded-r-lg"
+                  placeholder="Buscar conceptos, códigos o materiales..."
                 />
               </div>
+              <Link
+                to="/comparator"
+                className="flex items-center gap-2 bg-panel-dark border border-primary/30 text-primary hover:bg-primary/10 hover:text-white px-5 h-14 rounded-lg font-bold text-sm uppercase tracking-widest transition-all ml-3 whitespace-nowrap"
+              >
+                <BarChart3 size={16} />
+                <span className="hidden md:inline">Comparar</span>
+              </Link>
             </div>
           </div>
 
