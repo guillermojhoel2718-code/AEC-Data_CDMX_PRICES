@@ -6,6 +6,6 @@ coverage/
 *.log
 .env*
 *.env
-Documentos_Precios/
+data_raw/Documentos_Precios/
 !.env.example
 
