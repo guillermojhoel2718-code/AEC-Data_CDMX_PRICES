@@ -9,3 +9,5 @@ coverage/
 data_raw/Documentos_Precios/
 !.env.example
 
+
+.vercel
