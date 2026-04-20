@@ -1,0 +1,12 @@
+{
+  "codigo": "MT-TE-TRPED-1000KVA",
+  "descripcion": "TRANSFORMADOR TIPO PEDESTAL TR-02 DE 1000 KVA CONEXIÓN DELTA-ESTRELLA, RELACIÓN DE TRANSFORMACIÓN 23,000-480/277V., OPERACIÓN EN ANILLO, CON CAMBIADOR DE DERIVACIÓN AL 2% DEL VOLTAJE NOMINAL, 2 ARRIBA Y 2 ABAJO.",
+  "unidad": "pza",
+  "precio_unitario": 540000.0,
+  "categoria": "Material",
+  "subcategoria": "General",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

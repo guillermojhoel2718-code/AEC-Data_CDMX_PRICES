@@ -1,0 +1,12 @@
+{
+  "codigo": "933039c9",
+  "descripcion": "ELEVADOR M.O .8 PAS, 4 PARADAS, 16 M. RECORRIDO, CABINA 1.10X1.40X2.20 ACERO INOX.",
+  "unidad": "m",
+  "precio_unitario": 308122.68,
+  "categoria": "Aceros",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

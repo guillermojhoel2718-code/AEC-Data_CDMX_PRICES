@@ -1,0 +1,12 @@
+{
+  "codigo": "677ecfc4",
+  "descripcion": "POSTE GALVANIZADO CAL 14 DE 2.50 M",
+  "unidad": "m",
+  "precio_unitario": 950.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

@@ -1,0 +1,12 @@
+{
+  "codigo": "ab16b44a",
+  "descripcion": "AYUDANTE ESPECIALIZADO",
+  "unidad": "jor",
+  "precio_unitario": 970.65,
+  "categoria": "Mano de Obra",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

@@ -1,0 +1,12 @@
+{
+  "codigo": "b07eeab8",
+  "descripcion": "BLOCK RUSTICO GRIS DE CONCRETO HUECO DE 15X20X40",
+  "unidad": "pza",
+  "precio_unitario": 22.5,
+  "categoria": "Concretos",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

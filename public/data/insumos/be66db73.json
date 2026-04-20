@@ -1,0 +1,12 @@
+{
+  "codigo": "be66db73",
+  "descripcion": "TANQUE MARFIL DE 4.8 LPD, MODELO BOLMEN M, MARCA HELVEX",
+  "unidad": "pza",
+  "precio_unitario": 1966.7,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

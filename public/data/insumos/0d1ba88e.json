@@ -1,0 +1,12 @@
+{
+  "codigo": "0d1ba88e",
+  "descripcion": "HERRAJE PARA GUALDRA DE MADERA",
+  "unidad": "pza",
+  "precio_unitario": 160.0,
+  "categoria": "Madera y Carpintería",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

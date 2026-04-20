@@ -1,0 +1,12 @@
+{
+  "codigo": "418f6283",
+  "descripcion": "LAMINA GALVANIZADA CAL. 16 (12.21 KG/M2)",
+  "unidad": "m2",
+  "precio_unitario": 26.43,
+  "categoria": "Acabados",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

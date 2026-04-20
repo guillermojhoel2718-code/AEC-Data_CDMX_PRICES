@@ -1,0 +1,12 @@
+{
+  "codigo": "61606a16",
+  "descripcion": "ELECTROLITO PARA MEJORA DE TIERRA EN BOTE DE UN GALON",
+  "unidad": "pza",
+  "precio_unitario": 1000.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

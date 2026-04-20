@@ -1,0 +1,12 @@
+{
+  "codigo": "MT-ED-PEGPVC480SIL",
+  "descripcion": "CEMENTO TRANSPARENTE PARA PVC 480GRS, MARCA SILER O SIMILAR.",
+  "unidad": "pza",
+  "precio_unitario": 188.0,
+  "categoria": "Material Eléctrico",
+  "subcategoria": "Distribución y Canalización",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

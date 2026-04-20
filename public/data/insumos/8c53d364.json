@@ -1,0 +1,12 @@
+{
+  "codigo": "8c53d364",
+  "descripcion": "JUEGO HIGHWALL DAIKIN 2 TON ON/OFF SOLO FRIO 220/1/60 R410A",
+  "unidad": "ton",
+  "precio_unitario": 14061.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

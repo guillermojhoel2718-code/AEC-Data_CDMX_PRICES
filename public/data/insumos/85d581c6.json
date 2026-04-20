@@ -1,0 +1,12 @@
+{
+  "codigo": "85d581c6",
+  "descripcion": "BLOCK (1/2) DE CONCRETO HUECO 15X20X20",
+  "unidad": "pza",
+  "precio_unitario": 7.6,
+  "categoria": "Concretos",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

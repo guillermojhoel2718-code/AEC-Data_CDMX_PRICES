@@ -1,0 +1,12 @@
+{
+  "codigo": "5cd14bcb",
+  "descripcion": "COMPOSTA DE MELAZA Y GABAZO",
+  "unidad": "pza",
+  "precio_unitario": 3600.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

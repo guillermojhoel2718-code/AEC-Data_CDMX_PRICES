@@ -1,0 +1,12 @@
+{
+  "codigo": "8e3ec7a1",
+  "descripcion": "GRÚA HIAB MONTADA EN CAMION DE 12 TON (RENTA)",
+  "unidad": "ton",
+  "precio_unitario": 800.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

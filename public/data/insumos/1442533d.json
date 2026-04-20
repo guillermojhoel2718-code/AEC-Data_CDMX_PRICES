@@ -1,0 +1,12 @@
+{
+  "codigo": "1442533d",
+  "descripcion": "AGUA DE TOMA",
+  "unidad": "pza",
+  "precio_unitario": 23.8,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

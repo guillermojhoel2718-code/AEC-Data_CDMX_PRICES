@@ -1,0 +1,12 @@
+{
+  "codigo": "ba30e758",
+  "descripcion": "OFICIAL HERRERO",
+  "unidad": "jor",
+  "precio_unitario": 1089.16,
+  "categoria": "Mano de Obra",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

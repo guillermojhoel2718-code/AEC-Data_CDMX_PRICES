@@ -1,0 +1,12 @@
+{
+  "codigo": "4395686d",
+  "descripcion": "TABLERO INT PPAL 42P, 3F, 4H, CAT. NF424AB42F, 400 A",
+  "unidad": "pza",
+  "precio_unitario": 72999.0,
+  "categoria": "Materiales Eléctricos",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

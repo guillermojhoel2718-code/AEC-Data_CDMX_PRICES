@@ -1,0 +1,12 @@
+{
+  "codigo": "bdb55d8d",
+  "descripcion": "REPORTE DE VERTICALIDAD EN LA PERFORACION DE PILAS CON EL EQUIPO ADECUADO A LA MAQUINARIA A UTILIZA",
+  "unidad": "pza",
+  "precio_unitario": 5000.0,
+  "categoria": "Herramienta y Equipo",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

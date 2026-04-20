@@ -1,0 +1,12 @@
+{
+  "codigo": "7b0d00f6",
+  "descripcion": "PERFIL HSS DE 8X8 ESPESOR DE 1/4 DE 38.37 KG/M",
+  "unidad": "kg",
+  "precio_unitario": 29500.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

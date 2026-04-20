@@ -1,0 +1,12 @@
+{
+  "codigo": "763f8771",
+  "descripcion": "FIBRAFEST 600 (BOLSA 600GR.)",
+  "unidad": "pza",
+  "precio_unitario": 131.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

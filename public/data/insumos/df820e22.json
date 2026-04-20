@@ -1,0 +1,12 @@
+{
+  "codigo": "df820e22",
+  "descripcion": "MONTACARGA M.O., 3000 KG MAX, 4 PARADAS, 16 M. RECORRIDO, CABINA 2.00X2.70X2.40 M DE ALTURA ACERO INOX.",
+  "unidad": "m2",
+  "precio_unitario": 582010.28,
+  "categoria": "Aceros",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

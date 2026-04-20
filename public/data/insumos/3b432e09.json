@@ -1,0 +1,12 @@
+{
+  "codigo": "3b432e09",
+  "descripcion": "COCINA 2.40 M MODELO BERT14HD47",
+  "unidad": "m",
+  "precio_unitario": 15600.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

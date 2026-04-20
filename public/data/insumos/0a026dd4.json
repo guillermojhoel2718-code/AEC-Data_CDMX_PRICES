@@ -1,0 +1,12 @@
+{
+  "codigo": "0a026dd4",
+  "descripcion": "PAQUETE COMERCIAL DAIKIN 7.5 TON SOLO FRIO 460/3/60 R410A",
+  "unidad": "ton",
+  "precio_unitario": 162746.4,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

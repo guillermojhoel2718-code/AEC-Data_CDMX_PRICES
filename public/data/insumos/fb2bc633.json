@@ -1,0 +1,12 @@
+{
+  "codigo": "fb2bc633",
+  "descripcion": "TANQUE, MARFIL, MODELO RÓDANO2 M, MARCA HELVEX",
+  "unidad": "m",
+  "precio_unitario": 1966.7,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

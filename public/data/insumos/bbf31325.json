@@ -1,0 +1,12 @@
+{
+  "codigo": "bbf31325",
+  "descripcion": "PUERTA ACERO 6 TABLEROS P/VANO 80X2.13 M",
+  "unidad": "m2",
+  "precio_unitario": 3700.4,
+  "categoria": "Aceros",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

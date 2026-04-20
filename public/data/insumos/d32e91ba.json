@@ -1,0 +1,12 @@
+{
+  "codigo": "d32e91ba",
+  "descripcion": "TANQUE DE GAS ESTACIONARIO DE 500 LT",
+  "unidad": "lt",
+  "precio_unitario": 13061.99,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

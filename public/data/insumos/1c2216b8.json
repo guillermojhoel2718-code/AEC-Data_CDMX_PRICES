@@ -1,0 +1,12 @@
+{
+  "codigo": "1c2216b8",
+  "descripcion": "SACO DE APARENTADOR GRIS, MARCA MEZCLA BRAVA SACO DE 25 KG",
+  "unidad": "kg",
+  "precio_unitario": 201.0,
+  "categoria": "Concretos",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

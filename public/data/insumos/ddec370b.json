@@ -1,0 +1,12 @@
+{
+  "codigo": "ddec370b",
+  "descripcion": "TRANSFORMADOR TRIFÁSICO TIPO SECO DE 75 KVA, TENSIÓN PRIMARIA 480 VCA EN DELTA, TENSIÓN SECUNDARIA 220/127 VCA EN ESTRELLA, MÓDELO 75T132H, MARCA SQUARE D",
+  "unidad": "kw",
+  "precio_unitario": 54550.1,
+  "categoria": "Materiales Eléctricos",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

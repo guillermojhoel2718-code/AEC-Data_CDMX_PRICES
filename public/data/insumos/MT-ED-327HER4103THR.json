@@ -1,0 +1,12 @@
+{
+  "codigo": "MT-ED-327HER4103THR",
+  "descripcion": "TAQUETE ROJO DE PLÁSTICO DE 1/4\" MARCA THORSMAN",
+  "unidad": "pza",
+  "precio_unitario": 0.25,
+  "categoria": "Material Eléctrico",
+  "subcategoria": "Distribución y Canalización",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

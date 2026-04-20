@@ -1,0 +1,12 @@
+{
+  "codigo": "0b4256c2",
+  "descripcion": "TANQUE PRECARGADO DE 450 LTS PARA UNA PRESION DE 8.8 KG/CM2 (690 DOLARES)",
+  "unidad": "kg",
+  "precio_unitario": 24718.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

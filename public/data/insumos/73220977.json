@@ -1,0 +1,12 @@
+{
+  "codigo": "73220977",
+  "descripcion": "BOMBEO DE CONCRETO",
+  "unidad": "pza",
+  "precio_unitario": 311.0,
+  "categoria": "Concretos",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

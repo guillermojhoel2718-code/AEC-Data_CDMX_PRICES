@@ -1,0 +1,12 @@
+{
+  "codigo": "37f21fa1",
+  "descripcion": "LISTON DE POLIURETANO",
+  "unidad": "pza",
+  "precio_unitario": 0.01,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

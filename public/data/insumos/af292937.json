@@ -1,0 +1,12 @@
+{
+  "codigo": "af292937",
+  "descripcion": "SOLDADURA ELECTRODO 7018 DE 5/32 (4 MM) DE DIAMETRO",
+  "unidad": "pza",
+  "precio_unitario": 103.04,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

@@ -1,0 +1,12 @@
+{
+  "codigo": "dbd3e12c",
+  "descripcion": "DUCTO FLEXIBLE CIRC. S/AISLAM TERMICO 6 DUCTO DE 7.62 MTS.",
+  "unidad": "pza",
+  "precio_unitario": 366.02,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

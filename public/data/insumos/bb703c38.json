@@ -1,0 +1,12 @@
+{
+  "codigo": "bb703c38",
+  "descripcion": "DUELA DE OYAMEL",
+  "unidad": "pza",
+  "precio_unitario": 2018.1,
+  "categoria": "Madera y Carpintería",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

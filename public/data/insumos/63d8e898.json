@@ -1,0 +1,12 @@
+{
+  "codigo": "63d8e898",
+  "descripcion": "MALLA ELECTROSOLDADA 6X6/8-8, M2 (2.50X40 M)",
+  "unidad": "m2",
+  "precio_unitario": 25.5,
+  "categoria": "Aceros",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

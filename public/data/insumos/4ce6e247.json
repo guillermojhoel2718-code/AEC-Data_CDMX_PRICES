@@ -1,0 +1,12 @@
+{
+  "codigo": "4ce6e247",
+  "descripcion": "TABLERO INT PPAL 42P, 1F, 3H, CAT. NF423AB22F, 250 A",
+  "unidad": "pza",
+  "precio_unitario": 52419.0,
+  "categoria": "Materiales Eléctricos",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

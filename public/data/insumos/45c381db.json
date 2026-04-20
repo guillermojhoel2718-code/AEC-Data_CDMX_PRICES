@@ -1,0 +1,12 @@
+{
+  "codigo": "45c381db",
+  "descripcion": "PLACA DE ACERO A-36 DE 5/16 (7.9 MM) 62.2 KG/M2",
+  "unidad": "m2",
+  "precio_unitario": 22.63,
+  "categoria": "Aceros",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

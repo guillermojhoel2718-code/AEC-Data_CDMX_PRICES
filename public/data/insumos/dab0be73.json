@@ -1,0 +1,12 @@
+{
+  "codigo": "dab0be73",
+  "descripcion": "INT. DE SEGURIDAD 3P 30A. NEMA 1, CAT. D321N, 240 V. S. GENERAL CLASE 3130",
+  "unidad": "pza",
+  "precio_unitario": 2004.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

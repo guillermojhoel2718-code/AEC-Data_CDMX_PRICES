@@ -1,0 +1,12 @@
+{
+  "codigo": "3833e5b4",
+  "descripcion": "CABO DE OFICIOS",
+  "unidad": "jor",
+  "precio_unitario": 1207.68,
+  "categoria": "Mano de Obra",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

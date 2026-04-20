@@ -1,0 +1,12 @@
+{
+  "codigo": "06e756b7",
+  "descripcion": "REGLA METALICA",
+  "unidad": "pza",
+  "precio_unitario": 474.6,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

@@ -1,0 +1,12 @@
+{
+  "codigo": "dd848680",
+  "descripcion": "GRAVA DE MINA T.M.A. 19 MM Ø (3/4), M3",
+  "unidad": "m3",
+  "precio_unitario": 340.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

@@ -1,0 +1,12 @@
+{
+  "codigo": "9d279858",
+  "descripcion": "CARGA CADWELD NO.90 F-20",
+  "unidad": "pza",
+  "precio_unitario": 309.8,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

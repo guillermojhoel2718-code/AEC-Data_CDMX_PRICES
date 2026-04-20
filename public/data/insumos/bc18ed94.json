@@ -1,0 +1,12 @@
+{
+  "codigo": "bc18ed94",
+  "descripcion": "INST. UNIDAD MAMPARA 4200 STD",
+  "unidad": "pza",
+  "precio_unitario": 987.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

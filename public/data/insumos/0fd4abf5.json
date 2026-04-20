@@ -1,0 +1,12 @@
+{
+  "codigo": "0fd4abf5",
+  "descripcion": "CLAVO CON ANGULO AC 100",
+  "unidad": "pza",
+  "precio_unitario": 4.29,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

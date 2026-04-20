@@ -1,0 +1,12 @@
+{
+  "codigo": "bafc2fb1",
+  "descripcion": "OFICIAL ELÉCTRICO",
+  "unidad": "jor",
+  "precio_unitario": 1043.56,
+  "categoria": "Mano de Obra",
+  "subcategoria": "ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

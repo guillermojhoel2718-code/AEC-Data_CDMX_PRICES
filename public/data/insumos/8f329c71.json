@@ -1,0 +1,12 @@
+{
+  "codigo": "8f329c71",
+  "descripcion": "TUBO DE CONCRETO REFORZADO CLASE II DE 152 CM. DE DIAM",
+  "unidad": "pza",
+  "precio_unitario": 14940.8,
+  "categoria": "Concretos",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

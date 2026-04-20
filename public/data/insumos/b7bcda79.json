@@ -1,0 +1,12 @@
+{
+  "codigo": "b7bcda79",
+  "descripcion": "EMPAQUE DE NEOPRENO DE 24''",
+  "unidad": "pza",
+  "precio_unitario": 765.3,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

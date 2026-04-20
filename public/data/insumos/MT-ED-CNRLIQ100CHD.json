@@ -1,0 +1,12 @@
+{
+  "codigo": "MT-ED-CNRLIQ100CHD",
+  "descripcion": "CONECTOR RECTO TIPO LIQUID TIGHT DE 35 MM (1\"), CATÁLOGO ELT-1000 CROUSE HINDS",
+  "unidad": "pza",
+  "precio_unitario": 36.38,
+  "categoria": "Material Eléctrico",
+  "subcategoria": "Distribución y Canalización",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

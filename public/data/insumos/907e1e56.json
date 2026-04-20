@@ -1,0 +1,12 @@
+{
+  "codigo": "907e1e56",
+  "descripcion": "TUBO DE CONCRETO REFORZADO CLASE II DE 60 CM. DE DIAM",
+  "unidad": "pza",
+  "precio_unitario": 2969.6,
+  "categoria": "Concretos",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

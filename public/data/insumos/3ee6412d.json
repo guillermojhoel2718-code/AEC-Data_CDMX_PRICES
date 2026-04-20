@@ -1,0 +1,12 @@
+{
+  "codigo": "3ee6412d",
+  "descripcion": "CONCRETO PREMEZCLADO F'C=150 K/CM2 11/2 REV 10+2",
+  "unidad": "pza",
+  "precio_unitario": 1425.04,
+  "categoria": "Concretos",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

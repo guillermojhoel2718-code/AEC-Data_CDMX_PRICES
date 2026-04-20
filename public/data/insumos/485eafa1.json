@@ -1,0 +1,12 @@
+{
+  "codigo": "485eafa1",
+  "descripcion": "EQUIPO HIDRONEUMATICO DE 80 LT JSWM10M/80CL PEDROLLO",
+  "unidad": "lt",
+  "precio_unitario": 10210.0,
+  "categoria": "Herramienta y Equipo",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

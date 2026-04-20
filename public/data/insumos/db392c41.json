@@ -1,0 +1,12 @@
+{
+  "codigo": "db392c41",
+  "descripcion": "FESTERFLEX (ROLLO 1.1.X 100M.)",
+  "unidad": "ml",
+  "precio_unitario": 1033.26,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

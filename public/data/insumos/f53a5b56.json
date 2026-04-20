@@ -1,0 +1,12 @@
+{
+  "codigo": "f53a5b56",
+  "descripcion": "MEDIDOR AC250 MEDIDOR BAJA PRESIÓN USO RESIDENCIAL Y COMERCIAL LIGERO. MARCA AMERICAN METER",
+  "unidad": "pza",
+  "precio_unitario": 5759.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

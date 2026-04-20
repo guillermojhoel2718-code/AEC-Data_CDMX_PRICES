@@ -1,0 +1,12 @@
+{
+  "codigo": "cc817cec",
+  "descripcion": "BASE PARA MEDIDOR CUADRADA CAT.MS2007J, NEMA 3R, 600V, 200 A, TRIFASICO",
+  "unidad": "pza",
+  "precio_unitario": 2056.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

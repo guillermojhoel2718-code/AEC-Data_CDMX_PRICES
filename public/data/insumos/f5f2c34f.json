@@ -1,0 +1,12 @@
+{
+  "codigo": "f5f2c34f",
+  "descripcion": "BASE PARA MEDIDOR CUADRADA CAT.MS02013J, NEMA 3R, 600V, 125 A, TRIFASICO",
+  "unidad": "pza",
+  "precio_unitario": 12048.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

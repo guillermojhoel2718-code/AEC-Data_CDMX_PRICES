@@ -1,0 +1,12 @@
+{
+  "codigo": "55d19a10",
+  "descripcion": "PERFIL TUBULAR M-300 CAL 18 (1.6 KG/M) PZA 5.50 M",
+  "unidad": "kg",
+  "precio_unitario": 31.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

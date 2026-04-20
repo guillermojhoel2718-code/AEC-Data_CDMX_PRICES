@@ -1,0 +1,12 @@
+{
+  "codigo": "MO-OFEL001",
+  "descripcion": "OFICIAL ELÉCTRICO",
+  "unidad": "jor",
+  "precio_unitario": 732.85,
+  "categoria": "Mano de Obra",
+  "subcategoria": "Electricidad",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

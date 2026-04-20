@@ -1,0 +1,12 @@
+{
+  "codigo": "b9248873",
+  "descripcion": "CONCRETO PREMEZCLADO MR=45 KG/CM2 BAJA CONTRACCION",
+  "unidad": "kg",
+  "precio_unitario": 2547.0,
+  "categoria": "Concretos",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

@@ -1,0 +1,12 @@
+{
+  "codigo": "1ec04d21",
+  "descripcion": "BLOCK RUSTICO ROSA DE CONCRETO HUECO DE 12X20X40",
+  "unidad": "pza",
+  "precio_unitario": 22.1,
+  "categoria": "Concretos",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

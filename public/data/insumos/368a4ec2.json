@@ -1,0 +1,12 @@
+{
+  "codigo": "368a4ec2",
+  "descripcion": "SOLERA DE ACERO DE 3/16X2 1.9 KG/M",
+  "unidad": "kg",
+  "precio_unitario": 25.04,
+  "categoria": "Aceros",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

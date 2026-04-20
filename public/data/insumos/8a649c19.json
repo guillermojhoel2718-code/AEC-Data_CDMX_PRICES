@@ -1,0 +1,12 @@
+{
+  "codigo": "8a649c19",
+  "descripcion": "AMONIACO INDUSTRIAL",
+  "unidad": "pza",
+  "precio_unitario": 54.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

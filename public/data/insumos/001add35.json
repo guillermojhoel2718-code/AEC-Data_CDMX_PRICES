@@ -1,0 +1,12 @@
+{
+  "codigo": "001add35",
+  "descripcion": "LAMINA PINTRO R-101 CAL. 24 (5.94 KG/M2)",
+  "unidad": "m2",
+  "precio_unitario": 201.96,
+  "categoria": "Acabados",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

@@ -1,0 +1,12 @@
+{
+  "codigo": "326e40df",
+  "descripcion": "PERFIL TUBULAR 123 CAL 20 (1.10 KG/M) PZA 6.00 M",
+  "unidad": "kg",
+  "precio_unitario": 31.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

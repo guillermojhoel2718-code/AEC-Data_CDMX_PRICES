@@ -1,0 +1,12 @@
+{
+  "codigo": "a36e8f39",
+  "descripcion": "ELEVADOR EQUIPO 8 PAS, 8 PARADAS, 28 M. RECORRIDO, CABINA 1.10X1.40X2.20 ACERO INOX. (36,800 EUROS)",
+  "unidad": "m",
+  "precio_unitario": 1566000.0,
+  "categoria": "Aceros",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

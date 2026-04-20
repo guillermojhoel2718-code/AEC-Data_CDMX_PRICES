@@ -1,0 +1,12 @@
+{
+  "codigo": "77b4af63",
+  "descripcion": "CARGA Y ACARREO DE MATERIAL SOBRANTE PRODUCTO DE EXCAVACIONES Y ESCOMBRO FUERA DE LA PLANTA Y DESCARGADO EN UN TIRO AUTORIZADO",
+  "unidad": "pza",
+  "precio_unitario": 1084.3,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

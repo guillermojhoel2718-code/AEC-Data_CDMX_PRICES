@@ -1,0 +1,12 @@
+{
+  "codigo": "e74f5acd",
+  "descripcion": "CISTERNA 5000L C/ACC ROTOPLAS",
+  "unidad": "pza",
+  "precio_unitario": 20200.0,
+  "categoria": "Materiales Generales",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

@@ -1,0 +1,12 @@
+{
+  "codigo": "c8fea23d",
+  "descripcion": "AYUDANTE GENERAL (URBANIZACION)",
+  "unidad": "jor",
+  "precio_unitario": 1118.66,
+  "categoria": "Mano de Obra",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}

@@ -1,0 +1,12 @@
+{
+  "codigo": "2f99078d",
+  "descripcion": "CONCRETO PREMEZCLADO F'C=450 KG/CM2, CLASE 1",
+  "unidad": "kg",
+  "precio_unitario": 3192.0,
+  "categoria": "Concretos",
+  "subcategoria": "NO ELÉCTRICO",
+  "fuente": "Insumos_APUCMX",
+  "fecha_fuente": "2026-04-19",
+  "unidad_inferida": true,
+  "tipo_registro": "material"
+}
