@@ -168,8 +168,7 @@ export const ConceptProvider = ({ children }: { children: ReactNode }) => {
       //setConcepts(MOCK_CONCEPTS);
       // ---------------------------------------------------------
 
-      
-       --- SUPABASE REAL ---
+      // --- SUPABASE REAL ---
       const { data: dbConcepts, error: dbError } = await supabase.from('concepts').select(`
         *,
         concept_materials (*),
@@ -191,8 +190,6 @@ export const ConceptProvider = ({ children }: { children: ReactNode }) => {
       ));
       
       setConcepts(mappedConcepts);
-      // ---------------------
-      */
     } catch (err: any) {
       console.error('Error fetching concepts:', err);
       setError(err.message || 'Error loading concepts');
