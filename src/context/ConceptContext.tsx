@@ -164,12 +164,12 @@ export const ConceptProvider = ({ children }: { children: ReactNode }) => {
       // MOCK DATA (Por defecto para la demo)
       // Para conectar a Supabase real, comenta estas dos líneas
       // y descomenta el bloque "SUPABASE REAL" abajo.
-      const { MOCK_CONCEPTS } = await import('../lib/mockData');
-      setConcepts(MOCK_CONCEPTS);
+      //const { MOCK_CONCEPTS } = await import('../lib/mockData');
+      //setConcepts(MOCK_CONCEPTS);
       // ---------------------------------------------------------
 
-      /*
-      // --- SUPABASE REAL ---
+      
+       --- SUPABASE REAL ---
       const { data: dbConcepts, error: dbError } = await supabase.from('concepts').select(`
         *,
         concept_materials (*),
