@@ -8,6 +8,8 @@ coverage/
 *.env
 data_raw/Documentos_Precios/
 !.env.example
-
-
+convertidor_apuc.py
+convertidor_masivo.py
 .vercel
+public/data/insumos
+.venv/

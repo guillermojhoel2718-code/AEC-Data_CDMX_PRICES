@@ -13,16 +13,15 @@
 
 ## El Problema
 
-La industria AEC en México opera sobre una **arquitectura invisible de ineficiencias**:
+La industria AEC en México opera sobre una **arquitectura con ineficiencias no apta para todos**:
 
 | Problema | Impacto Directo |
 |---|---|
 | 📍 **Precios no regionalizados** | Un APU elaborado para CDMX es técnicamente inútil en Tijuana o el Bajío |
-| 📉 **Volatilidad sin respuesta** | El "Efecto Trump" (aranceles sobre acero, aluminio, petroquímicos) generó variaciones de hasta **+18%** en 6 meses sin mecanismos de actualización regional |
 | 🔒 **Asimetría de información** | Clientes y contratistas negocian con datos de calidad radicalmente diferente, generando ineficiencia estructural de entre el **15–30%** en costo final vs. presupuesto |
 | 🧠 **Retraso de talento digital** | Ingenieros arquitectos con formación avanzada atrapados en captura manual de datos, sin mercado explícito para sus activos técnicos |
 
-APUCMX resuelve estos cuatro problemas con una sola arquitectura: **consenso distribuido + verificación técnica + inteligencia regional**.
+APUCMX resuelve estos problemas con una sola arquitectura: **consenso distribuido + verificación técnica + inteligencia regional**.
 
 ---
 
@@ -38,7 +37,7 @@ Experiencia de búsqueda de precios con arquitectura de **bandeja de entrada** (
 Sin menús anidados. Sin navegación de múltiples pantallas. Del concepto al precio verificado en dos clics.
 
 ### 📊 Matrix Side-Panel
-Al seleccionar cualquier concepto, un **panel lateral deslizante** expone la descomposición completa del APU sin cambiar de pantalla:
+Al seleccionar cualquier concepto, un **panel lateral deslizante** expone la descomposición completa del Analisis de precio unitario sin cambiar de pantalla:
 - Materiales con origen geográfico verificado y proveedor identificable
 - Rendimientos de mano de obra por categoría y región
 - Costos de equipo y herramienta desagregados
