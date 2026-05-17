@@ -6,6 +6,7 @@ import { DetailPage }        from 'src/components/DetailPage';
 import { ConceptComparator } from 'src/components/ConceptComparator';
 import { ComingSoonPage }    from 'src/components/ComingSoonPage';
 import { PagosPage }         from 'src/components/PagosPage';
+import { InsumoExplorer }    from 'src/components/InsumoExplorer';
 import { AuthProvider }      from 'src/context/AuthContext';
 import { ConceptProvider }   from 'src/context/ConceptContext';
 import { TokenProvider }     from 'src/context/TokenContext';
@@ -22,6 +23,7 @@ export default function App() {
               <Route path="/detail/:id" element={<DetailPage />} />
               <Route path="/detail"     element={<DetailPage />} />
               <Route path="/comparator" element={<ConceptComparator />} />
+              <Route path="/insumos"    element={<InsumoExplorer />} />
               <Route path="/Pagos"  element={<PagosPage />} />
               <Route path="/pagos"  element={<PagosPage />} />
               <Route path="/tokens" element={<PagosPage />} />
