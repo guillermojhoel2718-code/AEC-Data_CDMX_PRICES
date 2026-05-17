@@ -1,0 +1,35 @@
+# APUCMX Backend — Dependencias Python
+
+# Core
+supabase>=2.15.0
+python-dotenv>=1.0.0
+
+# Datos
+pandas>=2.2.0
+openpyxl>=3.1.0
+xlrd>=2.0.1
+
+# Pagos
+stripe>=11.0.0
+flask>=3.0.0
+
+# LangChain + Gemini Flash
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-google-genai>=2.0.0
+langchain-community>=0.3.0
+
+# Parsers y schemas
+pydantic>=2.7.0
+
+# Procesamiento de texto
+fuzzywuzzy>=0.18.0
+python-Levenshtein>=0.25.0
+python-slugify>=8.0.0
+
+# Generación de PDF
+reportlab>=4.2.0
+
+# Logging y utilidades
+rich>=13.0.0
+typer>=0.12.0
