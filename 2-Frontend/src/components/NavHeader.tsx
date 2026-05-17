@@ -15,11 +15,13 @@ const NAV = [
   { to: '/',           label: 'Inicio',      icon: <Globe size={15} /> },
   { to: '/explorer',   label: 'Explorador',  icon: <Code size={15} /> },
   { to: '/insumos',    label: 'Insumos',     icon: <Package size={15} /> },
+  { to: '/providers',  label: 'Proveedores', icon: <Package size={15} /> },
+  { to: '/analysis',   label: 'Análisis IA', icon: <BarChart3 size={15} /> },
   { to: '/comparator', label: 'Comparador',  icon: <BarChart3 size={15} /> },
   { to: '/tokens',     label: 'Tokens',      icon: <Coins size={15} /> },
 ];
 
-const NavLink = ({ to, label }: { to: string; label: string }) => {
+const NavLink: React.FC<{ to: string; label: string }> = ({ to, label }) => {
   const isActive = typeof window !== 'undefined' && window.location.pathname === to;
   return (
     <Link to={to}

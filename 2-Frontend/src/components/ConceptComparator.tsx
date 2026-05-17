@@ -3,27 +3,23 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, AlertTriangle, Award } from 'lucide-react';
 import { AppHeader } from 'src/components/Common';
 import { motion } from 'motion/react';
-import { useConcepts, Concept, MaterialRow, LaborRow, EquipmentRow, OvercostFactors } from 'src/context/ConceptContext';
+import { useConcepts, Concept, ConceptLine, OvercostFactors } from 'src/context/ConceptContext';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function parsePriceToNumber(price: string): number {
-  return parseFloat(price.replace(/[$,]/g, '')) || 0;
-}
-
-function calcMaterialsSubtotal(materials?: MaterialRow[]): number {
+function calcMaterialsSubtotal(materials?: ConceptLine[]): number {
   if (!materials || materials.length === 0) return 0;
-  return materials.reduce((acc, m) => acc + (m.costLab + m.fletes + m.maniobra + m.almacenaje) * m.fcActual, 0);
+  return materials.reduce((acc, m) => acc + (m.cost_lab + m.fletes + m.maniobra + m.almacenaje) * m.fc_actual, 0);
 }
 
-function calcLaborSubtotal(labor?: LaborRow[]): number {
+function calcLaborSubtotal(labor?: ConceptLine[]): number {
   if (!labor || labor.length === 0) return 0;
-  return labor.reduce((acc, l) => acc + l.baseSalary * l.fsi * l.fasar * l.quantity, 0);
+  return labor.reduce((acc, l) => acc + l.precio_unitario * l.fsi * l.fasar * l.cantidad, 0);
 }
 
-function calcEquipmentSubtotal(equipment?: EquipmentRow[]): number {
+function calcEquipmentSubtotal(equipment?: ConceptLine[]): number {
   if (!equipment || equipment.length === 0) return 0;
-  return equipment.reduce((acc, e) => acc + (e.costLab + e.fletes + e.maniobra + e.almacenaje) * e.fcActual, 0);
+  return equipment.reduce((acc, e) => acc + (e.cost_lab + e.fletes + e.maniobra + e.almacenaje) * e.fc_actual, 0);
 }
 
 function calcDirectCost(concept: Concept): number {
@@ -31,7 +27,7 @@ function calcDirectCost(concept: Concept): number {
   const lab = calcLaborSubtotal(concept.labor);
   const equ = calcEquipmentSubtotal(concept.equipment);
   const total = mat + lab + equ;
-  if (total === 0) return parsePriceToNumber(concept.price);
+  if (total === 0) return concept.price;
   return total;
 }
 
@@ -56,7 +52,7 @@ function calcOvercostTotal(overcostFactors: OvercostFactors | undefined, directC
 
 function calcUnitPrice(concept: Concept): number {
   const directCost = calcDirectCost(concept);
-  if (directCost === 0) return parsePriceToNumber(concept.price);
+  if (directCost === 0) return concept.price;
   if (concept.overcostFactors) {
     return directCost + calcOvercostTotal(concept.overcostFactors, directCost);
   }

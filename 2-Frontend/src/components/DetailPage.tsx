@@ -20,7 +20,7 @@ export const DetailPage = () => {
 
   if (loading) {
     return (
-      <div className="flex flex-col min-h-screen bg-slate-900 items-center justify-center">
+      <div className="flex flex-col min-h-screen bg-[#07070F] items-center justify-center">
         <div className="size-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
         <p className="mt-4 text-slate-400 font-bold uppercase tracking-widest animate-pulse">Analizando Matriz...</p>
       </div>
@@ -29,10 +29,10 @@ export const DetailPage = () => {
 
   if (!concept) {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-[#07070F]">
         <AppHeader />
-        <main className="flex-1 flex flex-col items-center justify-center p-10 text-center space-y-6 bg-slate-950">
-          <div className="bg-slate-900 p-8 rounded-full border border-white/5 shadow-2xl">
+        <main className="flex-1 flex flex-col items-center justify-center p-10 text-center space-y-6 bg-[#07070F]">
+          <div className="bg-[#0F0F1A] p-8 rounded-full border border-white/5 shadow-2xl">
             <Info className="text-primary" size={64} />
           </div>
           <div className="space-y-2">
@@ -51,10 +51,10 @@ export const DetailPage = () => {
 
 
   const totals = useMemo(() => {
-    const matTotal = concept.materials?.reduce((acc, m) => acc + (m.costLab + m.fletes + m.maniobra + m.almacenaje) * m.fcActual, 0) || 0;
-    const labTotal = concept.labor?.reduce((acc, l) => acc + (l.baseSalary * l.fsi * l.fasar * l.quantity), 0) || 0;
-    const eqTotal = concept.equipment?.reduce((acc, e) => acc + (e.costLab + e.fletes + e.maniobra + e.almacenaje) * e.fcActual, 0) || 0;
-    const subTotal = concept.subcontracts?.reduce((acc, s) => acc + (s.costLab + s.fletes + s.maniobra), 0) || 0;
+    const matTotal = concept.materials?.reduce((acc, m) => acc + (m.cost_lab + m.fletes + m.maniobra + m.almacenaje) * m.fc_actual, 0) || 0;
+    const labTotal = concept.labor?.reduce((acc, l) => acc + (l.precio_unitario * l.fsi * l.fasar * l.cantidad), 0) || 0;
+    const eqTotal = concept.equipment?.reduce((acc, e) => acc + (e.cost_lab + e.fletes + e.maniobra + e.almacenaje) * e.fc_actual, 0) || 0;
+    const subTotal = concept.subcontracts?.reduce((acc, s) => acc + (s.cost_lab + s.fletes + s.maniobra), 0) || 0;
     
     const costoDirecto = matTotal + labTotal + eqTotal + subTotal;
     
@@ -103,11 +103,11 @@ export const DetailPage = () => {
     <motion.div 
       initial={{ opacity: 0 }} 
       animate={{ opacity: 1 }}
-      className="flex flex-col min-h-screen"
+      className="flex flex-col min-h-screen bg-[#07070F] text-slate-100"
     >
       <AppHeader />
       <main className="flex-1 flex flex-col">
-        <div className="bg-slate-900 border-b border-primary/10 px-6 md:px-10 py-4 flex flex-wrap items-center justify-between gap-4">
+        <div className="bg-[#0F0F1A] border-b border-primary/10 px-6 md:px-10 py-4 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-xs">
             <Link className="text-slate-500 hover:text-primary" to="/">Inicio</Link>
             <ChevronRight size={10} className="text-slate-500" />
@@ -135,7 +135,7 @@ export const DetailPage = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex flex-col items-end gap-2 bg-slate-900 p-6 rounded-xl border border-primary/20 shadow-xl w-full lg:w-auto">
+              <div className="flex flex-col items-end gap-2 bg-[#0F0F1A] p-6 rounded-xl border border-primary/20 shadow-xl w-full lg:w-auto">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Precio Unitario Total (Con Sobrecosto)</span>
                 <div className="text-4xl font-black text-primary">$ {totals.precioUnitarioFinal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-lg font-normal text-slate-500">MXN</span></div>
                 <div className="flex items-center gap-2 mt-2 pt-2 border-t border-primary/10 w-full justify-end">
@@ -186,7 +186,7 @@ export const DetailPage = () => {
                   activeTab === 'blockchain' ? "text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[3px] after:bg-primary" : "text-slate-400 hover:text-white"
                 )}
               >
-                Historial Blockchain
+                Auditoría RAG IA & DB
                 {membership === 'gratis' && <Lock size={12} className="text-slate-500" />}
               </button>
             </div>
@@ -202,8 +202,8 @@ export const DetailPage = () => {
                 className="grid grid-cols-1 gap-8 max-w-6xl"
               >
                 {/* Materiales */}
-                <section className="bg-slate-900 rounded-xl border border-white/5 overflow-hidden shadow-sm">
-                  <div className="bg-slate-800/50 px-6 py-3 border-b border-white/5 flex justify-between items-center">
+                <section className="bg-[#0F0F1A] rounded-xl border border-white/5 overflow-hidden shadow-sm">
+                  <div className="bg-[#12122A]/50 px-6 py-3 border-b border-white/5 flex justify-between items-center">
                     <div className="flex items-center gap-2">
                       <Package size={14} className="text-primary" />
                       <h3 className="font-bold text-xs uppercase tracking-wider text-white">Materiales</h3>
@@ -224,14 +224,14 @@ export const DetailPage = () => {
                     <tbody className="text-sm">
                       {concept.materials && concept.materials.length > 0 ? concept.materials.map((m, i) => (
                         <tr key={i} className="border-b border-white/5 hover:bg-white/5">
-                          <td className="px-6 py-4 font-mono text-xs text-slate-400">{m.code}</td>
-                          <td className="px-6 py-4 text-slate-300">{m.description}</td>
-                          <td className="px-4 py-4 text-center text-slate-400">{m.unit}</td>
-                          <td className="px-4 py-4 text-center text-slate-400 font-mono">${m.costLab.toFixed(2)}</td>
+                          <td className="px-6 py-4 font-mono text-xs text-slate-400">{m.insumo_codigo ?? '—'}</td>
+                          <td className="px-6 py-4 text-slate-300">{m.descripcion}</td>
+                          <td className="px-4 py-4 text-center text-slate-400">{m.unidad}</td>
+                          <td className="px-4 py-4 text-center text-slate-400 font-mono">${m.cost_lab.toFixed(2)}</td>
                           <td className="px-4 py-4 text-center text-slate-400 font-mono">${m.fletes.toFixed(2)}</td>
-                          <td className="px-4 py-4 text-center text-slate-400 font-mono">{m.fcActual.toFixed(2)}</td>
+                          <td className="px-4 py-4 text-center text-slate-400 font-mono">{m.fc_actual.toFixed(2)}</td>
                           <td className="px-6 py-4 text-right font-bold text-primary font-mono">
-                            ${((m.costLab + m.fletes + m.maniobra + m.almacenaje) * m.fcActual).toFixed(2)}
+                            ${((m.cost_lab + m.fletes + m.maniobra + m.almacenaje) * m.fc_actual).toFixed(2)}
                           </td>
                         </tr>
                       )) : (
@@ -247,8 +247,8 @@ export const DetailPage = () => {
                 </section>
 
                 {/* Mano de Obra */}
-                <section className="bg-slate-900 rounded-xl border border-white/5 overflow-hidden shadow-sm">
-                  <div className="bg-slate-800/50 px-6 py-3 border-b border-white/5 flex justify-between items-center">
+                <section className="bg-[#0F0F1A] rounded-xl border border-white/5 overflow-hidden shadow-sm">
+                  <div className="bg-[#12122A]/50 px-6 py-3 border-b border-white/5 flex justify-between items-center">
                     <div className="flex items-center gap-2">
                       <HardHat size={14} className="text-primary" />
                       <h3 className="font-bold text-xs uppercase tracking-wider text-white">Mano de Obra (FASAR)</h3>
@@ -268,13 +268,13 @@ export const DetailPage = () => {
                     <tbody className="text-sm text-slate-300">
                       {concept.labor && concept.labor.length > 0 ? concept.labor.map((l, i) => (
                         <tr key={i} className="border-b border-white/5 hover:bg-white/5">
-                          <td className="px-6 py-4">{l.description}</td>
-                          <td className="px-4 py-4 text-center text-slate-400 font-mono">${l.baseSalary.toFixed(2)}</td>
+                          <td className="px-6 py-4">{l.descripcion}</td>
+                          <td className="px-4 py-4 text-center text-slate-400 font-mono">${l.precio_unitario.toFixed(2)}</td>
                           <td className="px-4 py-4 text-center text-slate-400 font-mono">{l.fsi.toFixed(2)}</td>
                           <td className="px-4 py-4 text-center text-slate-400 font-mono">{l.fasar.toFixed(2)}</td>
-                          <td className="px-4 py-4 text-center text-slate-400 font-mono">{l.quantity.toFixed(4)}</td>
+                          <td className="px-4 py-4 text-center text-slate-400 font-mono">{l.cantidad.toFixed(4)}</td>
                           <td className="px-6 py-4 text-right font-bold text-primary font-mono">
-                            ${(l.baseSalary * l.fsi * l.fasar * l.quantity).toFixed(2)}
+                            ${(l.precio_unitario * l.fsi * l.fasar * l.cantidad).toFixed(2)}
                           </td>
                         </tr>
                       )) : (
@@ -291,8 +291,8 @@ export const DetailPage = () => {
 
                 {/* Equipo */}
                 {concept.equipment && concept.equipment.length > 0 && (
-                  <section className="bg-slate-900 rounded-xl border border-white/5 overflow-hidden shadow-sm">
-                    <div className="bg-slate-800/50 px-6 py-3 border-b border-white/5 flex justify-between items-center">
+                  <section className="bg-[#0F0F1A] rounded-xl border border-white/5 overflow-hidden shadow-sm">
+                    <div className="bg-[#12122A]/50 px-6 py-3 border-b border-white/5 flex justify-between items-center">
                       <div className="flex items-center gap-2">
                         <Cpu size={14} className="text-primary" />
                         <h3 className="font-bold text-xs uppercase tracking-wider text-white">Equipo y Maquinaria</h3>
@@ -310,11 +310,11 @@ export const DetailPage = () => {
                       <tbody className="text-sm text-slate-300">
                         {concept.equipment.map((e, i) => (
                           <tr key={i} className="border-b border-white/5 hover:bg-white/5">
-                            <td className="px-6 py-4">{e.description}</td>
-                            <td className="px-4 py-4 text-center text-slate-400 font-mono">${e.costLab.toFixed(2)}</td>
-                            <td className="px-4 py-4 text-center text-slate-400 font-mono">{e.fcActual.toFixed(2)}</td>
+                            <td className="px-6 py-4">{e.descripcion}</td>
+                            <td className="px-4 py-4 text-center text-slate-400 font-mono">${e.cost_lab.toFixed(2)}</td>
+                            <td className="px-4 py-4 text-center text-slate-400 font-mono">{e.fc_actual.toFixed(2)}</td>
                             <td className="px-6 py-4 text-right font-bold text-primary font-mono">
-                              ${((e.costLab + e.fletes + e.maniobra + e.almacenaje) * e.fcActual).toFixed(2)}
+                              ${((e.cost_lab + e.fletes + e.maniobra + e.almacenaje) * e.fc_actual).toFixed(2)}
                             </td>
                           </tr>
                         ))}
@@ -325,8 +325,8 @@ export const DetailPage = () => {
 
                 {/* Subcontratos */}
                 {concept.subcontracts && concept.subcontracts.length > 0 && (
-                  <section className="bg-slate-900 rounded-xl border border-white/5 overflow-hidden shadow-sm">
-                    <div className="bg-slate-800/50 px-6 py-3 border-b border-white/5 flex justify-between items-center">
+                  <section className="bg-[#0F0F1A] rounded-xl border border-white/5 overflow-hidden shadow-sm">
+                    <div className="bg-[#12122A]/50 px-6 py-3 border-b border-white/5 flex justify-between items-center">
                       <div className="flex items-center gap-2">
                         <Settings size={14} className="text-primary" />
                         <h3 className="font-bold text-xs uppercase tracking-wider text-white">Subcontratos</h3>
@@ -343,10 +343,10 @@ export const DetailPage = () => {
                       <tbody className="text-sm text-slate-300">
                         {concept.subcontracts.map((s, i) => (
                           <tr key={i} className="border-b border-white/5 hover:bg-white/5">
-                            <td className="px-6 py-4">{s.description}</td>
-                            <td className="px-4 py-4 text-center text-slate-400">{s.unit}</td>
+                            <td className="px-6 py-4">{s.descripcion}</td>
+                            <td className="px-4 py-4 text-center text-slate-400">{s.unidad}</td>
                             <td className="px-6 py-4 text-right font-bold text-primary font-mono">
-                              ${(s.costLab + s.fletes + s.maniobra).toFixed(2)}
+                              ${(s.cost_lab + s.fletes + s.maniobra).toFixed(2)}
                             </td>
                           </tr>
                         ))}
@@ -370,18 +370,18 @@ export const DetailPage = () => {
                 exit={{ opacity: 0, y: -10 }}
                 className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl"
               >
-                <div className="bg-slate-900 rounded-xl border border-white/5 p-6 shadow-sm">
+                <div className="bg-[#0F0F1A] rounded-xl border border-white/5 p-6 shadow-sm">
                   <div className="flex items-center gap-2 mb-6">
                     <TrendingUp size={18} className="text-primary" />
                     <h3 className="font-bold text-sm uppercase tracking-wider text-white">Análisis de Indirectos</h3>
                   </div>
                   <div className="space-y-4">
                     {concept.overcostFactors && [
-                      { label: 'Indirectos de Oficina Central', value: `${(concept.overcostFactors.indirectoHonorarios + concept.overcostFactors.indirectoGastosOficina).toFixed(2)}%` },
-                      { label: 'Indirectos de Campo', value: `${(concept.overcostFactors.indirectoDepreciacion + concept.overcostFactors.indirectoServicios + concept.overcostFactors.indirectoFletes + concept.overcostFactors.indirectoCapacitacion + concept.overcostFactors.indirectoSeguridad + concept.overcostFactors.indirectoAuxiliares).toFixed(2)}%` },
+                      { label: 'Indirectos de Oficina Central', value: `${(concept.overcostFactors.indirecto_honorarios + concept.overcostFactors.indirecto_gastos_oficina).toFixed(2)}%` },
+                      { label: 'Indirectos de Campo', value: `${(concept.overcostFactors.indirecto_depreciacion + concept.overcostFactors.indirecto_servicios + concept.overcostFactors.indirecto_fletes + concept.overcostFactors.indirecto_capacitacion + concept.overcostFactors.indirecto_seguridad + concept.overcostFactors.indirecto_auxiliares).toFixed(2)}%` },
                       { label: 'Financiamiento', value: `${concept.overcostFactors.financiamiento.toFixed(2)}%` },
                       { label: 'Utilidad', value: `${concept.overcostFactors.utilidad.toFixed(2)}%` },
-                      { label: 'Cargos Adicionales', value: `${concept.overcostFactors.cargosAdicionales.toFixed(2)}%` }
+                      { label: 'Cargos Adicionales', value: `${concept.overcostFactors.cargos_adicionales.toFixed(2)}%` }
                     ].map(item => (
                       <div key={item.label} className="flex justify-between items-center py-2 border-b border-white/5">
                         <span className="text-sm text-slate-400">{item.label}</span>
@@ -395,7 +395,7 @@ export const DetailPage = () => {
                   </div>
                 </div>
                 
-                <div className="bg-slate-900 rounded-xl border border-white/5 p-6 shadow-sm">
+                <div className="bg-[#0F0F1A] rounded-xl border border-white/5 p-6 shadow-sm">
                   <div className="flex items-center gap-2 mb-6">
                     <BarChart3 size={18} className="text-primary" />
                     <h3 className="font-bold text-sm uppercase tracking-wider text-white">Resumen de Costos</h3>
@@ -403,16 +403,16 @@ export const DetailPage = () => {
                   <div className="space-y-6">
                     <div className="flex flex-col gap-1">
                       <p className="text-[10px] text-slate-500 uppercase font-bold">Costo Directo</p>
-                      <p className="text-2xl font-bold text-white">${totals.costoDirecto.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                      <p className="text-2xl font-bold text-white">${totals.costo_directo.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                     </div>
                     <div className="flex flex-col gap-1">
                       <p className="text-[10px] text-slate-500 uppercase font-bold">Indirectos y Utilidad</p>
-                      <p className="text-2xl font-bold text-white">${(totals.precioUnitarioFinal - totals.costoDirecto).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                      <p className="text-2xl font-bold text-white">${(totals.precio_unitario_final - totals.costo_directo).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                     </div>
                     <div className="h-px bg-white/10"></div>
                     <div className="flex flex-col gap-1">
                       <p className="text-[10px] text-primary uppercase font-bold">Precio Unitario Final</p>
-                      <p className="text-4xl font-black text-primary">${totals.precioUnitarioFinal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                      <p className="text-4xl font-black text-primary">${totals.precio_unitario_final.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                     </div>
                   </div>
                 </div>
@@ -428,13 +428,13 @@ export const DetailPage = () => {
                 className="max-w-4xl"
               >
                 {membership === 'gratis' ? (
-                  <div className="bg-slate-900 border border-primary/20 rounded-2xl p-12 flex flex-col items-center text-center">
+                  <div className="bg-[#0F0F1A] border border-primary/20 rounded-2xl p-12 flex flex-col items-center text-center">
                     <div className="bg-primary/20 p-6 rounded-full border border-primary/30 mb-6">
                       <Lock size={48} className="text-primary" />
                     </div>
                     <h2 className="text-2xl font-black text-white mb-4 uppercase tracking-tight">Acceso Premium</h2>
                     <p className="text-slate-400 mb-8 leading-relaxed max-w-md">
-                      El historial de auditoría blockchain es una función exclusiva para miembros Premium. Actualiza tu plan para ver la trazabilidad completa de este concepto.
+                      El historial de auditoría RAG IA & DB es una función exclusiva para miembros Premium. Actualiza tu plan para ver la trazabilidad y auditoría completa de este concepto.
                     </p>
                     <button 
                       onClick={() => window.dispatchEvent(new Event('open-membership-modal'))}
@@ -454,9 +454,9 @@ export const DetailPage = () => {
                       <div key={item.block} className="relative">
                         <div className={cn(
                           "absolute -left-[25px] top-1 size-4 rounded-full border-2 border-primary z-10",
-                          idx === 0 ? "bg-primary animate-pulse" : "bg-slate-900"
+                          idx === 0 ? "bg-primary animate-pulse" : "bg-[#07070F]"
                         )}></div>
-                        <div className="bg-slate-900 border border-white/5 rounded-xl p-5 shadow-sm hover:border-primary/30 transition-all">
+                        <div className="bg-[#0F0F1A] border border-white/5 rounded-xl p-5 shadow-sm hover:border-primary/30 transition-all">
                           <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center gap-2">
                               <span className="text-primary">{item.icon}</span>
@@ -483,7 +483,7 @@ export const DetailPage = () => {
             )}
           </AnimatePresence>
 
-          <div className="mt-12 mb-8 bg-slate-900/50 backdrop-blur-sm border border-primary/20 rounded-xl p-6 relative overflow-hidden group max-w-4xl">
+          <div className="mt-12 mb-8 bg-[#0F0F1A]/50 backdrop-blur-sm border border-primary/20 rounded-xl p-6 relative overflow-hidden group max-w-4xl">
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl group-hover:bg-primary/10 transition-colors"></div>
             <div className="flex items-start gap-4 relative z-10">
               <div className="bg-primary/20 p-3 rounded-lg border border-primary/40 flex items-center justify-center text-primary">

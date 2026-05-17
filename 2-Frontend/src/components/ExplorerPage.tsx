@@ -58,9 +58,9 @@ export const ExplorerPage = () => {
 
   if (loading) {
     return (
-      <div className="flex flex-col h-screen bg-slate-900 items-center justify-center">
-        <div className="size-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-        <p className="mt-4 text-slate-400 font-bold uppercase tracking-widest animate-pulse">Cargando Inteligencia APU...</p>
+      <div className="flex flex-col h-screen bg-[#07070F] items-center justify-center">
+        <Loader2 className="animate-spin text-primary mb-4" size={48} />
+        <p className="text-sm text-slate-400 font-medium">Cargando catálogo...</p>
       </div>
     );
   }
@@ -107,7 +107,7 @@ export const ExplorerPage = () => {
       <AppHeader />
       <main className="flex flex-1 overflow-hidden">
         {/* Left Section: Search & List */}
-        <section className="flex-1 flex flex-col bg-slate-900 industrial-texture overflow-hidden">
+        <section className="flex-1 flex flex-col bg-[#07070F] industrial-texture overflow-hidden">
           <div className="p-6 bg-primary/5 border-b border-primary/10">
             <div className="max-w-5xl mx-auto flex gap-0 shadow-2xl items-stretch">
               <div className="relative">
@@ -298,31 +298,31 @@ export const ExplorerPage = () => {
 
           <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8">
             {/* Resumen de Costos Directos */}
-            <div className="bg-slate-800/30 rounded-xl p-4 border border-white/5">
+            <div className="bg-[#0F0F1A] rounded-xl p-4 border border-white/5">
               <h3 className="text-[10px] font-bold uppercase tracking-widest text-primary mb-4">Resumen de Análisis Técnico</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center text-[10px]">
                   <span className="text-slate-400">Materiales</span>
                   <span className="text-white font-mono">
-                    ${(selectedConcept.materials?.reduce((acc, m) => acc + (m.costLab + m.fletes + m.maniobra + m.almacenaje) * m.fcActual, 0) || 0).toFixed(2)}
+                    ${(selectedConcept.materials?.reduce((acc, m) => acc + (m.cost_lab + m.fletes + m.maniobra + m.almacenaje) * m.fc_actual, 0) || 0).toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-[10px]">
                   <span className="text-slate-400">Mano de Obra (FASAR)</span>
                   <span className="text-white font-mono">
-                    ${(selectedConcept.labor?.reduce((acc, l) => acc + (l.baseSalary * l.fsi * l.fasar * l.quantity), 0) || 0).toFixed(2)}
+                    ${(selectedConcept.labor?.reduce((acc, l) => acc + (l.precio_unitario * l.fsi * l.fasar * l.cantidad), 0) || 0).toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-[10px]">
                   <span className="text-slate-400">Maquinaria y Equipo</span>
                   <span className="text-white font-mono">
-                    ${(selectedConcept.equipment?.reduce((acc, e) => acc + (e.costLab + e.fletes + e.maniobra + e.almacenaje) * e.fcActual, 0) || 0).toFixed(2)}
+                    ${(selectedConcept.equipment?.reduce((acc, e) => acc + (e.cost_lab + e.fletes + e.maniobra + e.almacenaje) * e.fc_actual, 0) || 0).toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-[10px]">
                   <span className="text-slate-400">Subcontratos</span>
                   <span className="text-white font-mono">
-                    ${(selectedConcept.subcontracts?.reduce((acc, s) => acc + (s.costLab + s.fletes + s.maniobra), 0) || 0).toFixed(2)}
+                    ${(selectedConcept.subcontracts?.reduce((acc, s) => acc + (s.cost_lab + s.fletes + s.maniobra), 0) || 0).toFixed(2)}
                   </span>
                 </div>
                 <div className="h-px bg-white/5 my-2"></div>
@@ -330,10 +330,10 @@ export const ExplorerPage = () => {
                   <span className="text-white uppercase">Costo Directo Total</span>
                   <span className="text-primary font-mono">
                     ${(
-                      (selectedConcept.materials?.reduce((acc, m) => acc + (m.costLab + m.fletes + m.maniobra + m.almacenaje) * m.fcActual, 0) || 0) +
-                      (selectedConcept.labor?.reduce((acc, l) => acc + (l.baseSalary * l.fsi * l.fasar * l.quantity), 0) || 0) +
-                      (selectedConcept.equipment?.reduce((acc, e) => acc + (e.costLab + e.fletes + e.maniobra + e.almacenaje) * e.fcActual, 0) || 0) +
-                      (selectedConcept.subcontracts?.reduce((acc, s) => acc + (s.costLab + s.fletes + s.maniobra), 0) || 0)
+                      (selectedConcept.materials?.reduce((acc, m) => acc + (m.cost_lab + m.fletes + m.maniobra + m.almacenaje) * m.fc_actual, 0) || 0) +
+                      (selectedConcept.labor?.reduce((acc, l) => acc + (l.precio_unitario * l.fsi * l.fasar * l.cantidad), 0) || 0) +
+                      (selectedConcept.equipment?.reduce((acc, e) => acc + (e.cost_lab + e.fletes + e.maniobra + e.almacenaje) * e.fc_actual, 0) || 0) +
+                      (selectedConcept.subcontracts?.reduce((acc, s) => acc + (s.cost_lab + s.fletes + s.maniobra), 0) || 0)
                     ).toFixed(2)}
                   </span>
                 </div>
@@ -350,9 +350,9 @@ export const ExplorerPage = () => {
                 <tbody className="text-slate-300">
                   {selectedConcept.materials && selectedConcept.materials.length > 0 ? selectedConcept.materials.map((m, i) => (
                     <tr key={i} className="border-b border-white/5">
-                      <td className="py-2 pr-2">{m.description}</td>
+                      <td className="py-2 pr-2">{m.descripcion}</td>
                       <td className="py-2 text-right font-mono text-slate-400">
-                        ${((m.costLab + m.fletes + m.maniobra + m.almacenaje) * m.fcActual).toFixed(2)}
+                        ${((m.cost_lab + m.fletes + m.maniobra + m.almacenaje) * m.fc_actual).toFixed(2)}
                       </td>
                     </tr>
                   )) : (
@@ -377,9 +377,9 @@ export const ExplorerPage = () => {
                 <tbody className="text-slate-300">
                   {selectedConcept.labor && selectedConcept.labor.length > 0 ? selectedConcept.labor.map((l, i) => (
                     <tr key={i} className="border-b border-white/5">
-                      <td className="py-2 pr-2">{l.description}</td>
+                      <td className="py-2 pr-2">{l.descripcion}</td>
                       <td className="py-2 text-right font-mono text-slate-400">
-                        ${(l.baseSalary * l.fsi * l.fasar * l.quantity).toFixed(2)}
+                        ${(l.precio_unitario * l.fsi * l.fasar * l.cantidad).toFixed(2)}
                       </td>
                     </tr>
                   )) : (
@@ -405,15 +405,15 @@ export const ExplorerPage = () => {
                   {selectedConcept.equipment && selectedConcept.equipment.length > 0 ? selectedConcept.equipment.map((e, i) => (
                     <tr 
                       key={i} 
-                      onClick={() => openPanel(e.code || '')}
+                      onClick={() => openPanel(e.insumo_codigo || '')}
                       className="border-b border-white/5 cursor-pointer hover:bg-slate-800/80 transition-colors group"
                     >
                       <td className="py-2 pr-2 group-hover:text-white transition-colors">
                         <span className="text-orange-500 mr-2 opacity-0 group-hover:opacity-100 transition-opacity">▸</span>
-                        {e.description}
+                        {e.descripcion}
                       </td>
                       <td className="py-2 text-right font-mono text-slate-400">
-                        ${((e.costLab + e.fletes + e.maniobra + e.almacenaje) * e.fcActual).toFixed(2)}
+                        ${((e.cost_lab + e.fletes + e.maniobra + e.almacenaje) * e.fc_actual).toFixed(2)}
                       </td>
                     </tr>
                   )) : (
@@ -438,9 +438,9 @@ export const ExplorerPage = () => {
                 <tbody className="text-slate-300">
                   {selectedConcept.subcontracts && selectedConcept.subcontracts.length > 0 ? selectedConcept.subcontracts.map((s, i) => (
                     <tr key={i} className="border-b border-white/5">
-                      <td className="py-2 pr-2">{s.description}</td>
+                      <td className="py-2 pr-2">{s.descripcion}</td>
                       <td className="py-2 text-right font-mono text-slate-400">
-                        ${(s.costLab + s.fletes + s.maniobra).toFixed(2)}
+                        ${(s.cost_lab + s.fletes + s.maniobra).toFixed(2)}
                       </td>
                     </tr>
                   )) : (
@@ -488,7 +488,7 @@ export const ExplorerPage = () => {
             <Link to={`/detail/${selectedConcept.id}`} className="w-full py-4 bg-primary text-white rounded-xl font-bold text-base uppercase tracking-widest flex items-center justify-center gap-3 hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-primary/20">
               <BarChart3 size={20} /> VER MATRIZ
             </Link>
-            <p className="text-center text-[9px] text-slate-500 mt-3 font-mono uppercase">Integración Web3 en planeación</p>
+            <p className="text-center text-[9px] text-slate-500 mt-3 font-mono uppercase">Sello de Certificación IA - CDMX 2026</p>
             </div>
           </>
           )}

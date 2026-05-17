@@ -18,7 +18,7 @@ export type { AuthMembershipTier };
 
 export const AppHeader = () => {
   const navigate = useNavigate();
-  const { user, profile, membership, signOut } = useAuth();
+  const { user, profile, membership, signOut, apucCredits } = useAuth();
   const isLoggedIn = !!user;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
@@ -73,6 +73,8 @@ export const AppHeader = () => {
             <NavLink to="/" label="Inicio" />
             <NavLink to="/explorer" label="Explorador" />
             <NavLink to="/insumos" label="Insumos" />
+            <NavLink to="/providers" label="Proveedores" />
+            <NavLink to="/analysis" label="Análisis IA" />
             <NavLink to="/comparator" label="Comparador" />
             <NavLink to="/tokens" label="Tokens" />
           </nav>
@@ -133,6 +135,10 @@ export const AppHeader = () => {
                         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Usuario Activo</p>
                         {profile?.full_name && <p className="text-xs text-slate-400 font-medium truncate">{profile.full_name}</p>}
                         <p className="text-sm font-bold text-white truncate">{user?.email}</p>
+                        <div className="mt-1.5 flex items-center gap-1.5 text-xs text-cyan-400 font-bold bg-cyan-950/40 border border-cyan-800/30 px-2 py-1 rounded-md w-fit">
+                          <Zap size={12} className="text-cyan-400" />
+                          <span>{apucCredits ?? 0} Tokens APU</span>
+                        </div>
                       </div>
                       <div className="h-px bg-slate-800 mb-1"></div>
                     </>
@@ -198,6 +204,8 @@ export const AppHeader = () => {
               <MobileNavLink to="/" label="Inicio" icon={<Globe size={16} />} onClick={() => setIsMobileNavOpen(false)} />
               <MobileNavLink to="/explorer" label="Explorador" icon={<Code size={16} />} onClick={() => setIsMobileNavOpen(false)} />
               <MobileNavLink to="/insumos" label="Insumos" icon={<ShoppingBag size={16} />} onClick={() => setIsMobileNavOpen(false)} />
+              <MobileNavLink to="/providers" label="Proveedores" icon={<Building2 size={16} />} onClick={() => setIsMobileNavOpen(false)} />
+              <MobileNavLink to="/analysis" label="Análisis IA" icon={<Zap size={16} />} onClick={() => setIsMobileNavOpen(false)} />
               <MobileNavLink to="/comparator" label="Comparador" icon={<FileText size={16} />} onClick={() => setIsMobileNavOpen(false)} />
               
               <div className="h-px bg-slate-800 my-2"></div>
@@ -233,7 +241,6 @@ export const AppHeader = () => {
       </AnimatePresence>
 
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
-      <MembershipModal isOpen={isMembershipModalOpen} onClose={() => setIsMembershipModalOpen(false)} />
       <SupportChat isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} />
       <NewPostModal isOpen={isNewPostModalOpen} onClose={() => setIsNewPostModalOpen(false)} />
       <TermsModal isOpen={isTermsModalOpen} onClose={() => setIsTermsModalOpen(false)} />

@@ -7,6 +7,9 @@ import { ConceptComparator } from 'src/components/ConceptComparator';
 import { ComingSoonPage }    from 'src/components/ComingSoonPage';
 import { TokensPage }        from 'src/components/TokensPage';
 import { InsumoExplorer }    from 'src/components/InsumoExplorer';
+import { ProvidersPage }     from 'src/components/ProvidersPage';
+import { AnalysisPage }      from 'src/components/AnalysisPage';
+import { AssistantChatbot }  from 'src/components/AssistantChatbot';
 import { AuthProvider }      from 'src/context/AuthContext';
 import { ConceptProvider }   from 'src/context/ConceptContext';
 import { TokenProvider }     from 'src/context/TokenContext';
@@ -42,9 +45,8 @@ export default function App() {
               <Route path="/wallet" element={
                 <ComingSoonPage title="Wallet" description="Gestión de saldo y transacciones." />
               } />
-              <Route path="/providers" element={
-                <ComingSoonPage title="Proveedores" description="Directorio de proveedores validados AEC." />
-              } />
+              <Route path="/providers" element={<ProvidersPage />} />
+              <Route path="/analysis"  element={<AnalysisPage />} />
               <Route path="/news" element={
                 <ComingSoonPage title="Noticias" description="Tendencias del sector construcción México." />
               } />
@@ -58,6 +60,7 @@ export default function App() {
                 <ComingSoonPage title="Registro de Empresa" description="Perfil profesional para proveedores y contratistas." />
               } />
             </Routes>
+            <AssistantChatbot />
           </Router>
         </ConceptProvider>
       </TokenProvider>

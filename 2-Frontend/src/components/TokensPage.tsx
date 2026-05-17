@@ -148,7 +148,7 @@ const CostTable = () => (
   </div>
 );
 
-const TransactionRow = ({ tx }: { tx: { id: string; amount: number; action: string; description: string | null; created_at: string } }) => (
+const TransactionRow: React.FC<{ tx: { id: string; amount: number; action: string; description: string | null; created_at: string } }> = ({ tx }) => (
   <div className="flex items-center justify-between py-3 border-b border-[#1A1A2E] last:border-0">
     <div className="flex items-center gap-3">
       <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${tx.amount > 0 ? 'bg-emerald-500/15' : 'bg-red-500/15'}`}>

@@ -98,7 +98,7 @@ export const generateBudgetPDF = (concepts: Concept[], title: string = 'Presupue
         pageHeight - 10
       );
       
-      const str = 'Página ' + doc.internal.getNumberOfPages();
+      const str = 'Página ' + doc.getNumberOfPages();
       doc.text(str, pageSize.width - 25, pageHeight - 10);
     },
   });
