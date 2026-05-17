@@ -76,7 +76,7 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 # ---------------------------------------------------------------------------
 SCRIPT_DIR = Path(__file__).parent
 PROJECT_ROOT = SCRIPT_DIR.parent
-CSV_PATH = PROJECT_ROOT / "data" / "processed" / "catalogo_apuc_mvp.csv"
+CSV_PATH = PROJECT_ROOT / "Datos_Procesados" / "data" / "processed" / "catalogo_apuc_mvp.csv"
 
 if not CSV_PATH.exists():
     print(f"[ERROR] No se encontró el CSV en: {CSV_PATH}")

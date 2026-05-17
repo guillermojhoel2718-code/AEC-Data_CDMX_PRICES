@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
-  MessageSquare, X, Send, Bot, Sparkles, Coins, 
-  HelpCircle, AlertCircle, RefreshCw, Zap
+  X, Send, HelpCircle, AlertCircle, RefreshCw, Headphones, Coins
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from 'src/context/AuthContext';
@@ -26,7 +25,7 @@ export const AssistantChatbot = () => {
     {
       id: 'welcome',
       sender: 'assistant',
-      text: '¡HOLA! SOY TU ASISTENTE RAG IA DE APUCMX. PUEDO EXPLORAR LOS 12,000+ INSUMOS Y RECOMENDARTE RENDIMIENTOS PARA MÉXICO ABRIL 2026. CADA PREGUNTA CONSUME 2 TOKENS DE TU SALDO.',
+      text: '¡HOLA! BIENVENIDO AL SOPORTE TÉCNICO DE APUCMX. ¿EN QUÉ PODEMOS AYUDARTE HOY CON LA APLICACIÓN, TUS PAGOS O TUS CONEXIONES? CADA MENSAJE CONSUME EXACTAMENTE 1 TOKEN.',
       timestamp: new Date()
     }
   ]);
@@ -54,14 +53,14 @@ export const AssistantChatbot = () => {
 
     // Guard login
     if (!isLoggedIn) {
-      setErrorMessage('DEBES INICIAR SESIÓN PARA HABLAR CON EL ASISTENTE IA RAG.');
+      setErrorMessage('DEBES INICIAR SESIÓN PARA HABLAR CON EL SOPORTE TÉCNICO.');
       return;
     }
 
     // Guard tokens
-    const cost = 2;
+    const cost = 1;
     if (balance < cost) {
-      setErrorMessage(`SALDO INSUFICIENTE. LA IA CONSUME ${cost} TOKENS PERO TIENES ${balance}.`);
+      setErrorMessage(`SALDO INSUFICIENTE. EL SOPORTE CONSUME ${cost} TOKEN PERO TIENES ${balance}.`);
       return;
     }
 
@@ -79,35 +78,33 @@ export const AssistantChatbot = () => {
     setIsTyping(true);
 
     try {
-      // 1. Descontar 2 tokens reales
-      const description = `Consulta Chatbot RAG: ${userText.substring(0, 30)}`;
+      // 1. Descontar 1 token real
+      const description = `Soporte Técnico: ${userText.substring(0, 30)}`;
       const spendRes = await consumeTokens(cost, 'uso_matriz', description);
 
       if (!spendRes.ok) {
-        setErrorMessage(spendRes.error ?? 'ERROR AL PROCESAR EL PAGO DE TOKENS.');
+        setErrorMessage(spendRes.error ?? 'ERROR AL PROCESAR EL COBRO DE TOKEN.');
         setIsTyping(false);
         return;
       }
 
-      // 2. Simular retardo RAG
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // 2. Simular retardo de soporte
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
-      // 3. Respuesta Inteligente con formato AEC (MAYÚSCULAS en descripciones, minúsculas en unidades)
+      // 3. Respuesta Inteligente de Soporte con formato AEC
       let aiText = '';
       const promptLower = userText.toLowerCase();
 
-      if (promptLower.includes('concreto') || promptLower.includes('cemento')) {
-        aiText = 'EL CONCRETO PREMEZCLADO F\'C 250 KG/CM2 TIENE UN PRECIO PROMEDIO DE $2,150.00 pesos/m3 EN CDMX ABRIL 2026. LA CUADRILLA DE COLADO TIENE UN RENDIMIENTO DE 0.45 m3/jor Y UN COEFICIENTE DE INDIRECTOS SUGERIDO DE 16%.';
-      } else if (promptLower.includes('acero') || promptLower.includes('varilla')) {
-        aiText = 'LA VARILLA CORRUGADA R-42 DE 3/8 INCH TIENE UN PRECIO ACTUAL DE $34.50 pesos/kg EN MÉXICO ABRIL 2026. EL RENDIMIENTO EN HABILITADO Y COLOCACIÓN POR CUADRILLA ES DE 85.00 kg/jor.';
-      } else if (promptLower.includes('muro') || promptLower.includes('tabique')) {
-        aiText = 'EL MURO DE TABIQUE ROJO RECOCIDO DE 7X14X28 CM ESPESOR DE 14 CM ASENTADO CON MORTERO CEMENTO-ARENA 1:4 TIENE UN COSTO DIRECTO DE $462.50 pesos/m2 CON UN RENDIMIENTO DE 0.08 jor/m2 PARA OFICIAL Y PEÓN.';
-      } else if (promptLower.includes('maquinaria') || promptLower.includes('excavadora')) {
-        aiText = 'LA RENTA DE RETROEXCAVADORA CAT 416 TIENE UN PRECIO ESTIMADO DE $650.00 pesos/hr EN ABRIL 2026. EL RENDIMIENTO GENERAL EN EXCAVACIÓN DE ZANJAS ES DE 18.50 m3/hr EN TERRENO TIPO II.';
-      } else if (promptLower.includes('mano de obra') || promptLower.includes('cuadrilla') || promptLower.includes('jornal')) {
-        aiText = 'EL SALARIO INTEGRAL HOMOLOGADO PARA OFICIAL ALBAÑIL EN CDMX ABRIL 2026 ES DE $850.00 pesos/jor. EL PEÓN GENERAL SE COTIZA EN $520.00 pesos/jor, AMBOS INCLUYENDO PRESTACIONES Y FASAR MÍNIMO REQUERIDO.';
+      if (promptLower.includes('tokens') || promptLower.includes('saldo') || promptLower.includes('recarga') || promptLower.includes('pago')) {
+        aiText = 'PARA RECARGAR TU SALDO DE TOKENS, VE A LA SECCIÓN DE TOKENS EN EL MENÚ SUPERIOR. LOS PAGOS SE PROCESAN DE FORMA SEGURA CON STRIPE Y SE ACTUALIZAN AL INSTANTE.';
+      } else if (promptLower.includes('provedor') || promptLower.includes('empresa') || promptLower.includes('logo') || promptLower.includes('pdf')) {
+        aiText = 'EL REGISTRO DE EMPRESA Y SUBIDA DE LOGO O CATÁLOGO EN PDF SE REALIZA DESDE LA SECCIÓN DE PROVEEDORES. TIENE UN COSTO DE 100 MXN MENSUALES. LOS CATÁLOGOS SE PROCESAN CON INTELIGENCIA ARTIFICIAL.';
+      } else if (promptLower.includes('analisis') || promptLower.includes('ia') || promptLower.includes('auditar') || promptLower.includes('presupuesto')) {
+        aiText = 'NUESTRA HERRAMIENTA DE ANÁLISIS IA ESTÁ DIVIDIDA EN: "CONSTRUCTORES" PARA GENERAR PRESUPUESTOS EN PDF CON NUESTRA BASE DE DATOS SUPABASE, Y "PROFESIONALES" PARA SUBIR Y AUDITAR TUS PROPIOS ARCHIVOS.';
+      } else if (promptLower.includes('error') || promptLower.includes('fallo') || promptLower.includes('cargar') || promptLower.includes('bug')) {
+        aiText = 'HEMOS REGISTRADO TU INCIDENTE EN EL LOG DEL SISTEMA. NUESTROS DESARROLLADORES DE APUCMX ESTÁN REVISANDO LA SESIÓN PARA CORREGIR CUALQUIER ANOMALÍA EN EL SERVIDOR. GRACIAS POR REPORTARLO.';
       } else {
-        aiText = 'CONSULTADO EL RAG DE APUCMX: EL CONCEPTO DE REFERENCIA SE ENCUENTRA EN NUESTRA BASE DE DATOS DE 12,000+ INSUMOS. RECUERDA QUE NUESTROS COSTOS ESTÁN BASADOS EN COTIZACIONES REALES EN MÉXICO ABRIL 2026. ¿DESEAS CONOCER EL PRECIO DE UN MATERIAL (en kg, m3 o pza), RENDIMIENTO (en jor) O CUADRILLA?';
+        aiText = 'SOPORTE TÉCNICO APUCMX: HEMOS RECIBIDO TU CONSULTA ACERCA DE "' + userText.toUpperCase() + '". SI TIENES MÁS DUDAS SOBRE LAS PESTAÑAS, LA BASE DE DATOS O MÓDULOS DE LA APLICACIÓN, ESTAMOS A TU DISPOSICIÓN.';
       }
 
       const assistantMsg: Message = {
@@ -119,7 +116,7 @@ export const AssistantChatbot = () => {
       setMessages(prev => [...prev, assistantMsg]);
 
     } catch (err: any) {
-      setErrorMessage(err.message || 'OCURRIÓ UN ERROR AL PROCESAR TU CONSULTA.');
+      setErrorMessage(err.message || 'OCURRIÓ UN ERROR AL PROCESAR TU CONSULTA DE SOPORTE.');
     } finally {
       setIsTyping(false);
     }
@@ -132,7 +129,7 @@ export const AssistantChatbot = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "size-14 rounded-full flex items-center justify-center text-white bg-gradient-to-r from-cyan-500 to-indigo-600 shadow-2xl relative transition-all duration-300 hover:scale-105 active:scale-95 group focus:outline-none focus:ring-2 focus:ring-cyan-500/50",
+          "size-14 rounded-full flex items-center justify-center text-white bg-gradient-to-r from-blue-600 to-red-600 shadow-2xl relative transition-all duration-300 hover:scale-105 active:scale-95 group focus:outline-none focus:ring-2 focus:ring-blue-500/50",
           isOpen ? "rotate-90 bg-slate-800" : ""
         )}
       >
@@ -141,9 +138,9 @@ export const AssistantChatbot = () => {
             <X key="close" size={24} />
           ) : (
             <div key="chat" className="relative flex items-center justify-center">
-              <MessageSquare size={24} className="group-hover:rotate-6 transition-transform" />
-              {/* Pulso de brillo cyan */}
-              <span className="absolute -inset-1.5 rounded-full bg-cyan-400/20 blur-sm animate-ping -z-10" />
+              <Headphones size={24} className="group-hover:rotate-6 transition-transform" />
+              {/* Pulso de brillo azul */}
+              <span className="absolute -inset-1.5 rounded-full bg-blue-500/20 blur-sm animate-ping -z-10" />
             </div>
           )}
         </AnimatePresence>
@@ -163,15 +160,15 @@ export const AssistantChatbot = () => {
             {/* Header */}
             <div className="p-4 bg-[#14142B] border-b border-white/5 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="size-9 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 flex items-center justify-center text-white">
-                  <Bot size={18} />
+                <div className="size-9 rounded-xl bg-gradient-to-r from-blue-600 to-red-600 flex items-center justify-center text-white">
+                  <Headphones size={18} />
                 </div>
                 <div>
                   <h3 className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-1.5">
-                    <span>Asistente RAG IA</span>
-                    <span className="size-2 rounded-full bg-cyan-400 animate-pulse" />
+                    <span>Soporte Técnico</span>
+                    <span className="size-2 rounded-full bg-blue-400 animate-pulse" />
                   </h3>
-                  <p className="text-[10px] text-slate-400 font-mono">ENJAMBRE APUCMX 2026</p>
+                  <p className="text-[10px] text-slate-400 font-mono">APUCMX SYSTEM 2026</p>
                 </div>
               </div>
 
@@ -196,7 +193,7 @@ export const AssistantChatbot = () => {
                     className={cn(
                       "px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed",
                       m.sender === 'user'
-                        ? "bg-gradient-to-r from-cyan-500 to-indigo-600 text-white rounded-br-none font-medium"
+                        ? "bg-gradient-to-r from-blue-600 to-red-600 text-white rounded-br-none font-medium"
                         : "bg-[#07070F] border border-white/5 text-slate-300 rounded-bl-none font-mono"
                     )}
                   >
@@ -210,8 +207,8 @@ export const AssistantChatbot = () => {
 
               {isTyping && (
                 <div className="flex items-center gap-2 bg-[#07070F] border border-white/5 px-4 py-2.5 rounded-2xl mr-auto max-w-[85%] rounded-bl-none">
-                  <RefreshCw size={12} className="animate-spin text-cyan-400" />
-                  <span className="text-[10px] text-slate-400 font-medium">IA consultando Supabase...</span>
+                  <RefreshCw size={12} className="animate-spin text-blue-400" />
+                  <span className="text-[10px] text-slate-400 font-medium">Procesando tu solicitud...</span>
                 </div>
               )}
 
@@ -226,7 +223,7 @@ export const AssistantChatbot = () => {
                         href={paymentLink}
                         target="_blank"
                         rel="noreferrer"
-                        className="block text-cyan-400 hover:text-white font-bold transition-colors underline"
+                        className="block text-blue-400 hover:text-white font-bold transition-colors underline"
                       >
                         RECARGAR SALDO CON STRIPE
                       </a>
@@ -245,14 +242,14 @@ export const AssistantChatbot = () => {
                 value={inputValue}
                 onChange={e => setInputValue(e.target.value)}
                 disabled={isTyping}
-                placeholder="Pregunta por insumos, cuadrillas o m3..."
-                className="flex-1 bg-[#111122] border border-white/5 focus:border-cyan-500 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 outline-none transition-colors"
+                placeholder="Escribe tu consulta de soporte aquí..."
+                className="flex-1 bg-[#111122] border border-white/5 focus:border-blue-500 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 outline-none transition-colors"
               />
               <button
                 type="submit"
                 disabled={isTyping || !inputValue.trim()}
                 className={cn(
-                  "size-8 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 flex items-center justify-center text-white transition-all",
+                  "size-8 rounded-xl bg-gradient-to-r from-blue-600 to-red-600 flex items-center justify-center text-white transition-all",
                   (isTyping || !inputValue.trim()) ? "opacity-40 cursor-not-allowed" : "hover:brightness-110 active:scale-95"
                 )}
               >

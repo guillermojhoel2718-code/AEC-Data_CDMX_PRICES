@@ -3,7 +3,8 @@ import { AppHeader } from 'src/components/Common';
 import { 
   Building2, Search, Filter, ShieldCheck, MapPin, Phone, 
   Mail, ExternalLink, PlusCircle, Check, X, Building,
-  Truck, HardHat, Wrench, Award, Compass, Zap, Clock
+  Truck, HardHat, Wrench, Award, Compass, Zap, Clock,
+  Upload, FileText, Image, AlertCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from 'src/lib/utils';
@@ -25,6 +26,8 @@ interface Provider {
   verified: boolean;
   featured: boolean;
   description: string;
+  logoFileName?: string;
+  pdfFileName?: string;
 }
 
 // ─── Mock Data México Abril 2026 ──────────────────────────────────────────────
@@ -134,13 +137,26 @@ export const ProvidersPage = () => {
   const [companyName, setCompanyName] = useState('');
   const [rfc, setRfc] = useState('');
   const [category, setCategory] = useState<'materiales' | 'acero' | 'maquinaria' | 'mano_obra' | 'subcontrato'>('materiales');
-  const [prodList, setProdList] = useState('');
   const [repName, setRepName] = useState('');
   const [regionInput, setRegionInput] = useState('CDMX');
   const [emailInput, setEmailInput] = useState('');
   const [phoneInput, setPhoneInput] = useState('');
   const [webInput, setWebInput] = useState('');
+  const [logoFileName, setLogoFileName] = useState('');
+  const [pdfFileName, setPdfFileName] = useState('');
   const [successMessage, setSuccessMessage] = useState(false);
+
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setLogoFileName(e.target.files[0].name);
+    }
+  };
+
+  const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setPdfFileName(e.target.files[0].name);
+    }
+  };
 
   const handleRegisterCompany = (e: React.FormEvent) => {
     e.preventDefault();
@@ -154,7 +170,7 @@ export const ProvidersPage = () => {
         category === 'acero' ? 'Aceros & Perfiles' :
         category === 'maquinaria' ? 'Maquinaria Pesada' :
         category === 'mano_obra' ? 'Mano de Obra' : 'Subcontrato Especial',
-      typicalProducts: prodList.split(',').map(p => p.trim().toUpperCase()).filter(Boolean),
+      typicalProducts: ['PROCESANDO CATÁLOGO CON IA...', 'ANÁLISIS DE PRECIOS VÍA PYDANTIC'],
       regions: [regionInput],
       phone: phoneInput || '+52 (55) 0000-0000',
       email: emailInput || 'contacto@empresa.com',
@@ -162,7 +178,9 @@ export const ProvidersPage = () => {
       rating: 5.0,
       verified: false, // Requiere auditoría de APUCMX
       featured: false,
-      description: `Proveedor registrado por el usuario. RFC: ${rfc.toUpperCase()}. Representante: ${repName}.`
+      description: `Proveedor registrado por el usuario. RFC: ${rfc.toUpperCase()}. Representante: ${repName}. Catalogo PDF: ${pdfFileName || 'Pendiente'}.`,
+      logoFileName,
+      pdfFileName
     };
 
     setProviders([newProvider, ...providers]);
@@ -173,12 +191,13 @@ export const ProvidersPage = () => {
       // Reset Form
       setCompanyName('');
       setRfc('');
-      setProdList('');
       setRepName('');
       setEmailInput('');
       setPhoneInput('');
       setWebInput('');
-    }, 2500);
+      setLogoFileName('');
+      setPdfFileName('');
+    }, 3000);
   };
 
   const filteredProviders = providers.filter(p => {
@@ -194,24 +213,24 @@ export const ProvidersPage = () => {
   });
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#07070F] text-slate-100 font-sans selection:bg-cyan-500 selection:text-black">
+    <div className="flex flex-col min-h-screen bg-[#07070F] text-slate-100 font-sans selection:bg-red-600 selection:text-white">
       <AppHeader />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-6 md:px-10 py-10 space-y-10">
         
         {/* ── Banner/Header ── */}
         <div className="relative rounded-3xl bg-gradient-to-br from-[#0F0F24] via-[#090915] to-[#07070F] border border-white/5 p-8 md:p-12 overflow-hidden shadow-2xl">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] -z-10" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-[100px] -z-10" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/10 rounded-full blur-[100px] -z-10" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] -z-10" />
           
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
             <div className="space-y-4 max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-wider">
-                <Building2 size={12} />
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider">
+                <Building2 size={12} className="text-red-500" />
                 <span>Directorio AEC 2026</span>
               </div>
               <h1 className="text-4xl md:text-5xl font-black text-white leading-tight uppercase tracking-tight">
-                Proveedores y <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-500">Fabricantes</span>
+                Proveedores y <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-red-500 font-black">Fabricantes</span>
               </h1>
               <p className="text-slate-400 text-base md:text-lg leading-relaxed">
                 Explora cotizaciones reales referenciadas a Abril 2026. Conéctate con proveedores validados por la red APUCMX con cumplimiento normativo mexicano.
@@ -220,7 +239,7 @@ export const ProvidersPage = () => {
             
             <button
               onClick={() => setIsRegisterModalOpen(true)}
-              className="flex items-center justify-center gap-2.5 px-6 py-3.5 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white font-bold rounded-2xl shadow-xl shadow-cyan-950/40 hover:brightness-110 active:scale-95 transition-all text-sm uppercase shrink-0"
+              className="flex items-center justify-center gap-2.5 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-red-600 text-white font-bold rounded-2xl shadow-xl shadow-blue-950/40 hover:brightness-110 active:scale-95 transition-all text-sm uppercase shrink-0"
             >
               <PlusCircle size={18} />
               <span>Enlistarse como Proveedor</span>
@@ -237,13 +256,13 @@ export const ProvidersPage = () => {
               placeholder="Buscar CEMEX, varilla, excavadora, concreto..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full bg-[#07070F] border border-white/5 hover:border-white/15 focus:border-cyan-500 rounded-xl pl-12 pr-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all"
+              className="w-full bg-[#07070F] border border-white/5 hover:border-white/15 focus:border-blue-500 rounded-xl pl-12 pr-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all"
             />
           </div>
 
           <div className="flex flex-wrap gap-3 w-full lg:w-auto justify-start lg:justify-end">
             <div className="flex items-center gap-2 bg-[#07070F] border border-white/5 rounded-xl px-3.5 py-2">
-              <Filter size={14} className="text-cyan-400" />
+              <Filter size={14} className="text-red-500" />
               <select 
                 value={activeCategory} 
                 onChange={e => setActiveCategory(e.target.value)}
@@ -259,7 +278,7 @@ export const ProvidersPage = () => {
             </div>
 
             <div className="flex items-center gap-2 bg-[#07070F] border border-white/5 rounded-xl px-3.5 py-2">
-              <MapPin size={14} className="text-cyan-400" />
+              <MapPin size={14} className="text-blue-500" />
               <select 
                 value={activeRegion} 
                 onChange={e => setActiveRegion(e.target.value)}
@@ -289,19 +308,19 @@ export const ProvidersPage = () => {
                 className={cn(
                   "group relative rounded-2xl bg-[#0F0F1A] border p-6 flex flex-col justify-between shadow-lg transition-all duration-300 hover:-translate-y-1",
                   p.featured 
-                    ? "border-cyan-500/20 shadow-cyan-950/10 hover:border-cyan-500/40 hover:shadow-cyan-500/5 bg-gradient-to-b from-[#0F0F24] to-[#0F0F1A]" 
+                    ? "border-blue-500/20 shadow-blue-950/10 hover:border-red-500/40 hover:shadow-red-500/5 bg-gradient-to-b from-[#0F0F24] to-[#0F0F1A]" 
                     : "border-white/5 hover:border-white/15"
                 )}
               >
                 {/* Glow decorativo para destacados */}
                 {p.featured && (
-                  <div className="absolute top-0 right-10 w-24 h-1 bg-gradient-to-r from-cyan-400 to-indigo-500 rounded-full blur-[2px]" />
+                  <div className="absolute top-0 right-10 w-24 h-1 bg-gradient-to-r from-blue-500 to-red-600 rounded-full blur-[2px]" />
                 )}
 
                 <div className="space-y-4">
                   {/* Top line: Category and Badges */}
                   <div className="flex items-center justify-between">
-                    <span className="px-2.5 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-[#18182E] text-cyan-400 border border-cyan-800/20">
+                    <span className="px-2.5 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-[#18182E] text-blue-400 border border-blue-800/20">
                       {p.categoryLabel}
                     </span>
                     <div className="flex gap-1.5">
@@ -322,7 +341,7 @@ export const ProvidersPage = () => {
 
                   {/* Provider Name */}
                   <div>
-                    <h3 className="text-lg font-black text-white group-hover:text-cyan-400 transition-colors uppercase tracking-tight line-clamp-1 leading-snug">
+                    <h3 className="text-lg font-black text-white group-hover:text-red-500 transition-colors uppercase tracking-tight line-clamp-1 leading-snug">
                       {p.name}
                     </h3>
                     <p className="text-[#8888AA] text-xs font-mono mt-1 flex items-center gap-1">
@@ -342,7 +361,7 @@ export const ProvidersPage = () => {
                     <div className="flex flex-col gap-1">
                       {p.typicalProducts.slice(0, 3).map((prod, pidx) => (
                         <div key={pidx} className="flex items-center gap-1.5 text-[11px] text-slate-300 font-medium">
-                          <span className="size-1 rounded-full bg-cyan-400" />
+                          <span className="size-1 rounded-full bg-red-500" />
                           <span className="truncate uppercase">{prod}</span>
                         </div>
                       ))}
@@ -366,7 +385,7 @@ export const ProvidersPage = () => {
                     href={p.website}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-1 text-cyan-400 hover:text-white font-bold transition-colors"
+                    className="flex items-center gap-1 text-blue-400 hover:text-white font-bold transition-colors"
                   >
                     <span>Sitio Web</span>
                     <ExternalLink size={12} />
@@ -405,7 +424,7 @@ export const ProvidersPage = () => {
               <div className="p-6 border-b border-white/5 flex justify-between items-center bg-slate-800/50">
                 <div>
                   <h2 className="text-xl font-black text-white uppercase tracking-tight">
-                    Registrar <span className="text-primary">Empresa o Proveedor</span>
+                    Registrar <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-red-500 font-black">Empresa o Proveedor</span>
                   </h2>
                   <p className="text-slate-400 text-xs mt-0.5">Enlista tu empresa en el directorio nacional APUCMX.</p>
                 </div>
@@ -423,14 +442,25 @@ export const ProvidersPage = () => {
                   <div className="bg-emerald-500/20 p-4 rounded-2xl border border-emerald-500/30 w-fit mx-auto">
                     <Check size={32} className="text-emerald-400 mx-auto" />
                   </div>
-                  <h3 className="text-white text-lg font-black uppercase">¡Registro Exitoso!</h3>
+                  <h3 className="text-white text-lg font-black uppercase">¡Registro Enviado!</h3>
                   <p className="text-slate-400 text-sm max-w-sm mx-auto">
-                    Tu empresa se ha enlistado en borrador. Nuestro equipo auditará los precios y RFC antes de activar el sello <span className="text-emerald-400 font-bold">VALIDADO</span>.
+                    Tu empresa se ha enlistado en borrador. El catálogo PDF será procesado por algoritmos Pydantic e indexado. Nuestro equipo auditará los precios y RFC antes de activar el sello <span className="text-emerald-400 font-bold">VALIDADO</span>.
                   </p>
                 </div>
               ) : (
                 <form onSubmit={handleRegisterCompany} className="p-6 space-y-4 overflow-y-auto max-h-[75vh]">
                   
+                  {/* Aviso de Costo Mensual */}
+                  <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-4 flex items-start gap-3">
+                    <AlertCircle size={18} className="text-red-500 shrink-0 mt-0.5" />
+                    <div className="space-y-0.5">
+                      <p className="text-[11px] font-bold text-red-200 uppercase tracking-wider">Suscripción de Servicio APUCMX</p>
+                      <p className="text-[10px] text-slate-400 leading-relaxed font-medium">
+                        El registro de la empresa y la publicación de tu catálogo implican una suscripción de <span className="text-red-400 font-black">100 MXN mensuales</span>. Los precios y conceptos se procesan automáticamente con LangChain/Pydantic.
+                      </p>
+                    </div>
+                  </div>
+
                   {/* Company Name & RFC */}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
@@ -441,7 +471,7 @@ export const ProvidersPage = () => {
                         value={companyName}
                         onChange={e => setCompanyName(e.target.value)}
                         placeholder="CEMEX MÉXICO S.A." 
-                        className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-cyan-500 outline-none"
+                        className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-blue-500 outline-none"
                       />
                     </div>
                     <div className="space-y-1">
@@ -451,9 +481,9 @@ export const ProvidersPage = () => {
                         type="text" 
                         value={rfc}
                         onChange={e => setRfc(e.target.value)}
-                        placeholder="CEM010101ABC" 
+                        placeholder="ID/RFC oficial" 
                         maxLength={13}
-                        className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-cyan-500 outline-none"
+                        className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-blue-500 outline-none"
                       />
                     </div>
                   </div>
@@ -465,7 +495,7 @@ export const ProvidersPage = () => {
                       <select 
                         value={category}
                         onChange={e => setCategory(e.target.value as any)}
-                        className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-500 outline-none"
+                        className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white focus:border-blue-500 outline-none"
                       >
                         <option value="materiales">Materiales y Concretos</option>
                         <option value="acero">Acero y Perfiles</option>
@@ -479,7 +509,7 @@ export const ProvidersPage = () => {
                       <select 
                         value={regionInput}
                         onChange={e => setRegionInput(e.target.value)}
-                        className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-500 outline-none"
+                        className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white focus:border-blue-500 outline-none"
                       >
                         <option value="CDMX">CDMX</option>
                         <option value="Norte">Norte</option>
@@ -490,17 +520,39 @@ export const ProvidersPage = () => {
                     </div>
                   </div>
 
-                  {/* Typical Products */}
-                  <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Insumos Clave (Separados por coma)</label>
-                    <textarea 
-                      required 
-                      value={prodList}
-                      onChange={e => setProdList(e.target.value)}
-                      placeholder="Ej: Varilla de 3/8, Cemento Gris, Clavos de 2 pulgadas..."
-                      rows={2}
-                      className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-cyan-500 outline-none resize-none"
-                    />
+                  {/* File Uploads (Logo & PDF Catalog) */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-[9px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Logo de la Empresa</label>
+                      <label className="flex flex-col items-center justify-center border-2 border-dashed border-white/10 hover:border-blue-500/50 rounded-xl p-3.5 bg-slate-800/40 cursor-pointer transition-colors group">
+                        <Image size={18} className="text-slate-400 group-hover:text-blue-400 mb-1" />
+                        <span className="text-[10px] text-slate-400 group-hover:text-slate-200 truncate max-w-full text-center">
+                          {logoFileName || "Subir Logo (.png, .jpg)"}
+                        </span>
+                        <input 
+                          type="file" 
+                          accept="image/*"
+                          onChange={handleLogoChange}
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[9px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Catálogo o Precios (PDF)</label>
+                      <label className="flex flex-col items-center justify-center border-2 border-dashed border-white/10 hover:border-red-500/50 rounded-xl p-3.5 bg-slate-800/40 cursor-pointer transition-colors group">
+                        <FileText size={18} className="text-slate-400 group-hover:text-red-400 mb-1" />
+                        <span className="text-[10px] text-slate-400 group-hover:text-slate-200 truncate max-w-full text-center">
+                          {pdfFileName || "Subir Catálogo (.pdf)"}
+                        </span>
+                        <input 
+                          type="file" 
+                          accept="application/pdf"
+                          onChange={handlePdfChange}
+                          className="hidden"
+                          required
+                        />
+                      </label>
+                    </div>
                   </div>
 
                   {/* Representative & Web */}
@@ -513,7 +565,7 @@ export const ProvidersPage = () => {
                         value={repName}
                         onChange={e => setRepName(e.target.value)}
                         placeholder="Ing. Carlos Slim" 
-                        className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-cyan-500 outline-none"
+                        className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-blue-500 outline-none"
                       />
                     </div>
                     <div className="space-y-1">
@@ -523,7 +575,7 @@ export const ProvidersPage = () => {
                         value={webInput}
                         onChange={e => setWebInput(e.target.value)}
                         placeholder="https://empresa.com" 
-                        className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-cyan-500 outline-none"
+                        className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-blue-500 outline-none"
                       />
                     </div>
                   </div>
@@ -538,7 +590,7 @@ export const ProvidersPage = () => {
                         value={emailInput}
                         onChange={e => setEmailInput(e.target.value)}
                         placeholder="ventas@empresa.com" 
-                        className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-cyan-500 outline-none"
+                        className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-blue-500 outline-none"
                       />
                     </div>
                     <div className="space-y-1">
@@ -549,16 +601,16 @@ export const ProvidersPage = () => {
                         value={phoneInput}
                         onChange={e => setPhoneInput(e.target.value)}
                         placeholder="+52 (55) 1234-5678" 
-                        className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-cyan-500 outline-none"
+                        className="w-full bg-slate-800 border border-white/5 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-blue-500 outline-none"
                       />
                     </div>
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full mt-4 py-3 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white font-bold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all text-xs uppercase"
+                    className="w-full mt-4 py-3 bg-gradient-to-r from-blue-600 to-red-600 text-white font-bold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all text-xs uppercase"
                   >
-                    Enviar Registro a Auditoría APUCMX
+                    Activar Suscripción & Enviar Catálogo
                   </button>
                 </form>
               )}

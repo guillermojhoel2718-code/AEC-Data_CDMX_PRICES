@@ -15,17 +15,37 @@ import sys
 from datetime import datetime, timezone
 from supabase import create_client, Client
 
+from pathlib import Path
+try:
+    from dotenv import load_dotenv
+    env_path = Path(__file__).parent.parent.parent / "5-Variables" / ".env.local"
+    if env_path.exists():
+        load_dotenv(dotenv_path=env_path)
+        print(f"[ENV] Variables cargadas desde: {env_path}")
+    else:
+        env_path_std = Path(__file__).parent.parent.parent / "5-Variables" / ".env"
+        if env_path_std.exists():
+            load_dotenv(dotenv_path=env_path_std)
+            print(f"[ENV] Variables cargadas desde: {env_path_std}")
+        else:
+            load_dotenv()
+except ImportError:
+    pass
+
 # ─────────────────────────────────────────
 # CONFIGURACIÓN
 # ─────────────────────────────────────────
-SUPABASE_URL = os.environ.get(
-    "SUPABASE_URL",
-    "https://luymgdurhqjrvfiocxei.supabase.co"
-)
-SUPABASE_KEY = os.environ.get(
-    "SUPABASE_KEY",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1eW1nZHVyaHFqcnZmaW9jeGVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxMzE2MTUsImV4cCI6MjA4NzcwNzYxNX0.TJoLrrplrJd6LMhjlK_I-6oUcXzKG0TdGwVKbue_RYg"
-)
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("SUPABASE_KEY")
+
+if not SUPABASE_URL or not SUPABASE_KEY:
+    print(
+        "\n[ERROR] Faltan variables de entorno:\n"
+        "  SUPABASE_URL              → URL del proyecto Supabase\n"
+        "  SUPABASE_SERVICE_ROLE_KEY → Clave service_role (o SUPABASE_KEY)\n\n"
+        "Define estas variables en .env.local o expórtalas en tu terminal antes de ejecutar.\n"
+    )
+    sys.exit(1)
 
 # ─────────────────────────────────────────
 # DATOS DE CONCEPTOS
