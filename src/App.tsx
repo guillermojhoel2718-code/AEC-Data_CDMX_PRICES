@@ -3,43 +3,41 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HomePage } from './components/HomePage';
 import { ExplorerPage } from './components/ExplorerPage';
 import { DetailPage } from './components/DetailPage';
-import { AddConceptPage } from './components/AddConceptPage';
-
-import { WalletPage } from './components/WalletPage';
-import { ProvidersPage } from './components/ProvidersPage';
-import { NewsPage } from './components/NewsPage';
-import { MarketplacePage } from './components/MarketplacePage';
-import { ForumPage } from './components/ForumPage';
-import { RegisterCompanyPage } from './components/RegisterCompanyPage';
 import { ConceptComparator } from './components/ConceptComparator';
+import { ComingSoonPage } from './components/ComingSoonPage';
+import { PagosPage } from './components/PagosPage';
+import { InsumoExplorer } from './components/InsumoExplorer';
 import { AuthProvider } from './context/AuthContext';
 import { ConceptProvider } from './context/ConceptContext';
+import { TokenProvider } from './context/TokenContext';
 
 export default function App() {
   return (
     <AuthProvider>
-      <ConceptProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/explorer" element={<ExplorerPage />} />
-            <Route path="/detail/:id" element={<DetailPage />} />
-            <Route path="/detail" element={<DetailPage />} />
-            <Route path="/add-concept" element={<AddConceptPage />} />
-            <Route path="/comparator" element={<ConceptComparator />} />
-
-            {/* Vistas Próximamente */}
-            <Route path="/wallet" element={<WalletPage />} />
-            <Route path="/providers" element={<ProvidersPage />} />
-            <Route path="/news" element={<NewsPage />} />
-            <Route path="/marketplace" element={<MarketplacePage />} />
-            <Route path="/forum" element={<ForumPage />} />
-            <Route path="/register-company" element={<RegisterCompanyPage />} />
-            
-            {/* Nota: Si se requiere admin, usar Auth de Supabase (no credenciales hardcodeadas) */}
-          </Routes>
-        </Router>
-      </ConceptProvider>
+      <TokenProvider>
+        <ConceptProvider>
+          <Router>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/explorer" element={<ExplorerPage />} />
+              <Route path="/detail/:id" element={<DetailPage />} />
+              <Route path="/detail" element={<DetailPage />} />
+              <Route path="/comparator" element={<ConceptComparator />} />
+              <Route path="/insumos" element={<InsumoExplorer />} />
+              <Route path="/Pagos" element={<PagosPage />} />
+              <Route path="/pagos" element={<PagosPage />} />
+              <Route path="/tokens" element={<PagosPage />} />
+              <Route path="/add-concept" element={<ComingSoonPage title="Carga de Matrices APU" description="Pronto podrás cargar tus matrices APU." eta="Q3 2026" />} />
+              <Route path="/wallet" element={<ComingSoonPage title="Wallet" description="Gestión de saldo." />} />
+              <Route path="/providers" element={<ComingSoonPage title="Proveedores" description="Directorio AEC." />} />
+              <Route path="/news" element={<ComingSoonPage title="Noticias" description="Tendencias del sector." />} />
+              <Route path="/marketplace" element={<ComingSoonPage title="Marketplace" description="Matrices y servicios AEC." />} />
+              <Route path="/forum" element={<ComingSoonPage title="Foro" description="Comunidad AEC." />} />
+              <Route path="/register-company" element={<ComingSoonPage title="Registro de Empresa" description="Perfil proveedor." />} />
+            </Routes>
+          </Router>
+        </ConceptProvider>
+      </TokenProvider>
     </AuthProvider>
   );
 }
