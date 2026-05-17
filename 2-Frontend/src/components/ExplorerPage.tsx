@@ -9,6 +9,8 @@ import { useConcepts } from 'src/context/ConceptContext';
 import { useAuth } from 'src/context/AuthContext';
 import { REGIONS, REGION_LABELS } from 'src/lib/supabase';
 import { MachineryDetailPanel, useMachineryPanel } from 'src/components/MachineryDetailPanel';
+import { generateBudgetPDF } from 'src/lib/pdfArchitect';
+import { Download } from 'lucide-react';
 
 export const ExplorerPage = () => {
   const { concepts, loading } = useConcepts();
@@ -47,12 +49,12 @@ export const ExplorerPage = () => {
   }, [searchTerm, regionFilter, fuse, concepts]);
 
   const selectedConcept = useMemo(() => {
-    if (selectedId && concepts.length > 0) {
-      const found = concepts.find(c => c.id === selectedId);
+    if (selectedId && filteredConcepts.length > 0) {
+      const found = filteredConcepts.find(c => c.id === selectedId);
       if (found) return found;
     }
-    return filteredConcepts[0] || concepts[0] || null;
-  }, [selectedId, concepts, filteredConcepts]);
+    return filteredConcepts.length > 0 ? filteredConcepts[0] : null;
+  }, [selectedId, filteredConcepts]);
 
   if (loading) {
     return (
@@ -131,12 +133,27 @@ export const ExplorerPage = () => {
                 />
               </div>
               <Link
+                to="/insumos"
+                className="flex items-center gap-2 bg-slate-800 border border-white/10 text-white hover:bg-slate-700 px-5 h-14 rounded-lg font-bold text-sm uppercase tracking-widest transition-all ml-3 whitespace-nowrap"
+              >
+                <Package size={16} />
+                <span className="hidden md:inline">Insumos</span>
+              </Link>
+              <Link
                 to="/comparator"
                 className="flex items-center gap-2 bg-panel-dark border border-primary/30 text-primary hover:bg-primary/10 hover:text-white px-5 h-14 rounded-lg font-bold text-sm uppercase tracking-widest transition-all ml-3 whitespace-nowrap"
               >
                 <BarChart3 size={16} />
                 <span className="hidden md:inline">Comparar</span>
               </Link>
+              <button
+                onClick={() => generateBudgetPDF(filteredConcepts, 'Presupuesto Estimado - ' + regionFilter)}
+                className="flex items-center gap-2 bg-primary/20 border border-primary text-primary hover:bg-primary hover:text-white px-5 h-14 rounded-lg font-bold text-sm uppercase tracking-widest transition-all ml-3 whitespace-nowrap"
+                title="Exportar a PDF"
+              >
+                <Download size={16} />
+                <span className="hidden md:inline">PDF</span>
+              </button>
             </div>
           </div>
 
