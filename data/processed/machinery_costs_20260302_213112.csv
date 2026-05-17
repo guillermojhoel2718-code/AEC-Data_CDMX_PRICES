@@ -1,4 +1,0 @@
-﻿codigo,nombre,categoria,valor_adquisicion,vida_economica_hrs,tipo_combustible,depreciacion,inversion,seguros,mantenimiento,total_cargos_fijos,precio_combustible,combustible_importe,lubricantes,llantas,total_consumos,operacion,costo_horario_total,cedia_alerta,source_file
-DESCRIPCI,Las Máquinas O Equipos En Las Condiciones De Uso O Disponibilidad Descritas En Las,Equipo General,0.0,2.0,diesel,0.0,0.0,0.0,0.71,0.71,0.0,0.0,0.0,0.0,0.0,0.0,0.71,False,Catálogo de Costos CMIC - Eco Tecnologias y Materiales Sustentables 2023
-MQ-CNP,Combustible Necesario Por Hora Efectiva De Trabajo.,Equipo General,0.0,0.0,diesel,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,False,Catálogo de Costos CMIC - Costos Horario de Maquinaria 2023
-MQ-LHE,La Hora Efectiva De Tranbajo Entre El Rendimiento De Dicha Maquinaria O Equipo En La,Equipo General,0.0,0.0,diesel,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,False,Catálogo de Costos CMIC - Eco Tecnologias y Materiales Sustentables 2023
