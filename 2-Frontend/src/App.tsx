@@ -5,7 +5,7 @@ import { ExplorerPage }      from 'src/components/ExplorerPage';
 import { DetailPage }        from 'src/components/DetailPage';
 import { ConceptComparator } from 'src/components/ConceptComparator';
 import { ComingSoonPage }    from 'src/components/ComingSoonPage';
-import { PagosPage }         from 'src/components/PagosPage';
+import { TokensPage }        from 'src/components/TokensPage';
 import { InsumoExplorer }    from 'src/components/InsumoExplorer';
 import { AuthProvider }      from 'src/context/AuthContext';
 import { ConceptProvider }   from 'src/context/ConceptContext';
@@ -18,24 +18,45 @@ export default function App() {
         <ConceptProvider>
           <Router>
             <Routes>
+              {/* ── Rutas ACTIVAS V1 ── */}
               <Route path="/"           element={<HomePage />} />
               <Route path="/explorer"   element={<ExplorerPage />} />
               <Route path="/detail/:id" element={<DetailPage />} />
               <Route path="/detail"     element={<DetailPage />} />
               <Route path="/comparator" element={<ConceptComparator />} />
               <Route path="/insumos"    element={<InsumoExplorer />} />
-              <Route path="/Pagos"  element={<PagosPage />} />
-              <Route path="/pagos"  element={<PagosPage />} />
-              <Route path="/tokens" element={<PagosPage />} />
+
+              {/* ── Tokens y pagos (Stripe) ── */}
+              <Route path="/Pagos"  element={<TokensPage />} />
+              <Route path="/pagos"  element={<TokensPage />} />
+              <Route path="/tokens" element={<TokensPage />} />
+
+              {/* ── Próximamente: sin link en nav ── */}
               <Route path="/add-concept" element={
-                <ComingSoonPage title="Carga de Matrices APU" description="Pronto podrás cargar tus matrices APU." eta="Q3 2026" />
+                <ComingSoonPage
+                  title="Carga de Matrices APU"
+                  description="Pronto podrás cargar tus propias matrices APU al catálogo validado de APUCMX."
+                  eta="Q3 2026"
+                />
               } />
-              <Route path="/wallet"           element={<ComingSoonPage title="Wallet" description="Gestión de saldo." />} />
-              <Route path="/providers"         element={<ComingSoonPage title="Proveedores" description="Directorio AEC." />} />
-              <Route path="/news"              element={<ComingSoonPage title="Noticias" description="Tendencias del sector." />} />
-              <Route path="/marketplace"       element={<ComingSoonPage title="Marketplace" description="Matrices y servicios AEC." />} />
-              <Route path="/forum"             element={<ComingSoonPage title="Foro" description="Comunidad AEC." />} />
-              <Route path="/register-company"  element={<ComingSoonPage title="Registro de Empresa" description="Perfil proveedor." />} />
+              <Route path="/wallet" element={
+                <ComingSoonPage title="Wallet" description="Gestión de saldo y transacciones." />
+              } />
+              <Route path="/providers" element={
+                <ComingSoonPage title="Proveedores" description="Directorio de proveedores validados AEC." />
+              } />
+              <Route path="/news" element={
+                <ComingSoonPage title="Noticias" description="Tendencias del sector construcción México." />
+              } />
+              <Route path="/marketplace" element={
+                <ComingSoonPage title="Marketplace" description="Intercambio de matrices y servicios AEC." />
+              } />
+              <Route path="/forum" element={
+                <ComingSoonPage title="Foro" description="Comunidad de profesionales AEC." />
+              } />
+              <Route path="/register-company" element={
+                <ComingSoonPage title="Registro de Empresa" description="Perfil profesional para proveedores y contratistas." />
+              } />
             </Routes>
           </Router>
         </ConceptProvider>

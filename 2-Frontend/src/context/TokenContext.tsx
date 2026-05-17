@@ -2,6 +2,9 @@
  * TokenContext.tsx
  * ================
  * Gestiona el saldo de tokens APUCMX del usuario autenticado.
+ * - Carga el balance desde Supabase (tabla token_balances)
+ * - Expone consumeTokens() que llama la función RPC spend_tokens()
+ * - Expone el historial de transacciones recientes
  */
 
 import React, {
@@ -10,10 +13,12 @@ import React, {
 import { supabase } from 'src/lib/supabase';
 import { useAuth } from 'src/context/AuthContext';
 
+// ─── Tipos ───────────────────────────────────────────────────────────────────
+
 export interface TokenTransaction {
   id: string;
-  amount: number;
-  action: string;
+  amount: number;          // positivo = crédito, negativo = débito
+  action: string;          // 'compra', 'uso_auditoria', 'uso_matriz', 'bonus'
   description: string | null;
   created_at: string;
 }
@@ -24,72 +29,103 @@ interface TokenContextType {
   transactions: TokenTransaction[];
   consumeTokens: (amount: number, action: string, description?: string) => Promise<{ ok: boolean; error?: string }>;
   refreshBalance: () => Promise<void>;
-  paymentLink: string;
+  paymentLink: string;     // Link de Stripe para comprar tokens
 }
 
 const PAYMENT_LINK = 'https://buy.stripe.com/test_bJe8wPbZn068dqFaXl4sE01';
+const TOKENS_BIENVENIDA = 50;
+
+// ─── Context ─────────────────────────────────────────────────────────────────
 
 const TokenContext = createContext<TokenContextType | undefined>(undefined);
 
 export const TokenProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
-  const [balance, setBalance]             = useState(0);
-  const [transactions, setTransactions]   = useState<TokenTransaction[]>([]);
+  const [balance, setBalance]           = useState(0);
+  const [transactions, setTransactions] = useState<TokenTransaction[]>([]);
   const [loadingTokens, setLoadingTokens] = useState(false);
 
+  // ── Cargar balance ───────────────────────────────────────────────────────
   const fetchBalance = useCallback(async () => {
     if (!user) { setBalance(0); setTransactions([]); return; }
     setLoadingTokens(true);
+
     try {
+      // Balance actual
       const { data: bal } = await supabase
         .from('token_balances')
         .select('balance')
         .eq('user_id', user.id)
         .maybeSingle();
+
       setBalance(bal?.balance ?? 0);
 
+      // Últimas 20 transacciones
       const { data: txs } = await supabase
         .from('token_transactions')
         .select('id, amount, action, description, created_at')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .limit(20);
+
       setTransactions((txs ?? []) as TokenTransaction[]);
     } catch (err) {
-      console.error('[TokenContext] Error:', err);
+      console.error('[TokenContext] Error cargando balance:', err);
     } finally {
       setLoadingTokens(false);
     }
   }, [user]);
 
-  useEffect(() => { fetchBalance(); }, [fetchBalance]);
+  useEffect(() => {
+    fetchBalance();
+  }, [fetchBalance]);
 
+  // ── Suscripción Realtime al balance ──────────────────────────────────────
   useEffect(() => {
     if (!user) return;
+
     const channel = supabase
       .channel(`token_balance_${user.id}`)
-      .on('postgres_changes',
+      .on(
+        'postgres_changes',
         { event: '*', schema: 'public', table: 'token_balances', filter: `user_id=eq.${user.id}` },
         (payload) => {
           if (payload.new && typeof (payload.new as any).balance === 'number') {
             setBalance((payload.new as any).balance);
           }
-        })
+        }
+      )
       .subscribe();
+
     return () => { supabase.removeChannel(channel); };
   }, [user]);
 
-  const consumeTokens = async (amount: number, action: string, description?: string) => {
+  // ── Consumir tokens via RPC ──────────────────────────────────────────────
+  const consumeTokens = async (
+    amount: number,
+    action: string,
+    description?: string,
+  ): Promise<{ ok: boolean; error?: string }> => {
     if (!user) return { ok: false, error: 'No hay sesión activa' };
-    if (balance < amount) return { ok: false, error: `Saldo insuficiente (${balance} tokens)` };
+    if (balance < amount) return { ok: false, error: `Saldo insuficiente (${balance} tokens disponibles)` };
+
     try {
       const { data, error } = await supabase.rpc('spend_tokens', {
-        p_user_id: user.id, p_amount: amount, p_action: action, p_description: description ?? null,
+        p_user_id:    user.id,
+        p_amount:     amount,
+        p_action:     action,
+        p_description: description ?? null,
       });
+
       if (error) return { ok: false, error: error.message };
+
       const result = data as { ok: boolean; error?: string; balance?: number };
-      if (result.ok && result.balance !== undefined) setBalance(result.balance);
-      if (!result.ok) return { ok: false, error: result.error ?? 'Error' };
+      if (result.ok && result.balance !== undefined) {
+        setBalance(result.balance);
+      }
+      if (!result.ok) return { ok: false, error: result.error ?? 'Error desconocido' };
+
+      // Actualizar historial
       await fetchBalance();
       return { ok: true };
     } catch (err: any) {
@@ -99,13 +135,19 @@ export const TokenProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <TokenContext.Provider value={{
-      balance, loadingTokens, transactions, consumeTokens,
-      refreshBalance: fetchBalance, paymentLink: PAYMENT_LINK,
+      balance,
+      loadingTokens,
+      transactions,
+      consumeTokens,
+      refreshBalance: fetchBalance,
+      paymentLink: PAYMENT_LINK,
     }}>
       {children}
     </TokenContext.Provider>
   );
 };
+
+// ─── Hook ─────────────────────────────────────────────────────────────────────
 
 export const useTokens = () => {
   const ctx = useContext(TokenContext);

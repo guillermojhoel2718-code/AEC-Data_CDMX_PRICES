@@ -1,5 +1,16 @@
+<<<<<<< HEAD
+"""
+requirements.txt
+================
+APUCMX Backend — Dependencias Python completas para todos los scripts.
+
+Instalación:
+    pip install -r 1-Backend/requirements.txt
+"""
+=======
 # APUCMX Backend — Dependencias Python
 
+>>>>>>> 97282a4ba7c9c66773235c52d4227b3e04cea21c
 # Core
 supabase>=2.15.0
 python-dotenv>=1.0.0

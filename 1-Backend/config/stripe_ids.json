@@ -20,6 +20,10 @@
     "frontend_url": "https://aec-data-cdmx-prices.vercel.app",
     "success_url": "https://aec-data-cdmx-prices.vercel.app/Pagos?success=true",
     "cancel_url": "https://aec-data-cdmx-prices.vercel.app/Pagos?cancelled=true",
+<<<<<<< HEAD
+    "nota": "Estos IDs se usan en stripe_checkout.py y el webhook de Vercel"
+=======
     "nota": "IDs generados via MCP Stripe — modo test"
+>>>>>>> 97282a4ba7c9c66773235c52d4227b3e04cea21c
   }
 }

@@ -13,3 +13,20 @@ convertidor_masivo.py
 .vercel
 public/data/insumos
 .venv/
+
+# Variables y credenciales — NUNCA commitear
+5-Variables/
+1-Backend/.env
+2-Frontend/.env.local
+
+# Datos procesados pesados
+1-Backend/Datos_Procesados/data/raw/
+1-Backend/Datos_Procesados/data_processed/*.csv
+1-Backend/Datos_Procesados/data_processed/*.json
+
+
+# Datos masivos — no subir a Git
+public/data/insumos/
+1-Backend/docs/insumos/
+1-Backend/Documentos_Referencia_ManualesPDF/
+4-Agentes/
