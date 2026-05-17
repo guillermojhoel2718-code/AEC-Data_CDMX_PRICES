@@ -11,6 +11,15 @@ import { AuthProvider } from './context/AuthContext';
 import { ConceptProvider } from './context/ConceptContext';
 import { TokenProvider } from './context/TokenContext';
 
+// V2 imports — desconectados del router, conservados para futuro
+// import { AddConceptPage } from './components/AddConceptPage';
+// import { ForumPage } from './components/ForumPage';
+// import { NewsPage } from './components/NewsPage';
+// import { MarketplacePage } from './components/MarketplacePage';
+// import { ProvidersPage } from './components/ProvidersPage';
+// import { WalletPage } from './components/WalletPage';
+// import { RegisterCompanyPage } from './components/RegisterCompanyPage';
+
 export default function App() {
   return (
     <AuthProvider>
@@ -18,6 +27,7 @@ export default function App() {
         <ConceptProvider>
           <Router>
             <Routes>
+              {/* ── Rutas activas V1 ── */}
               <Route path="/" element={<HomePage />} />
               <Route path="/explorer" element={<ExplorerPage />} />
               <Route path="/detail/:id" element={<DetailPage />} />
@@ -27,13 +37,15 @@ export default function App() {
               <Route path="/Pagos" element={<PagosPage />} />
               <Route path="/pagos" element={<PagosPage />} />
               <Route path="/tokens" element={<PagosPage />} />
-              <Route path="/add-concept" element={<ComingSoonPage title="Carga de Matrices APU" description="Pronto podrás cargar tus matrices APU." eta="Q3 2026" />} />
-              <Route path="/wallet" element={<ComingSoonPage title="Wallet" description="Gestión de saldo." />} />
-              <Route path="/providers" element={<ComingSoonPage title="Proveedores" description="Directorio AEC." />} />
-              <Route path="/news" element={<ComingSoonPage title="Noticias" description="Tendencias del sector." />} />
-              <Route path="/marketplace" element={<ComingSoonPage title="Marketplace" description="Matrices y servicios AEC." />} />
-              <Route path="/forum" element={<ComingSoonPage title="Foro" description="Comunidad AEC." />} />
-              <Route path="/register-company" element={<ComingSoonPage title="Registro de Empresa" description="Perfil proveedor." />} />
+
+              {/* ── Rutas V2 desconectadas — NO eliminar archivos ── */}
+              {/* <Route path="/add-concept" element={<AddConceptPage />} /> */}
+              {/* <Route path="/wallet" element={<WalletPage />} /> */}
+              {/* <Route path="/providers" element={<ProvidersPage />} /> */}
+              {/* <Route path="/news" element={<NewsPage />} /> */}
+              {/* <Route path="/marketplace" element={<MarketplacePage />} /> */}
+              {/* <Route path="/forum" element={<ForumPage />} /> */}
+              {/* <Route path="/register-company" element={<RegisterCompanyPage />} /> */}
             </Routes>
           </Router>
         </ConceptProvider>
