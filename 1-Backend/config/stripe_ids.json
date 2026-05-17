@@ -1,0 +1,25 @@
+{
+  "tokens": {
+    "product_id": "prod_UX0g2urqQ6kcXU",
+    "price_id": "price_1TXwfZEtHIwVwrjJSwh4o37h",
+    "payment_link": "https://buy.stripe.com/test_bJe8wPbZn068dqFaXl4sE01",
+    "amount_mxn": 200,
+    "tokens": 100,
+    "description": "100 tokens APUCMX — one-time"
+  },
+  "vendor": {
+    "product_id": "prod_UX0gmbR56ORAad",
+    "price_id": "price_1TXwffEtHIwVwrjJsLIVNAO4",
+    "amount_mxn": 100,
+    "interval": "month",
+    "description": "Suscripción Vendedor APUCMX — 100 MXN/mes"
+  },
+  "_meta": {
+    "created_at": "2026-05-16T22:51:00",
+    "stripe_mode": "test",
+    "frontend_url": "https://aec-data-cdmx-prices.vercel.app",
+    "success_url": "https://aec-data-cdmx-prices.vercel.app/Pagos?success=true",
+    "cancel_url": "https://aec-data-cdmx-prices.vercel.app/Pagos?cancelled=true",
+    "nota": "IDs generados via MCP Stripe — modo test"
+  }
+}
