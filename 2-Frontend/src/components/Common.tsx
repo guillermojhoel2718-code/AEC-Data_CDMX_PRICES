@@ -345,37 +345,37 @@ const AuthModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-300">
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="bg-slate-900 border border-white/10 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl"
+        className="bg-[#0F0F1A] border border-slate-800/80 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl shadow-blue-950/20"
       >
-        <div className="p-8 border-b border-white/5 flex justify-between items-center bg-slate-800/50">
+        <div className="p-8 border-b border-slate-800/60 flex justify-between items-center bg-[#07070F]/80">
           <div>
             <h2 className="text-2xl font-black text-white uppercase tracking-tight">
               {mode === 'login' ? 'Bienvenido de ' : 'Crear '}
-              <span className="text-primary">{mode === 'login' ? 'Nuevo' : 'Cuenta'}</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-red-500 font-black">{mode === 'login' ? 'Nuevo' : 'Cuenta'}</span>
             </h2>
             <p className="text-slate-400 text-sm">Ingresa tus datos para acceder a la red APUCMX.</p>
           </div>
-          <button onClick={() => { onClose(); resetForm(); }} className="size-10 bg-slate-800 rounded-full flex items-center justify-center text-slate-400 hover:text-white transition-colors">
+          <button onClick={() => { onClose(); resetForm(); }} className="size-10 bg-slate-900 border border-slate-800 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:border-red-500/30 transition-colors">
             <X size={20} />
           </button>
         </div>
 
         {successMsg ? (
-          <div className="p-8 text-center space-y-4">
-            <div className="bg-emerald-500/20 p-4 rounded-2xl border border-emerald-500/30">
+          <div className="p-8 text-center space-y-4 bg-[#07070F]/40">
+            <div className="bg-emerald-500/10 p-6 rounded-2xl border border-emerald-500/20">
               <Check size={32} className="text-emerald-400 mx-auto mb-2" />
               <p className="text-white font-bold">{successMsg}</p>
             </div>
-            <button onClick={() => { onClose(); resetForm(); }} className="w-full bg-primary text-white font-bold py-3 rounded-xl">Cerrar</button>
+            <button onClick={() => { onClose(); resetForm(); }} className="w-full bg-gradient-to-r from-blue-600 to-red-600 text-white font-bold py-3.5 rounded-xl hover:shadow-[0_0_20px_-5px_rgba(37,99,235,0.4)] transition-all">Cerrar</button>
           </div>
         ) : (
-          <form onSubmit={handleAuth} className="p-8 space-y-4">
+          <form onSubmit={handleAuth} className="p-8 space-y-4 bg-[#07070F]/20">
             {authError && (
-              <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 flex items-center gap-3">
+              <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 flex items-center gap-3">
                 <AlertCircle size={16} className="text-red-400 shrink-0" />
                 <p className="text-red-300 text-xs">{authError}</p>
               </div>
@@ -384,43 +384,43 @@ const AuthModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
             {mode === 'register' && (
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Nombre Completo</label>
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Nombre Completo</label>
                   <div className="relative">
                     <User size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-                    <input required type="text" value={fullName} onChange={e => setFullName(e.target.value)} className="w-full bg-slate-800 border border-white/5 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:border-primary outline-none" placeholder="Juan Perez" />
+                    <input required type="text" value={fullName} onChange={e => setFullName(e.target.value)} className="w-full bg-[#07070F] border border-slate-700/40 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30 outline-none transition-all" placeholder="Juan Perez" />
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Ocupación</label>
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Ocupación</label>
                   <div className="relative">
                     <Briefcase size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-                    <input required type="text" value={occupation} onChange={e => setOccupation(e.target.value)} className="w-full bg-slate-800 border border-white/5 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:border-primary outline-none" placeholder="Arquitecto" />
+                    <input required type="text" value={occupation} onChange={e => setOccupation(e.target.value)} className="w-full bg-[#07070F] border border-slate-700/40 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30 outline-none transition-all" placeholder="Arquitecto" />
                   </div>
                 </div>
               </div>
             )}
 
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Correo Electrónico</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Correo Electrónico</label>
               <div className="relative">
                 <Mail size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-                <input required type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-slate-800 border border-white/5 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:border-primary outline-none" placeholder="ejemplo@correo.com" />
+                <input required type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[#07070F] border border-slate-700/40 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30 outline-none transition-all" placeholder="ejemplo@correo.com" />
               </div>
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Contraseña</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Contraseña</label>
               <div className="relative">
                 <Lock size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
                 <input 
                   required 
                   type={showPassword ? 'text' : 'password'}
                   value={password} onChange={e => setPassword(e.target.value)}
-                  className="w-full bg-slate-800 border border-white/5 rounded-xl pl-10 pr-12 py-2.5 text-sm text-white focus:border-primary outline-none" 
+                  className="w-full bg-[#07070F] border border-slate-700/40 rounded-xl pl-10 pr-12 py-2.5 text-sm text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30 outline-none transition-all" 
                   placeholder="••••••••"
                   minLength={6}
                 />
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white">
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors">
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
@@ -429,15 +429,15 @@ const AuthModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
             {mode === 'register' && (
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Estado / Región</label>
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Estado / Región</label>
                   <div className="relative">
                     <Globe size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-                    <input required type="text" value={region} onChange={e => setRegion(e.target.value)} className="w-full bg-slate-800 border border-white/5 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:border-primary outline-none" placeholder="CDMX" />
+                    <input required type="text" value={region} onChange={e => setRegion(e.target.value)} className="w-full bg-[#07070F] border border-slate-700/40 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30 outline-none transition-all" placeholder="CDMX" />
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Tipo de Cuenta</label>
-                  <select value={accountType} onChange={e => setAccountType(e.target.value)} className="w-full bg-slate-800 border border-white/5 rounded-xl px-4 py-2.5 text-sm text-white focus:border-primary outline-none">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tipo de Cuenta</label>
+                  <select value={accountType} onChange={e => setAccountType(e.target.value)} className="w-full bg-[#07070F] border border-slate-700/40 rounded-xl px-4 py-2.5 text-sm text-white focus:border-blue-500 outline-none transition-all">
                     <option>Usuario Individual</option>
                     <option>Empresa / Constructora</option>
                   </select>
@@ -448,9 +448,9 @@ const AuthModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
             {mode === 'register' && (
               <div className="pt-2">
                 <label className="flex items-start gap-3 cursor-pointer group">
-                  <input type="checkbox" checked={termsAccepted} onChange={e => setTermsAccepted(e.target.checked)} className="mt-1 accent-primary" />
+                  <input type="checkbox" checked={termsAccepted} onChange={e => setTermsAccepted(e.target.checked)} className="mt-1 accent-blue-600" />
                   <span className="text-[10px] text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors">
-                    Acepto los <span className="text-primary hover:underline">Términos de Servicio</span> y la <span className="text-primary hover:underline">Política de Privacidad</span>.
+                    Acepto los <span className="text-blue-400 hover:underline">Términos de Servicio</span> y la <span className="text-blue-400 hover:underline">Política de Privacidad</span>.
                   </span>
                 </label>
               </div>
@@ -459,14 +459,38 @@ const AuthModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-primary hover:brightness-110 text-white font-black py-3.5 rounded-xl transition-all shadow-lg shadow-primary/20 uppercase tracking-widest text-xs mt-4 flex items-center justify-center gap-2 disabled:opacity-70"
+              className="w-full bg-gradient-to-r from-blue-600 to-red-600 hover:brightness-110 text-white font-black py-3.5 rounded-xl transition-all shadow-lg shadow-blue-950/20 uppercase tracking-widest text-xs mt-4 flex items-center justify-center gap-2 disabled:opacity-70"
             >
               {isLoading ? <Loader2 size={16} className="animate-spin" /> : null}
               {mode === 'login' ? 'Entrar a la Red' : 'Crear Mi Nodo'}
             </button>
 
+            {mode === 'login' && (
+              <button
+                type="button"
+                disabled={isLoading}
+                onClick={async () => {
+                  setEmail('demo@apucmx.com');
+                  setPassword('apucmx2026');
+                  setIsLoading(true);
+                  setAuthError(null);
+                  const { error } = await signIn('demo@apucmx.com', 'apucmx2026');
+                  if (error) {
+                    setAuthError(error);
+                  } else {
+                    onClose();
+                  }
+                  setIsLoading(false);
+                }}
+                className="w-full bg-slate-900 border border-slate-700 hover:bg-slate-800 text-cyan-400 font-bold py-2.5 rounded-xl transition-all uppercase tracking-widest text-[10px] mt-2 flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                <Zap size={12} className="text-cyan-400 animate-pulse" />
+                Acceso Demo Rápido
+              </button>
+            )}
+
             <div className="text-center pt-4">
-              <button type="button" onClick={handleModeSwitch} className="text-xs text-slate-500 hover:text-primary transition-colors">
+              <button type="button" onClick={handleModeSwitch} className="text-xs text-slate-500 hover:text-blue-400 transition-colors font-medium font-bold">
                 {mode === 'login' ? '¿No tienes cuenta? Regístrate aquí' : '¿Ya tienes cuenta? Inicia sesión'}
               </button>
             </div>

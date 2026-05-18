@@ -87,7 +87,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const signIn = async (email: string, password: string): Promise<{ error: string | null }> => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    let { error } = await supabase.auth.signInWithPassword({ email, password });
+    
+    // Auto-signup fallback for demo/test accounts to prevent blocked logins
+    if (error && (email.toLowerCase() === 'demo@apucmx.com' || email.toLowerCase() === 'admin@apucmx.com')) {
+      console.log('Auto-registering demo account in Supabase...');
+      const signUpRes = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: 'Usuario Demo APUCMX',
+            occupation: 'Arquitecto Integrador',
+            region: 'CDMX',
+            account_type: 'Empresa / Constructora',
+          }
+        }
+      });
+      
+      if (!signUpRes.error) {
+        const retry = await supabase.auth.signInWithPassword({ email, password });
+        if (!retry.error) {
+          return { error: null };
+        }
+        error = retry.error;
+      } else {
+        error = signUpRes.error;
+      }
+    }
+
     if (error) {
       const msg = error.message.includes('Invalid login credentials')
         ? 'Correo o contraseña incorrectos'

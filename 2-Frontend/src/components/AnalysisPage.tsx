@@ -4,7 +4,8 @@ import {
   Zap, Database, Sparkles, AlertCircle, Coins, ArrowRight,
   TrendingUp, RefreshCw, Layers, CheckCircle2, ShieldAlert,
   Download, FileText, ChevronRight, Lock, UploadCloud, FileSpreadsheet, 
-  Check, FileDown, ShieldCheck, HelpCircle, HardHat, FileCode
+  Check, FileDown, ShieldCheck, HelpCircle, HardHat, FileCode,
+  Brain, Briefcase
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from 'src/context/AuthContext';
@@ -899,10 +900,13 @@ export const AnalysisPage = () => {
                       </div>
 
                       {/* Required Disclaimer Warning inside Audit */}
-                      <div className="bg-red-950/20 border border-red-900/30 rounded-xl p-4 space-y-1">
+                      <div className="bg-red-950/20 border border-red-900/30 rounded-xl p-4 space-y-2">
                         <span className="text-[10px] font-bold text-red-400 uppercase tracking-widest block">IMPORTANTE - CLÁUSULAS DE AUDITORÍA</span>
                         <p className="text-[9px] text-slate-400 leading-normal uppercase">
                           "La auditoría de este catálogo se realiza mediante LangChain y MCP con Inteligencia Artificial."
+                        </p>
+                        <p className="text-[9px] text-blue-400 leading-normal uppercase">
+                          "Generado con IA, LangChain y MCP. Todos los precios están estimados a México, Abril 2026."
                         </p>
                       </div>
                     </div>

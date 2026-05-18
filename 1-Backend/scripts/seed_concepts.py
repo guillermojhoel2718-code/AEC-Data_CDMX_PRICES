@@ -41,9 +41,9 @@ SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("SU
 if not SUPABASE_URL or not SUPABASE_KEY:
     print(
         "\n[ERROR] Faltan variables de entorno:\n"
-        "  SUPABASE_URL              → URL del proyecto Supabase\n"
-        "  SUPABASE_SERVICE_ROLE_KEY → Clave service_role (o SUPABASE_KEY)\n\n"
-        "Define estas variables en .env.local o expórtalas en tu terminal antes de ejecutar.\n"
+        "  SUPABASE_URL              => URL del proyecto Supabase\n"
+        "  SUPABASE_SERVICE_ROLE_KEY => Clave service_role (o SUPABASE_KEY)\n\n"
+        "Define estas variables en .env.local o exportalas en tu terminal antes de ejecutar.\n"
     )
     sys.exit(1)
 
@@ -375,7 +375,7 @@ def upsert_concept(sb: Client, concept: dict) -> bool:
     if hasattr(res, "data") and res.data:
         print(f"  [OK] concept id={concept['id']}")
         return True
-    print(f"  [ERR] concept id={concept['id']} → {res}")
+    print(f"  [ERR] concept id={concept['id']} => {res}")
     return False
 
 
@@ -390,7 +390,7 @@ def upsert_lines(sb: Client, concept_id: str, lines: list) -> int:
         if hasattr(res, "data") and res.data:
             inserted += 1
         else:
-            print(f"  [WARN] line sort={line['sort_order']} → {res}")
+            print(f"  [WARN] line sort={line['sort_order']} => {res}")
     print(f"  [OK] {inserted}/{len(lines)} líneas insertadas para {concept_id}")
     return inserted
 
@@ -402,17 +402,17 @@ def upsert_overcost(sb: Client, concept_id: str, overcost: dict) -> bool:
     if hasattr(res, "data") and res.data:
         print(f"  [OK] overcost para {concept_id}")
         return True
-    print(f"  [ERR] overcost {concept_id} → {res}")
+    print(f"  [ERR] overcost {concept_id} => {res}")
     return False
 
 
 # ─────────────────────────────────────────
 # MAIN
-# ─────────────────────────────────────────
+# -----------------------------------------
 
 def main():
     print("=" * 60)
-    print("APUCMX — Seeding 3 Conceptos Demo")
+    print("APUCMX - Seeding 3 Conceptos Demo")
     print(f"Timestamp: {datetime.now(timezone.utc).isoformat()}")
     print(f"Proyecto: {SUPABASE_URL}")
     print("=" * 60)
@@ -422,10 +422,10 @@ def main():
     results = []
     for entry in CONCEPTS:
         cid = entry["concept"]["id"]
-        print(f"\n─── {cid} ───")
+        print(f"\n--- {cid} ---")
         ok_c = upsert_concept(sb, entry["concept"])
         if not ok_c:
-            print(f"  [ABORT] Falló insert de concept {cid}, saltando líneas.")
+            print(f"  [ABORT] Fallo insert de concept {cid}, saltando lineas.")
             results.append({"id": cid, "status": "FAIL"})
             continue
         n_lines = upsert_lines(sb, cid, entry["lines"])
@@ -441,7 +441,7 @@ def main():
     print("=" * 60)
     for r in results:
         tag = "[PASS]" if r["status"] == "PASS" else f"[{r['status']}]"
-        lines_str = f" | líneas={r.get('lines', 0)}" if "lines" in r else ""
+        lines_str = f" | lineas={r.get('lines', 0)}" if "lines" in r else ""
         print(f"  {tag} {r['id']}{lines_str}")
 
     failed = [r for r in results if r["status"] == "FAIL"]

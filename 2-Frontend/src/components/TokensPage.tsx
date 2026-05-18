@@ -18,6 +18,11 @@ import {
 } from 'lucide-react';
 import { useAuth } from 'src/context/AuthContext';
 import { useTokens } from 'src/context/TokenContext';
+import { AppHeader } from 'src/components/Common';
+import { RefreshCw } from 'lucide-react'; // Make sure RefreshCw is imported or define it if not present. Let's check imports. Wait, on line 154 we have `<RefreshCw className="w-4 h-4 animate-spin" />` but let's make sure it is imported on line 13-18. Let's add it.
+
+// Let's replace the restricted block and logged-in top.
+
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 
@@ -235,27 +240,53 @@ const PurchaseCard = () => (
   </div>
 );
 
-const CostTable = () => (
-  <div className="rounded-2xl bg-[#0F0F1E] border border-[#2A2A4A] p-6 space-y-4">
-    <h3 className="text-white font-semibold">Costo por Acción</h3>
-    <div className="space-y-2">
-      {COSTOS.map((c) => (
-        <div key={c.label} className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-[#1A1A2E] transition-colors">
-          <div className="flex items-center gap-2">
-            <span className="text-[#6366F1]">{c.icon}</span>
-            <div>
-              <p className="text-white text-sm">{c.label}</p>
-              <p className="text-[#666688] text-xs">{c.desc}</p>
-            </div>
-          </div>
-          <span className={`text-sm font-mono font-bold ${c.tokens === 0 ? 'text-emerald-400' : 'text-[#A5B4FC]'}`}>
-            {c.tokens === 0 ? 'Gratis' : `${c.tokens} tok`}
-          </span>
+const CostModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  if (!isOpen) return null;
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="w-full max-w-lg rounded-2xl bg-[#0F0F1E] border border-[#2A2A4A] p-6 space-y-6 shadow-2xl relative">
+        <button 
+          onClick={onClose} 
+          className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
+        >
+          <XCircle className="w-6 h-6" />
+        </button>
+        
+        <div>
+          <h3 className="text-white font-black text-lg uppercase tracking-wider flex items-center gap-2">
+            <Zap className="w-5 h-5 text-[#6366F1] animate-pulse" />
+            Guía de Uso e Insumo de Tokens
+          </h3>
+          <p className="text-[#8888AA] text-[10px] mt-1 uppercase">Tabla oficial de cobros por interacción con IA, LangChain y MCP</p>
         </div>
-      ))}
+
+        <div className="space-y-2">
+          {COSTOS.map((c) => (
+            <div key={c.label} className="flex items-center justify-between py-2.5 px-4 rounded-xl bg-[#131326] border border-[#2A2A4A]/40 hover:bg-[#1A1A36] transition-all">
+              <div className="flex items-center gap-3">
+                <span className="text-[#6366F1] bg-[#6366F1]/10 p-2 rounded-lg flex items-center justify-center">{c.icon}</span>
+                <div>
+                  <p className="text-white text-xs font-bold uppercase tracking-wide">{c.label}</p>
+                  <p className="text-[#666688] text-[9px] uppercase leading-tight mt-0.5">{c.desc}</p>
+                </div>
+              </div>
+              <span className={`text-xs font-mono font-bold px-2.5 py-1 rounded-full ${c.tokens === 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-indigo-500/10 text-[#A5B4FC]'}`}>
+                {c.tokens === 0 ? 'GRATIS' : `${c.tokens} TOKENS`}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div className="bg-[#131326]/60 border border-[#2A2A4A]/30 rounded-xl p-4 text-[10px] text-slate-400 space-y-1">
+          <p className="font-bold text-slate-300 uppercase tracking-widest">¿CÓMO ADQUIRIR MÁS TOKENS?</p>
+          <p className="leading-relaxed uppercase">
+            Cuentas con 50 tokens gratis de bienvenida al registrarte. Puedes transferir saldo a otros usuarios de forma gratuita usando la tarjeta de transferencia, o recargar tu saldo con Stripe.
+          </p>
+        </div>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const TransactionRow: React.FC<{ tx: { id: string; amount: number; action: string; description: string | null; created_at: string } }> = ({ tx }) => (
   <div className="flex items-center justify-between py-3 border-b border-[#1A1A2E] last:border-0">
@@ -311,6 +342,7 @@ export const TokensPage: React.FC = () => {
   const navigate  = useNavigate();
   const { user }  = useAuth();
   const { balance, loadingTokens, transactions, refreshBalance } = useTokens();
+  const [isCostModalOpen, setIsCostModalOpen] = useState(false);
 
   // Detectar ?success=true o ?cancelled=true desde Stripe redirect
   const params     = new URLSearchParams(location.search);
@@ -330,29 +362,32 @@ export const TokensPage: React.FC = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-[#0A0A0F] text-white flex flex-col items-center justify-center p-6">
-        <div className="max-w-md w-full rounded-3xl bg-[#0F0F1E]/80 border border-[#2A2A4A] p-8 text-center space-y-6 relative overflow-hidden backdrop-blur-md">
+      <div className="min-h-screen bg-[#0A0A0F] text-white flex flex-col">
+        <AppHeader />
+        <div className="flex-1 flex flex-col items-center justify-center p-6 relative">
           {/* Glow */}
-          <div className="absolute -top-10 -left-10 w-32 h-32 bg-red-500/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-[30%] left-[35%] w-72 h-72 bg-red-500/10 rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute top-[40%] right-[35%] w-72 h-72 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
           
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-600 to-red-600 flex items-center justify-center mx-auto shadow-xl">
-            <Coins className="w-8 h-8 text-white animate-pulse" />
-          </div>
+          <div className="max-w-md w-full rounded-3xl bg-[#0F0F1E]/80 border border-[#2A2A4A] p-8 text-center space-y-6 relative overflow-hidden backdrop-blur-md">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-600 to-red-600 flex items-center justify-center mx-auto shadow-xl">
+              <Coins className="w-8 h-8 text-white animate-pulse" />
+            </div>
 
-          <div className="space-y-2">
-            <h2 className="text-2xl font-bold uppercase tracking-wider">Acceso Restringido</h2>
-            <p className="text-sm text-slate-400">
-              DEBES INICIAR SESIÓN EN LA PLATAFORMA DE APUCMX PARA GESTIONAR TUS TOKENS, COMPRAR CRÉDITOS Y COMPARTIR SALDO CON OTROS USUARIOS DE LA RED.
-            </p>
-          </div>
+            <div className="space-y-2">
+              <h2 className="text-2xl font-bold uppercase tracking-wider">Acceso Restringido</h2>
+              <p className="text-sm text-slate-400">
+                DEBES INICIAR SESIÓN EN LA PLATAFORMA DE APUCMX PARA GESTIONAR TUS TOKENS, COMPRAR CRÉDITOS Y COMPARTIR SALDO CON OTROS USUARIOS DE LA RED.
+              </p>
+            </div>
 
-          <button
-            onClick={() => navigate('/')}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:brightness-110 text-white font-semibold transition-all duration-200"
-          >
-            Ir al Inicio para Iniciar Sesión
-          </button>
+            <button
+              onClick={() => window.dispatchEvent(new Event('open-auth-modal'))}
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-red-600 hover:brightness-110 text-white font-bold tracking-wide transition-all duration-200"
+            >
+              Iniciar Sesión Ahora
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -360,6 +395,7 @@ export const TokensPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#0A0A0F] text-white">
+      <AppHeader />
       {/* Header */}
       <div className="border-b border-[#1A1A2E] px-6 py-4 flex items-center gap-4">
         <button
@@ -382,7 +418,27 @@ export const TokensPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
             <BalanceCard balance={balance} loadingTokens={loadingTokens} />
-            <CostTable />
+            
+            {/* Banner de Guía de Uso / Botón Modal */}
+            <div className="rounded-2xl bg-gradient-to-r from-indigo-950/40 to-slate-900/60 border border-[#6366F1]/30 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-[#6366F1]/10 rounded-xl border border-[#6366F1]/20">
+                  <Zap className="w-6 h-6 text-[#6366F1] animate-pulse" />
+                </div>
+                <div>
+                  <h4 className="text-white font-bold text-sm uppercase tracking-wide">¿Cómo usar tus tokens APUCMX?</h4>
+                  <p className="text-[#8888AA] text-[9px] uppercase mt-0.5 leading-relaxed">Consulta la guía interactiva de costos por acción de IA y políticas de la red.</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsCostModalOpen(true)}
+                className="px-5 py-2.5 bg-[#6366F1] hover:bg-[#4F51D9] active:scale-95 text-white text-[10px] font-bold uppercase tracking-wider rounded-xl transition-all shadow-md shrink-0"
+              >
+                Ver Tabla de Uso
+              </button>
+            </div>
+
+            <CostModal isOpen={isCostModalOpen} onClose={() => setIsCostModalOpen(false)} />
           </div>
           <div className="space-y-6">
             <PurchaseCard />

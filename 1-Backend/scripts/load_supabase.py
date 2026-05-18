@@ -52,9 +52,9 @@ SUPABASE_SERVICE_ROLE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 if not SUPABASE_URL or not SUPABASE_SERVICE_ROLE_KEY:
     print(
         "\n[ERROR] Faltan variables de entorno:\n"
-        "  SUPABASE_URL              → URL del proyecto Supabase\n"
-        "  SUPABASE_SERVICE_ROLE_KEY → Clave service_role\n\n"
-        "Define estas variables en .env.local o expórtalas en tu terminal antes de ejecutar.\n"
+        "  SUPABASE_URL              => URL del proyecto Supabase\n"
+        "  SUPABASE_SERVICE_ROLE_KEY => Clave service_role\n\n"
+        "Define estas variables en .env.local o exportalas en tu terminal antes de ejecutar.\n"
     )
     sys.exit(1)
 
@@ -267,7 +267,7 @@ def main():
         ok, _, fallidos_lote = upsert_lote(lote)
         total_ok += ok
         total_fallidos.extend(fallidos_lote)
-        estado = "✓" if not fallidos_lote else f"✗ ({len(fallidos_lote)} errores)"
+        estado = "OK" if not fallidos_lote else f"FAIL ({len(fallidos_lote)} errores)"
         print(estado)
 
     # 3. Resumen
@@ -280,7 +280,7 @@ def main():
     if total_fallidos:
         print("\n  Detalle de fallidos (primeros 20):")
         for f in total_fallidos[:20]:
-            print(f"    • codigo={f['codigo']}  →  {f['error']}")
+            print(f"    * codigo={f['codigo']}  =>  {f['error']}")
         if len(total_fallidos) > 20:
             print(f"    ... y {len(total_fallidos) - 20} más.")
 
