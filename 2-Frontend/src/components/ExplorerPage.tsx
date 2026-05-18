@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, ChevronDown, Verified, Clock, Package, HardHat, BarChart3, TrendingUp, Cpu, Layers } from 'lucide-react';
+import { Search, ChevronDown, Verified, Clock, Package, HardHat, BarChart3, TrendingUp, Cpu, Layers, Loader2, Download } from 'lucide-react';
 import { AppHeader, BlockchainBadge } from 'src/components/Common';
 import { motion } from 'motion/react';
 import Fuse from 'fuse.js';
@@ -10,7 +10,6 @@ import { useAuth } from 'src/context/AuthContext';
 import { REGIONS, REGION_LABELS } from 'src/lib/supabase';
 import { MachineryDetailPanel, useMachineryPanel } from 'src/components/MachineryDetailPanel';
 import { generateBudgetPDF } from 'src/lib/pdfArchitect';
-import { Download } from 'lucide-react';
 
 export const ExplorerPage = () => {
   const { concepts, loading } = useConcepts();

@@ -3,7 +3,7 @@
  * Solo rutas activas: Inicio, Explorador, Insumos, Comparador, Tokens
  */
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   Construction, User, HelpCircle, Bell, Menu, X, LogOut,
   Code, Package, BarChart3, Coins, Globe,
@@ -22,7 +22,8 @@ const NAV = [
 ];
 
 const NavLink: React.FC<{ to: string; label: string }> = ({ to, label }) => {
-  const isActive = typeof window !== 'undefined' && window.location.pathname === to;
+  const location = useLocation();
+  const isActive = location.pathname === to;
   return (
     <Link to={to}
       className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${isActive ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-400 hover:text-primary hover:bg-white/5'}`}>

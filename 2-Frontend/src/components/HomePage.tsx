@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, ArrowRight, ShieldCheck, CheckCircle2, Briefcase, Zap, Store, Coins } from 'lucide-react';
+import { Search, ArrowRight, ShieldCheck, CheckCircle2, Briefcase, Zap, Store, Coins, HelpCircle, BookOpen, X } from 'lucide-react';
 import { AppHeader } from 'src/components/Common';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 
 const MAIN_PRICES = [
   { id: 'PRE-001', title: "Concreto f'c=250 kg/cm2", price: "$2,450.00", unit: "m3", validations: 124, img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80" },
@@ -37,6 +37,7 @@ const PROFILES = [
 
 export const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -80,9 +81,20 @@ export const HomePage = () => {
               className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-[1.1]"
             >
               Precios <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-red-600">
+              <motion.span 
+                animate={{ 
+                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                  scale: [1, 1.02, 1]
+                }}
+                transition={{ 
+                  backgroundPosition: { duration: 6, repeat: Infinity, ease: "linear" },
+                  scale: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                }}
+                style={{ backgroundSize: "200% auto" }}
+                className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-red-500 to-blue-400 cursor-default"
+              >
                 validados con IA
-              </span>
+              </motion.span>
             </motion.h1>
             
             <motion.p 
@@ -117,6 +129,22 @@ export const HomePage = () => {
               Explorar <ArrowRight size={18} />
             </button>
           </motion.form>
+
+          <motion.div 
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.45 }}
+            className="flex flex-col items-center gap-3 w-full"
+          >
+            <button 
+              type="button"
+              onClick={() => setIsGuideOpen(true)}
+              className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-blue-950/80 to-slate-900/80 border border-blue-500/20 hover:border-red-500/40 rounded-2xl text-xs font-bold text-slate-300 hover:text-white transition-all shadow-lg hover:shadow-red-950/20 backdrop-blur-md uppercase tracking-wider"
+            >
+              <HelpCircle size={14} className="text-red-500 animate-pulse" />
+              <span>¿Cómo usar APUCMX? - Guía Interactiva</span>
+            </button>
+          </motion.div>
         </section>
 
         {/* 3 PERFILES (NUEVO REQUERIMIENTO) */}
@@ -238,6 +266,138 @@ export const HomePage = () => {
           </div>
         </div>
       </footer>
+
+      {/* ── Modal de Guía "Cómo usar APUCMX" ── */}
+      <AnimatePresence>
+        {isGuideOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-slate-900 border border-white/10 rounded-3xl w-full max-w-4xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh]"
+            >
+              {/* Header */}
+              <div className="p-6 border-b border-white/5 flex justify-between items-center bg-slate-800/50">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-gradient-to-br from-blue-500 to-red-600 rounded-xl">
+                    <BookOpen size={20} className="text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-black text-white uppercase tracking-tight">
+                      Guía de Uso <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-red-500 font-black">APUCMX</span>
+                    </h2>
+                    <p className="text-slate-400 text-xs mt-0.5">Domina la plataforma inteligente de precios unitarios AEC 2026.</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setIsGuideOpen(false)}
+                  className="size-8 bg-slate-800 rounded-full flex items-center justify-center text-slate-400 hover:text-white transition-colors"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Table Container */}
+              <div className="p-6 overflow-y-auto space-y-6">
+                <div className="overflow-x-auto border border-white/5 rounded-2xl bg-[#07070F]">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-white/5 bg-[#0F0F1A]">
+                        <th className="p-4 text-xs font-bold text-slate-400 uppercase tracking-wider w-1/4">Sección / Módulo</th>
+                        <th className="p-4 text-xs font-bold text-slate-400 uppercase tracking-wider w-1/4">Funcionalidad Clave</th>
+                        <th className="p-4 text-xs font-bold text-slate-400 uppercase tracking-wider w-2/4">Instrucciones Paso a Paso</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/5 text-xs text-slate-300">
+                      <tr className="hover:bg-white/[0.02] transition-colors">
+                        <td className="p-4 font-bold text-white flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-blue-500" />
+                          <span>1. EXPLORADOR APU</span>
+                        </td>
+                        <td className="p-4 text-blue-400 font-semibold">Base de Datos de Insumos y Conceptos</td>
+                        <td className="p-4 leading-relaxed">
+                          Ingresa al buscador, filtra por región (CDMX, Norte, etc.) y categoría. Haz clic en cualquier fila para abrir el panel técnico con desglose de mano de obra, materiales y maquinaria homologados a <span className="font-bold text-white">Abril 2026</span>.
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-white/[0.02] transition-colors">
+                        <td className="p-4 font-bold text-white flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-red-500" />
+                          <span>2. ANÁLISIS IA (CONSTRUCTORES)</span>
+                        </td>
+                        <td className="p-4 text-red-400 font-semibold">Generador de Presupuestos PDF</td>
+                        <td className="p-4 leading-relaxed">
+                          Elige una plantilla de proyecto (ej: Residencial). Configura indirectos y escribe las partidas. La IA procesará mediante RAG/LangChain y compilará un <span className="font-bold text-white">presupuesto listo en PDF</span>. <span className="text-amber-400 font-semibold">Consumo: 10 tokens.</span>
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-white/[0.02] transition-colors">
+                        <td className="p-4 font-bold text-white flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-amber-500" />
+                          <span>3. ANÁLISIS IA (PROFESIONALES)</span>
+                        </td>
+                        <td className="p-4 text-amber-400 font-semibold">Auditoría de Catálogos de Obra</td>
+                        <td className="p-4 leading-relaxed">
+                          Sube tu catálogo de conceptos en formato Excel o CSV. Selecciona una plantilla de auditoría (ej: precios fuera de mercado). La IA detectará desviaciones, mermas y FASAR en comparación con la base de datos Supabase. <span className="text-amber-400 font-semibold">Consumo: 10 tokens.</span>
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-white/[0.02] transition-colors">
+                        <td className="p-4 font-bold text-white flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                          <span>4. DIRECTORIO DE PROVEEDORES</span>
+                        </td>
+                        <td className="p-4 text-emerald-400 font-semibold">Registro de Catálogos & RFC</td>
+                        <td className="p-4 leading-relaxed">
+                          Los contratistas pueden registrarse con RFC oficial y subir su catálogo PDF por <span className="font-bold text-white">$100 MXN mensuales</span>. <span className="text-red-400 font-semibold">Regla estricta:</span> todos los insumos deben registrarse con <span className="font-bold underline text-white">precios unitarios sin IVA</span>.
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-white/[0.02] transition-colors">
+                        <td className="p-4 font-bold text-white flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-indigo-500" />
+                          <span>5. BILLETERA DE TOKENS</span>
+                        </td>
+                        <td className="p-4 text-indigo-400 font-semibold">Recarga e Intercambio Seguro</td>
+                        <td className="p-4 leading-relaxed">
+                          Adquiere paquetes de tokens vía Stripe. Los tokens sirven para RAG de base de datos y chats. <span className="font-bold text-white">¡Novedad!</span> Ahora puedes transferir e intercambiar tokens de forma segura ingresando el email de otro usuario.
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-white/[0.02] transition-colors">
+                        <td className="p-4 font-bold text-white flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-cyan-500" />
+                          <span>6. CHATS E INSTANCIAS RAG</span>
+                        </td>
+                        <td className="p-4 text-cyan-400 font-semibold">Asistente Azul vs Soporte Rojo</td>
+                        <td className="p-4 leading-relaxed">
+                          El <span className="text-blue-400 font-bold">Asistente BD (Azul)</span> es inteligente y realiza consultas RAG a la base de datos de conceptos (<span className="text-amber-400">1 token por consulta</span>). El <span className="text-red-400 font-bold">Soporte Técnico (Rojo)</span> es libre y sirve únicamente para incidencias del sistema.
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 flex gap-3">
+                  <Zap size={18} className="text-blue-400 shrink-0 mt-0.5" />
+                  <div className="space-y-1">
+                    <h4 className="text-xs font-bold text-blue-200 uppercase tracking-wider">Formatos Homologados AEC obligatorios</h4>
+                    <p className="text-[11px] text-slate-400 leading-relaxed font-medium">
+                      Todas las descripciones ingresadas a la plataforma se normalizan automáticamente a <span className="text-white font-bold">MAYÚSCULAS</span> y las unidades se registran en <span className="text-white font-bold">minúsculas</span> (<span className="font-mono">pza, m2, ml, kg, kgf, m3, lote</span>) para garantizar consistencia nacional.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="p-4 border-t border-white/5 bg-slate-900/50 flex justify-end">
+                <button
+                  onClick={() => setIsGuideOpen(false)}
+                  className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-red-600 text-white font-bold rounded-xl text-xs uppercase hover:brightness-110 transition-all"
+                >
+                  Entendido, Comenzar
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };

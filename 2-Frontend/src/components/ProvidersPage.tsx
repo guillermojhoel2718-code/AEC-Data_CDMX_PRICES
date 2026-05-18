@@ -247,6 +247,24 @@ export const ProvidersPage = () => {
           </div>
         </div>
 
+        {/* Aviso de IVA y Políticas de Proveedor */}
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-950/40 to-slate-900/60 border border-red-500/20 p-5 shadow-lg backdrop-blur-md">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-full blur-2xl -z-10" />
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-red-500/20 rounded-xl border border-red-500/30 shrink-0">
+              <AlertCircle size={24} className="text-red-400 animate-pulse" />
+            </div>
+            <div>
+              <p className="text-xs md:text-sm font-black text-red-200 uppercase tracking-wider">
+                AVISO CRÍTICO PARA PROVEEDORES Y CONTRATISTAS
+              </p>
+              <p className="text-[11px] md:text-xs text-slate-300 leading-relaxed font-medium mt-1">
+                Los proveedores deben subir su tipo de insumo con <span className="text-white font-bold underline">precio unitario sin IVA</span> y una nota explicativa. De lo contrario, <span className="text-red-400 font-bold">serán bajados de la plataforma de inmediato</span> para mantener la sanidad del catálogo nacional APUCMX.
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* ── Controles de Filtros y Búsqueda ── */}
         <div className="bg-[#0F0F1A] border border-white/5 rounded-2xl p-6 flex flex-col lg:flex-row gap-4 items-center justify-between shadow-xl">
           <div className="relative w-full lg:max-w-md">
@@ -454,9 +472,9 @@ export const ProvidersPage = () => {
                   <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-4 flex items-start gap-3">
                     <AlertCircle size={18} className="text-red-500 shrink-0 mt-0.5" />
                     <div className="space-y-0.5">
-                      <p className="text-[11px] font-bold text-red-200 uppercase tracking-wider">Suscripción de Servicio APUCMX</p>
+                      <p className="text-[11px] font-bold text-red-200 uppercase tracking-wider">Suscripción de Servicio Premium APUCMX</p>
                       <p className="text-[10px] text-slate-400 leading-relaxed font-medium">
-                        El registro de la empresa y la publicación de tu catálogo implican una suscripción de <span className="text-red-400 font-black">100 MXN mensuales</span>. Los precios y conceptos se procesan automáticamente con LangChain/Pydantic.
+                        El registro de tu perfil empresarial y la publicación de tu catálogo de insumos conllevan un costo de <span className="text-red-400 font-black">100 MXN mensuales</span>, procesado de forma 100% segura por medio de planes premium de <span className="text-blue-400 font-bold">Stripe</span>. Los archivos cargados pasan por un proceso de estructuración con LangChain y validación de tipos Pydantic.
                       </p>
                     </div>
                   </div>

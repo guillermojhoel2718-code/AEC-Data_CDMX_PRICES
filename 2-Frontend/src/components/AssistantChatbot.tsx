@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
-  X, Send, HelpCircle, AlertCircle, RefreshCw, Headphones, Coins
+  X, Send, HelpCircle, AlertCircle, RefreshCw, Headphones, Coins, Database, Sparkles, Brain
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from 'src/context/AuthContext';
@@ -25,7 +25,7 @@ export const AssistantChatbot = () => {
     {
       id: 'welcome',
       sender: 'assistant',
-      text: '¡HOLA! BIENVENIDO AL SOPORTE TÉCNICO DE APUCMX. ¿EN QUÉ PODEMOS AYUDARTE HOY CON LA APLICACIÓN, TUS PAGOS O TUS CONEXIONES? CADA MENSAJE CONSUME EXACTAMENTE 1 TOKEN.',
+      text: '¡HOLA! BIENVENIDO AL ASISTENTE DE BASE DE DATOS CON IA DE APUCMX. PUEDO BUSCAR CONCEPTOS, INSUMOS Y PRECIOS DIRECTO EN SUPABASE. CADA CONSULTA CONSUME EXACTAMENTE 1 TOKEN.',
       timestamp: new Date()
     }
   ]);
@@ -53,14 +53,14 @@ export const AssistantChatbot = () => {
 
     // Guard login
     if (!isLoggedIn) {
-      setErrorMessage('DEBES INICIAR SESIÓN PARA HABLAR CON EL SOPORTE TÉCNICO.');
+      setErrorMessage('DEBES INICIAR SESIÓN PARA USAR EL ASISTENTE CON IA.');
       return;
     }
 
     // Guard tokens
     const cost = 1;
     if (balance < cost) {
-      setErrorMessage(`SALDO INSUFICIENTE. EL SOPORTE CONSUME ${cost} TOKEN PERO TIENES ${balance}.`);
+      setErrorMessage(`SALDO INSUFICIENTE. LA CONSULTA IA CONSUME ${cost} TOKEN PERO TIENES ${balance}.`);
       return;
     }
 
@@ -79,7 +79,7 @@ export const AssistantChatbot = () => {
 
     try {
       // 1. Descontar 1 token real
-      const description = `Soporte Técnico: ${userText.substring(0, 30)}`;
+      const description = `Consulta IA BD: ${userText.substring(0, 30)}`;
       const spendRes = await consumeTokens(cost, 'uso_matriz', description);
 
       if (!spendRes.ok) {
@@ -100,11 +100,11 @@ export const AssistantChatbot = () => {
       } else if (promptLower.includes('provedor') || promptLower.includes('empresa') || promptLower.includes('logo') || promptLower.includes('pdf')) {
         aiText = 'EL REGISTRO DE EMPRESA Y SUBIDA DE LOGO O CATÁLOGO EN PDF SE REALIZA DESDE LA SECCIÓN DE PROVEEDORES. TIENE UN COSTO DE 100 MXN MENSUALES. LOS CATÁLOGOS SE PROCESAN CON INTELIGENCIA ARTIFICIAL.';
       } else if (promptLower.includes('analisis') || promptLower.includes('ia') || promptLower.includes('auditar') || promptLower.includes('presupuesto')) {
-        aiText = 'NUESTRA HERRAMIENTA DE ANÁLISIS IA ESTÁ DIVIDIDA EN: "CONSTRUCTORES" PARA GENERAR PRESUPUESTOS EN PDF CON NUESTRA BASE DE DATOS SUPABASE, Y "PROFESIONALES" PARA SUBIR Y AUDITAR TUS PROPIOS ARCHIVOS.';
+        aiText = 'NUESTRA HERRAMIENTA DE ANÁLISIS IA ESTÁ DIVIDIDA EN: "CONSTRUCTORES" PARA GENERAR PRESUPUESTOS EN PDF CON NUEBRA BASE DE DATOS SUPABASE, Y "PROFESIONALES" PARA SUBIR Y AUDITAR TUS PROPIOS ARCHIVOS.';
       } else if (promptLower.includes('error') || promptLower.includes('fallo') || promptLower.includes('cargar') || promptLower.includes('bug')) {
         aiText = 'HEMOS REGISTRADO TU INCIDENTE EN EL LOG DEL SISTEMA. NUESTROS DESARROLLADORES DE APUCMX ESTÁN REVISANDO LA SESIÓN PARA CORREGIR CUALQUIER ANOMALÍA EN EL SERVIDOR. GRACIAS POR REPORTARLO.';
       } else {
-        aiText = 'SOPORTE TÉCNICO APUCMX: HEMOS RECIBIDO TU CONSULTA ACERCA DE "' + userText.toUpperCase() + '". SI TIENES MÁS DUDAS SOBRE LAS PESTAÑAS, LA BASE DE DATOS O MÓDULOS DE LA APLICACIÓN, ESTAMOS A TU DISPOSICIÓN.';
+        aiText = 'ASISTENTE DE BASE DE DATOS IA: HEMOS RECIBIDO TU CONSULTA ACERCA DE "' + userText.toUpperCase() + '". SI TIENES DUDAS SOBRE LAS PESTAÑAS, LA BASE DE DATOS O MÓDULOS DE LA APLICACIÓN, ESTAMOS A TU DISPOSICIÓN.';
       }
 
       const assistantMsg: Message = {
@@ -138,7 +138,7 @@ export const AssistantChatbot = () => {
             <X key="close" size={24} />
           ) : (
             <div key="chat" className="relative flex items-center justify-center">
-              <Headphones size={24} className="group-hover:rotate-6 transition-transform" />
+              <Sparkles size={24} className="group-hover:rotate-6 transition-transform text-white animate-pulse" />
               {/* Pulso de brillo azul */}
               <span className="absolute -inset-1.5 rounded-full bg-blue-500/20 blur-sm animate-ping -z-10" />
             </div>
@@ -161,11 +161,11 @@ export const AssistantChatbot = () => {
             <div className="p-4 bg-[#14142B] border-b border-white/5 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="size-9 rounded-xl bg-gradient-to-r from-blue-600 to-red-600 flex items-center justify-center text-white">
-                  <Headphones size={18} />
+                  <Database size={18} />
                 </div>
                 <div>
                   <h3 className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-1.5">
-                    <span>Soporte Técnico</span>
+                    <span>Asistente de BD con IA</span>
                     <span className="size-2 rounded-full bg-blue-400 animate-pulse" />
                   </h3>
                   <p className="text-[10px] text-slate-400 font-mono">APUCMX SYSTEM 2026</p>

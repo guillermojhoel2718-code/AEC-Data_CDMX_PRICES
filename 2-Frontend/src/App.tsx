@@ -10,6 +10,7 @@ import { InsumoExplorer }    from 'src/components/InsumoExplorer';
 import { ProvidersPage }     from 'src/components/ProvidersPage';
 import { AnalysisPage }      from 'src/components/AnalysisPage';
 import { AssistantChatbot }  from 'src/components/AssistantChatbot';
+import { SupportChatbot }    from 'src/components/SupportChatbot';
 import { AuthProvider }      from 'src/context/AuthContext';
 import { ConceptProvider }   from 'src/context/ConceptContext';
 import { TokenProvider }     from 'src/context/TokenContext';
@@ -61,6 +62,7 @@ export default function App() {
               } />
             </Routes>
             <AssistantChatbot />
+            <SupportChatbot />
           </Router>
         </ConceptProvider>
       </TokenProvider>

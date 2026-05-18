@@ -108,32 +108,116 @@ export const AnalysisPage = () => {
   // Tab State
   const [activeTab, setActiveTab] = useState<'constructores' | 'profesionales'>('constructores');
 
-  // Input states (Tab 1: Constructores)
-  const [selectedChapter, setSelectedChapter] = useState<string>('cimentacion');
-  const [builderRegion, setBuilderRegion] = useState<string>('CDMX');
-  const [builderOverhead, setBuilderOverhead] = useState<number>(16);
+  // Constructor state
+  const [chatPrompt, setChatPrompt] = useState('');
+  const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+  const [constructorRegion, setConstructorRegion] = useState<string>('CDMX');
+  const [constructorOverhead, setConstructorOverhead] = useState<number>(16);
+  const [activeBudgetTemplate, setActiveBudgetTemplate] = useState<string | null>(null);
 
-  // Input states (Tab 2: Profesionales)
+  // Profesional state
   const [selectedConcept, setSelectedConcept] = useState<string>('muro');
   const [customText, setCustomText] = useState('');
   const [profRegion, setProfRegion] = useState<string>('CDMX');
   const [profOverhead, setProfOverhead] = useState<number>(16);
   const [customCatalogFile, setCustomCatalogFile] = useState<string>('');
+  const [selectedAuditTemplate, setSelectedAuditTemplate] = useState<string>('mercado');
 
-  // Flow states
+  // Common flow states
   const [isProcessing, setIsProcessing] = useState(false);
-  const [generatedPdfPath, setGeneratedPdfPath] = useState<string | null>(null);
-  const [auditResult, setAuditResult] = useState<APUCard | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successNotif, setSuccessNotif] = useState(false);
+  
+  // Dynamic output states
+  const [generatedPdfPath, setGeneratedPdfPath] = useState<string | null>(null);
+  const [auditResult, setAuditResult] = useState<APUCard | null>(null);
 
-  // ─── Handler Tab 1: Generar PDF para Constructores ───
+  // Prompt Templates list
+  const PROJECT_TEMPLATES = [
+    {
+      id: 'residencial',
+      title: 'Proyecto Residencial',
+      prompt: 'Generar presupuesto general para casa habitación de 2 niveles con cimentación de concreto, muros de tabique y acabados de yeso.',
+      icon: <Layers className="text-red-500 w-4 h-4" />
+    },
+    {
+      id: 'comercial',
+      title: 'Obra Civil Comercial',
+      prompt: 'Generar catálogo de conceptos para local comercial con estructura de acero ASTM-A36, firme de concreto y cancelería de aluminio.',
+      icon: <Briefcase className="text-blue-500 w-4 h-4" />
+    },
+    {
+      id: 'perimetral',
+      title: 'Bardeado Perimetral',
+      prompt: 'Diseñar presupuesto unitario para barda perimetral de 100 ml con cimiento de piedra brasa, castillos de concreto y muro de block.',
+      icon: <HardHat className="text-yellow-500 w-4 h-4" />
+    },
+    {
+      id: 'oficinas',
+      title: 'Remodelación de Oficinas',
+      prompt: 'Cotizar desmontajes, muros divisorios de panel de yeso (Tablaroca), pintura vinílica y plafón reticular acústico.',
+      icon: <Sparkles className="text-emerald-500 w-4 h-4" />
+    }
+  ];
+
+  const AUDIT_TEMPLATES = [
+    { id: 'mercado', label: 'Auditar Precios Fuera de Mercado (Outliers)', desc: 'Detecta si algún precio se desvía más de un 30% del índice nacional.' },
+    { id: 'mermas', label: 'Validar Cumplimiento de Mermas y FASAR', desc: 'Comprueba factores de salario real e insumos de mano de obra.' },
+    { id: 'canonico', label: 'Auditoría de Claves Canónicas (Formatos AEC)', desc: 'Homologa códigos de materiales y descripciones en mayúsculas.' }
+  ];
+
+  // Dynamic budget generator based on selected template
+  const BUDGET_MOCK_DATA: Record<string, { title: string, items: Array<{ code: string, desc: string, unit: string, cost: number }> }> = {
+    residencial: {
+      title: 'PROYECTO RESIDENCIAL - CASA HABITACIÓN 2 NIVELES',
+      items: [
+        { code: 'CIM-CON-01', desc: 'CONCRETO PREMEZCLADO F\'C 250 KG/CM2 EN LOSA DE CIMENTACIÓN, INCLUYE VIBRADO Y ACABADO', unit: 'm3', cost: 2450.00 },
+        { code: 'EST-VAR-02', desc: 'VARILLA CORRUGADA DE 3/8" (NÚM. 3) GRADO 42 EN CASTILLOS Y COLUMNAS DE REFUERZO', unit: 'kg', cost: 32.50 },
+        { code: 'ALB-MUR-03', desc: 'MURO DE TABIQUE ROJO RECOCIDO ASENTADO CON MORTERO CEMENTO-ARENA PROPORCIÓN 1:4', unit: 'm2', cost: 462.50 },
+        { code: 'ACA-YES-04', desc: 'APLANADO DE YESO EN MUROS INTERIORES CON ESPESOR PROMEDIO DE 1.5 CM, ACABADO LISO', unit: 'm2', cost: 110.00 }
+      ]
+    },
+    comercial: {
+      title: 'OBRA CIVIL COMERCIAL - LOCAL COMERCIAL ESTRUCTURAL',
+      items: [
+        { code: 'EST-IPR-01', desc: 'SUMINISTRO Y MONTAJE DE VIGA IPR 12" ACERO ASTM-A36 EN COLUMNAS Y CONEXIONES ESTRUCTURALES', unit: 'ml', cost: 3120.00 },
+        { code: 'EST-PLA-02', desc: 'PLACA DE ACERO ASTM-A36 DE 1/2" DE ESPESOR PARA SOPORTE Y ANCLAJE DE ESTRUCTURAS', unit: 'kg', cost: 62.80 },
+        { code: 'CIM-FIR-03', desc: 'FIRME DE CONCRETO F\'C 200 KG/CM2 ESPESOR DE 10 CM REFORZADO CON MALLA ELECTROSOLDADA', unit: 'm2', cost: 285.00 },
+        { code: 'AC-CAN-04', desc: 'SUMINISTRO Y COLOCACIÓN DE CANCELERÍA DE ALUMINIO ANODIZADO NEGRO DE 3" CON CRISTAL DE 6 MM', unit: 'm2', cost: 1850.00 }
+      ]
+    },
+    perimetral: {
+      title: 'BARDEADO PERIMETRAL - 100 METROS LINEALES',
+      items: [
+        { code: 'CIM-PIE-01', desc: 'CIMIENTO DE PIEDRA BRASA DE LA REGIÓN ASENTADO CON MORTERO CAL-ARENA 1:5, ANCHO BASE 60 CM', unit: 'm3', cost: 1150.00 },
+        { code: 'EST-CAS-02', desc: 'CASTILLO DE CONCRETO F\'C 150 KG/CM2 DE 15X15 CM ARMADO CON ARMEX 15-15-4 DE SECCIÓN', unit: 'ml', cost: 165.00 },
+        { code: 'ALB-BLO-03', desc: 'MURO DE BLOCK DE CONCRETO HUECO DE 12X20X40 CM ASENTADO CON MORTERO CEMENTO-ARENA 1:5', unit: 'm2', cost: 320.00 },
+        { code: 'ACA-REP-04', desc: 'REVOQUE O APLANADO CON MORTERO CEMENTO-ARENA 1:4 ACABADO FLOTEADO EN CARAS EXTERIORES', unit: 'm2', cost: 135.00 }
+      ]
+    },
+    oficinas: {
+      title: 'REMODELACIÓN DE OFICINAS CORPORATIVAS',
+      items: [
+        { code: 'DEM-DIV-01', desc: 'DEMOLICIÓN Y DESMONTAJE DE MUROS DIVISORIOS EXISTENTES Y FALSOS PLAFONES CON RETIRO', unit: 'm2', cost: 85.00 },
+        { code: 'ALB-TAB-02', desc: 'MURO DIVISORIO DE PANEL DE YESO (TABLAROCA) ESTÁNDAR A DOS CARAS CON ESTRUCTURA METÁLICA', unit: 'm2', cost: 395.00 },
+        { code: 'ACA-PIN-03', desc: 'APLICACIÓN DE PINTURA VINÍLICA COMEX VINIMEX EN DOS MANOS EN MUROS Y PLAFONES INTERIORES', unit: 'm2', cost: 95.00 },
+        { code: 'ACA-PLA-04', desc: 'SUMINISTRO Y COLOCACIÓN DE FALSO PLAFÓN RETICULAR ACÚSTICO DE 61X61 CM CON SUSPENSIÓN', unit: 'm2', cost: 310.00 }
+      ]
+    }
+  };
+
+  // ─── Handler Tab 1: Generar PDF para Constructores con Prompt Chat ───
   const handleGeneratePdf = async () => {
     setErrorMessage(null);
     setGeneratedPdfPath(null);
 
     if (!isLoggedIn) {
-      setErrorMessage('DEBES INICIAR SESIÓN CON TU CUENTA APUCMX PARA GENERAR EL CATÁLOGO PDF CON IA.');
+      setErrorMessage('DEBES INICIAR SESIÓN CON TU CUENTA APUCMX PARA ACCEDER AL CHAT Y GENERAR EL PRESUPUESTO CON IA.');
+      return;
+    }
+
+    if (!chatPrompt.trim() && !selectedTemplate) {
+      setErrorMessage('POR FAVOR, SELECCIONA UNA PLANTILLA DE PROYECTO O ESCRIBE TU PROMPT EN EL CHAT.');
       return;
     }
 
@@ -146,8 +230,10 @@ export const AnalysisPage = () => {
     setIsProcessing(true);
 
     try {
-      // Consumir 10 Tokens
-      const description = `GEN PDF CATÁLOGO IA - CAPÍTULO: ${selectedChapter.toUpperCase()}`;
+      const templateId = selectedTemplate || 'residencial';
+      const promptText = chatPrompt || PROJECT_TEMPLATES.find(t => t.id === templateId)?.prompt || '';
+      
+      const description = `GEN PDF CATÁLOGO IA - PROMPT: ${promptText.substring(0, 30).toUpperCase()}`;
       const consumeRes = await consumeTokens(cost, 'uso_auditoria', description);
 
       if (!consumeRes.ok) {
@@ -156,15 +242,16 @@ export const AnalysisPage = () => {
         return;
       }
 
-      // Simular generación neuronal del catálogo de Supabase
+      // Simular procesamiento LangChain & MCP de Gemini Flash
       await new Promise((resolve) => setTimeout(resolve, 3000));
 
-      setGeneratedPdfPath(`apucmx_catalogo_${selectedChapter}_${builderRegion.toLowerCase()}_2026.pdf`);
+      setActiveBudgetTemplate(templateId);
+      setGeneratedPdfPath(`apucmx_presupuesto_${templateId}_${constructorRegion.toLowerCase()}_2026.pdf`);
       setSuccessNotif(true);
       setTimeout(() => setSuccessNotif(false), 3000);
 
     } catch (err: any) {
-      setErrorMessage(err.message || 'ERROR INESPERADO AL GENERAR PDF.');
+      setErrorMessage(err.message || 'ERROR INESPERADO AL GENERAR PRESUPUESTO.');
     } finally {
       setIsProcessing(false);
     }
@@ -189,8 +276,7 @@ export const AnalysisPage = () => {
     setIsProcessing(true);
 
     try {
-      // Consumir 10 Tokens
-      const description = `AUDITORÍA IA CATÁLOGO - CONCEPTO: ${customText ? customText.substring(0, 30).toUpperCase() : selectedConcept.toUpperCase()}`;
+      const description = `AUDITORÍA IA CATÁLOGO - TIPO: ${selectedAuditTemplate.toUpperCase()}`;
       const consumeRes = await consumeTokens(cost, 'uso_auditoria', description);
 
       if (!consumeRes.ok) {
@@ -236,6 +322,11 @@ export const AnalysisPage = () => {
     if (e.target.files && e.target.files[0]) {
       setCustomCatalogFile(e.target.files[0].name);
     }
+  };
+
+  const selectPromptTemplate = (tpl: typeof PROJECT_TEMPLATES[0]) => {
+    setSelectedTemplate(tpl.id);
+    setChatPrompt(tpl.prompt);
   };
 
   return (
@@ -339,36 +430,68 @@ export const AnalysisPage = () => {
               transition={{ duration: 0.2 }}
               className="grid lg:grid-cols-3 gap-8 items-start"
             >
-              {/* Columna Izquierda: Controles Constructores */}
+              {/* Columna Izquierda: Chat de Plantillas IA */}
               <div className="lg:col-span-1 bg-[#0F0F1A] border border-white/5 rounded-2xl p-6 space-y-6 shadow-xl relative">
                 <h2 className="text-sm font-bold text-white uppercase tracking-widest border-b border-white/5 pb-3 flex items-center gap-2">
-                  <Layers size={15} className="text-red-500" />
-                  <span>Configurar Catálogo</span>
+                  <Brain size={15} className="text-red-500" />
+                  <span>IA Prompt Assistant</span>
                 </h2>
 
+                {/* Note of IA generation LangChain + MCP */}
+                <div className="bg-blue-950/20 border border-blue-900/30 rounded-xl p-4 space-y-2">
+                  <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest block">TECNOLOGÍA DE MOTOR</span>
+                  <p className="text-[10px] text-slate-300 leading-normal uppercase">
+                    "Este presupuesto se genera utilizando Inteligencia Artificial mediante LangChain, Model Context Protocol (MCP) y los datos de APUCMX en Supabase. Todos los precios están estimados a México, Abril 2026."
+                  </p>
+                </div>
+
+                {/* Prompt templates clickable grid */}
+                <div className="space-y-2.5">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Plantillas de Proyecto</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {PROJECT_TEMPLATES.map((tpl) => (
+                      <button
+                        key={tpl.id}
+                        onClick={() => selectPromptTemplate(tpl)}
+                        disabled={!isLoggedIn || isProcessing}
+                        className={cn(
+                          "p-3 rounded-xl border text-left transition-all duration-200 flex flex-col justify-between gap-2 h-24 hover:-translate-y-0.5",
+                          selectedTemplate === tpl.id 
+                            ? "bg-red-500/10 border-red-500/40 shadow-md shadow-red-950/20" 
+                            : "bg-[#07070F] border-white/5 hover:border-white/15"
+                        )}
+                      >
+                        <div className="flex items-center gap-1.5">
+                          {tpl.icon}
+                          <span className="text-[10px] font-bold text-white uppercase truncate">{tpl.title}</span>
+                        </div>
+                        <p className="text-[8px] text-slate-500 uppercase leading-snug line-clamp-2">{tpl.prompt}</p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Prompt Chat Box replaces Indirects */}
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Especialidad / Capítulo</label>
-                  <select
-                    value={selectedChapter}
-                    onChange={e => setSelectedChapter(e.target.value)}
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Chat del Prompt de Presupuesto</label>
+                  <textarea
+                    value={chatPrompt}
+                    onChange={e => { setChatPrompt(e.target.value); setSelectedTemplate(null); }}
+                    placeholder="Describe el presupuesto que deseas compilar..."
+                    rows={4}
                     disabled={!isLoggedIn || isProcessing}
-                    className="w-full bg-[#07070F] border border-white/5 focus:border-red-500 rounded-xl px-3 py-2.5 text-xs text-white outline-none cursor-pointer"
-                  >
-                    <option value="cimentacion">Cimentaciones & Terracerías</option>
-                    <option value="estructura">Estructuras de Concreto y Acero</option>
-                    <option value="acabados">Acabados e Interiores</option>
-                    <option value="instalaciones">Instalaciones Hidrosanitarias & Eléctricas</option>
-                  </select>
+                    className="w-full bg-[#07070F] border border-white/5 focus:border-red-500 rounded-xl px-3.5 py-3 text-xs text-white placeholder-slate-600 outline-none resize-none"
+                  />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Región Base</label>
                     <select
-                      value={builderRegion}
-                      onChange={e => setBuilderRegion(e.target.value)}
+                      value={constructorRegion}
+                      onChange={e => setConstructorRegion(e.target.value)}
                       disabled={!isLoggedIn || isProcessing}
-                      className="w-full bg-[#07070F] border border-white/5 focus:border-red-500 rounded-xl px-3 py-2.5 text-xs text-white outline-none"
+                      className="w-full bg-[#07070F] border border-white/5 focus:border-red-500 rounded-xl px-3 py-2.5 text-xs text-white outline-none cursor-pointer"
                     >
                       <option value="CDMX">CDMX</option>
                       <option value="Norte">Norte</option>
@@ -382,8 +505,8 @@ export const AnalysisPage = () => {
                     <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Indirectos (%)</label>
                     <input
                       type="number"
-                      value={builderOverhead}
-                      onChange={e => setBuilderOverhead(Number(e.target.value))}
+                      value={constructorOverhead}
+                      onChange={e => setConstructorOverhead(Number(e.target.value))}
                       disabled={!isLoggedIn || isProcessing}
                       min={0}
                       max={100}
@@ -409,13 +532,13 @@ export const AnalysisPage = () => {
                 >
                   {isProcessing ? (
                     <>
-                      <RefreshCw size={14} className="animate-spin" />
-                      <span>Generando desde Supabase...</span>
+                      <RefreshCw size={14} className="animate-spin text-white" />
+                      <span>Conectando con Gemini Flash, LangChain y MCP...</span>
                     </>
                   ) : (
                     <>
                       <FileText size={14} />
-                      <span>Generar Catálogo PDF (10 Tokens)</span>
+                      <span>Generar Presupuesto PDF (10 Tokens)</span>
                     </>
                   )}
                 </button>
@@ -430,9 +553,9 @@ export const AnalysisPage = () => {
                         <div className="absolute inset-0 border-4 border-red-500/20 rounded-full" />
                         <div className="absolute inset-0 border-4 border-red-500 border-t-transparent rounded-full animate-spin" />
                       </div>
-                      <h3 className="text-white text-sm font-black uppercase tracking-widest animate-pulse">Compilando Catálogo Estructurado...</h3>
+                      <h3 className="text-white text-sm font-black uppercase tracking-widest animate-pulse">Procesando con IA Gemini Flash...</h3>
                       <p className="text-slate-400 text-xs text-center max-w-sm">
-                        Consultando la base Supabase para indexar insumos con Pydantic y aplicar cargos del {builderOverhead}% de indirectos en formato AEC de Abril 2026.
+                        Compilando un presupuesto general en base a Supabase, aplicando FASAR e indexando conceptos en formato AEC de Abril 2026.
                       </p>
                     </div>
                   )}
@@ -441,9 +564,9 @@ export const AnalysisPage = () => {
                     <div className="flex-1 flex flex-col items-center justify-center text-center p-12 space-y-4">
                       <FileText className="w-16 h-16 text-slate-700" />
                       <div className="space-y-1">
-                        <h3 className="text-white font-bold uppercase tracking-wide">Sin Catálogo Generado</h3>
+                        <h3 className="text-white font-bold uppercase tracking-wide">Sin Presupuesto Generado</h3>
                         <p className="text-slate-400 text-xs max-w-md mx-auto">
-                          Configura los filtros de especialidad a la izquierda y presiona "Generar Catálogo PDF" para compilar un reporte APU formal firmado con IA.
+                          Selecciona una plantilla o escribe el prompt de construcción a la izquierda y presiona "Generar Presupuesto PDF" para compilar un reporte de presupuesto unitario auditado.
                         </p>
                       </div>
                     </div>
@@ -455,13 +578,13 @@ export const AnalysisPage = () => {
                         <div className="space-y-1">
                           <span className="flex items-center gap-1 text-[10px] font-bold bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-2 py-0.5 rounded-full w-fit">
                             <ShieldCheck size={10} />
-                            <span>PDF COMPILADO CON ÉXITO</span>
+                            <span>PDF COMPILADO CON ÉXITO POR IA</span>
                           </span>
                           <h3 className="text-xl font-black text-white uppercase tracking-tight leading-tight mt-1">
-                            INFORME APU: {selectedChapter.toUpperCase()} ({builderRegion})
+                            PRESUPUESTO IA: {BUDGET_MOCK_DATA[activeBudgetTemplate || 'residencial']?.title}
                           </h3>
                           <p className="text-[10px] font-mono text-slate-500 uppercase">
-                            FORMATO: PDF/AEC VIGENTE • INDIRECTOS APLICADOS: {builderOverhead}%
+                            REGIONALIZADO: {constructorRegion} • FECHA: ABRIL 2026 • INDIRECTOS: {constructorOverhead}%
                           </p>
                         </div>
                         
@@ -484,37 +607,26 @@ export const AnalysisPage = () => {
 
                         {/* Title page representation */}
                         <div className="space-y-2 pb-6 border-b border-white/10">
-                          <h4 className="text-md font-bold text-white uppercase">ANÁLISIS DE PRECIOS UNITARIOS - REGIONALIZADO</h4>
+                          <h4 className="text-md font-bold text-white uppercase">ANÁLISIS DE PRECIOS UNITARIOS - GENERAL POR PROMPT</h4>
                           <p className="text-slate-500 text-[10px]">ORGANIZACIÓN: APUCMX ENJAMBRE • EMISIÓN: ABRIL 2026</p>
-                          <p className="text-slate-400 text-xs uppercase">CAPÍTULO INFORME: {selectedChapter}</p>
-                          <p className="text-slate-400 text-xs">REGIONES EVALUADAS: {builderRegion} (MÉXICO)</p>
+                          <p className="text-slate-400 text-xs uppercase">TIPO DE PROYECTO: {activeBudgetTemplate || 'CASA HABITACIÓN'}</p>
+                          <p className="text-slate-400 text-xs">REGIONES EVALUADAS: {constructorRegion} (MÉXICO)</p>
                         </div>
 
                         {/* Concept Mock List */}
                         <div className="space-y-4">
-                          <div className="bg-[#0F0F1A] border border-white/5 p-4 rounded-xl space-y-2">
-                            <div className="flex justify-between items-center text-xs font-bold text-white">
-                              <span>CONCEPTO 01: EXCAVACIÓN MECÁNICA POR MEDIOS GENERALES</span>
-                              <span>UNIDAD: m3</span>
+                          {(BUDGET_MOCK_DATA[activeBudgetTemplate || 'residencial']?.items || []).map((item, idx) => (
+                            <div key={idx} className="bg-[#0F0F1A] border border-white/5 p-4 rounded-xl space-y-2">
+                              <div className="flex justify-between items-center text-xs font-bold text-white">
+                                <span>{item.code}: {item.desc}</span>
+                                <span>UNIDAD: {item.unit}</span>
+                              </div>
+                              <div className="flex justify-between items-center text-[10px] text-slate-400 pt-2 border-t border-white/5">
+                                <span>COSTO DIRECTO: ${item.cost.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                                <span>P. VENTA CON IND. ({constructorOverhead}%): ${(item.cost * (1 + constructorOverhead/100)).toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                              </div>
                             </div>
-                            <p className="text-[10px] text-slate-400">EXCAVACIÓN DE CEPAS POR MEDIOS MECÁNICOS EN TERRENO TIPO II DE 0.00 A 2.00 M DE PROFUNDIDAD...</p>
-                            <div className="flex justify-between items-center text-[10px] text-slate-400 pt-2 border-t border-white/5">
-                              <span>COSTO DIRECTO: $210.00</span>
-                              <span>P. VENTA CON IND. ({builderOverhead}%): ${(210 * (1 + builderOverhead/100)).toFixed(2)}</span>
-                            </div>
-                          </div>
-
-                          <div className="bg-[#0F0F1A] border border-white/5 p-4 rounded-xl space-y-2">
-                            <div className="flex justify-between items-center text-xs font-bold text-white">
-                              <span>CONCEPTO 02: PLANTILLA DE CONCRETO F'C=100 KG/CM2</span>
-                              <span>UNIDAD: m2</span>
-                            </div>
-                            <p className="text-[10px] text-slate-400">PLANTILLA DE CONCRETO HECHO EN OBRA F'C=100 KG/CM2 ESPESOR DE 5 CM, AGREGADO MÁXIMO 3/4...</p>
-                            <div className="flex justify-between items-center text-[10px] text-slate-400 pt-2 border-t border-white/5">
-                              <span>COSTO DIRECTO: $175.50</span>
-                              <span>P. VENTA CON IND. ({builderOverhead}%): ${(175.5 * (1 + builderOverhead/100)).toFixed(2)}</span>
-                            </div>
-                          </div>
+                          ))}
                         </div>
 
                         {/* Required Disclaimer Warning inside PDF */}
@@ -525,6 +637,9 @@ export const AnalysisPage = () => {
                           </p>
                           <p className="text-[9px] text-slate-400 leading-normal uppercase">
                             "ESTE REPORTE NO SUSTITUYE LA REVISIÓN TÉCNICA Y PRESUPUESTAL ESPECÍFICA DE CADA PROYECTO."
+                          </p>
+                          <p className="text-[9px] text-blue-400 leading-normal uppercase">
+                            "Este presupuesto se genera utilizando Inteligencia Artificial mediante LangChain, Model Context Protocol (MCP) y los datos de APUCMX en Supabase. Todos los precios están estimados a México, Abril 2026."
                           </p>
                         </div>
                       </div>
@@ -549,6 +664,14 @@ export const AnalysisPage = () => {
                   <span>Auditar Catálogo Propio</span>
                 </h2>
 
+                {/* Disclaimer/Note of IA Auditor */}
+                <div className="bg-red-950/20 border border-red-900/30 rounded-xl p-4 space-y-2">
+                  <span className="text-[10px] font-bold text-red-400 uppercase tracking-widest block">TECNOLOGÍA IA DE AUDITORÍA</span>
+                  <p className="text-[10px] text-slate-300 leading-normal uppercase">
+                    "La auditoría de este catálogo se realiza mediante LangChain y MCP con Inteligencia Artificial."
+                  </p>
+                </div>
+
                 {/* Subir archivo CSV/Excel */}
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Subir Archivo de Catálogo</label>
@@ -564,6 +687,24 @@ export const AnalysisPage = () => {
                       className="hidden"
                     />
                   </label>
+                </div>
+
+                {/* Select Prompt Template for Audit */}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Plantilla de Auditoría IA</label>
+                  <select
+                    value={selectedAuditTemplate}
+                    onChange={e => setSelectedAuditTemplate(e.target.value)}
+                    disabled={!isLoggedIn || isProcessing}
+                    className="w-full bg-[#07070F] border border-white/5 focus:border-blue-500 rounded-xl px-3 py-2.5 text-xs text-white outline-none cursor-pointer"
+                  >
+                    {AUDIT_TEMPLATES.map((item) => (
+                      <option key={item.id} value={item.id}>{item.label}</option>
+                    ))}
+                  </select>
+                  <p className="text-[9px] text-slate-500 uppercase leading-snug">
+                    {AUDIT_TEMPLATES.find(t => t.id === selectedAuditTemplate)?.desc}
+                  </p>
                 </div>
 
                 <div className="text-center text-xs text-slate-500 uppercase tracking-widest">Ó OBTENER MATRIX RAG DE PRUEBA</div>
@@ -602,7 +743,7 @@ export const AnalysisPage = () => {
                       value={profRegion}
                       onChange={e => setProfRegion(e.target.value)}
                       disabled={!isLoggedIn || isProcessing}
-                      className="w-full bg-[#07070F] border border-white/5 focus:border-blue-500 rounded-xl px-3 py-2.5 text-xs text-white outline-none"
+                      className="w-full bg-[#07070F] border border-white/5 focus:border-blue-500 rounded-xl px-3 py-2.5 text-xs text-white outline-none cursor-pointer"
                     >
                       <option value="CDMX">CDMX</option>
                       <option value="Norte">Norte</option>
@@ -643,7 +784,7 @@ export const AnalysisPage = () => {
                 >
                   {isProcessing ? (
                     <>
-                      <RefreshCw size={14} className="animate-spin" />
+                      <RefreshCw size={14} className="animate-spin text-white" />
                       <span>Auditando con Pydantic/RAG...</span>
                     </>
                   ) : (
@@ -755,6 +896,14 @@ export const AnalysisPage = () => {
                           <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest block mb-1">Precio de Venta</span>
                           <span className="text-xl font-black text-blue-400 font-mono">${auditResult.finalPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                         </div>
+                      </div>
+
+                      {/* Required Disclaimer Warning inside Audit */}
+                      <div className="bg-red-950/20 border border-red-900/30 rounded-xl p-4 space-y-1">
+                        <span className="text-[10px] font-bold text-red-400 uppercase tracking-widest block">IMPORTANTE - CLÁUSULAS DE AUDITORÍA</span>
+                        <p className="text-[9px] text-slate-400 leading-normal uppercase">
+                          "La auditoría de este catálogo se realiza mediante LangChain y MCP con Inteligencia Artificial."
+                        </p>
                       </div>
                     </div>
                   )}

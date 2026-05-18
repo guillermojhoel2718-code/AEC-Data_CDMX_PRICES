@@ -49,11 +49,120 @@ function actionLabel(action: string) {
     uso_matriz:     'Generar APU',
     uso_normalizar: 'Normalizar',
     uso_descripcion:'Descripción AEC',
+    transferencia:  'Transferencia',
   };
   return map[action] ?? action;
 }
 
 // ─── Componentes ──────────────────────────────────────────────────────────────
+
+const TransferCard = () => {
+  const { transferTokens } = useTokens();
+  const [email, setEmail] = useState('');
+  const [amountStr, setAmountStr] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+
+  const handleTransfer = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg(null);
+    setSuccessMsg(null);
+
+    const amount = parseInt(amountStr);
+    if (!email.trim()) {
+      setErrorMsg('POR FAVOR INGRESA EL CORREO ELECTRÓNICO.');
+      return;
+    }
+    if (isNaN(amount) || amount <= 0) {
+      setErrorMsg('EL MONTO DEBE SER UN NÚMERO ENTERO MAYOR A CERO.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const res = await transferTokens(email, amount);
+      if (res.ok) {
+        setSuccessMsg(`¡TRANSFERENCIA EXITOSA! ENVIADOS ${amount} TOKENS A ${email.toUpperCase()}.`);
+        setEmail('');
+        setAmountStr('');
+      } else {
+        setErrorMsg(res.error || 'ERROR AL TRANSFERIR TOKENS.');
+      }
+    } catch (err: any) {
+      setErrorMsg(err.message || 'ERROR DE RED AL TRANSFERIR.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="rounded-2xl bg-[#0F0F1E] border border-[#2A2A4A] p-6 space-y-4">
+      <div>
+        <h3 className="text-white font-semibold text-lg flex items-center gap-2">
+          <ArrowUpRight className="w-5 h-5 text-indigo-400" />
+          Transferir Tokens
+        </h3>
+        <p className="text-[#8888AA] text-sm mt-1">Comparte créditos de forma instantánea con otros usuarios de la red</p>
+      </div>
+
+      <form onSubmit={handleTransfer} className="space-y-3">
+        <div>
+          <label className="block text-xs font-semibold text-slate-400 uppercase mb-1">Correo Electrónico Destino</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="usuario@ejemplo.com"
+            disabled={isSubmitting}
+            className="w-full bg-[#1A1A2E] border border-[#2A2A4A] focus:border-[#6366F1] rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-600 outline-none transition-colors"
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-semibold text-slate-400 uppercase mb-1">Monto a Transferir</label>
+          <input
+            type="number"
+            value={amountStr}
+            onChange={(e) => setAmountStr(e.target.value)}
+            placeholder="Monto de tokens"
+            disabled={isSubmitting}
+            className="w-full bg-[#1A1A2E] border border-[#2A2A4A] focus:border-[#6366F1] rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-600 outline-none transition-colors"
+          />
+        </div>
+
+        {errorMsg && (
+          <div className="bg-red-500/10 border border-red-500/20 p-3 rounded-xl text-red-400 flex items-start gap-2 text-[11px] font-mono leading-relaxed uppercase">
+            <XCircle className="w-4 h-4 shrink-0 mt-0.5" />
+            <span>{errorMsg}</span>
+          </div>
+        )}
+
+        {successMsg && (
+          <div className="bg-emerald-500/10 border border-emerald-500/30 p-3 rounded-xl text-emerald-400 flex items-start gap-2 text-[11px] font-mono leading-relaxed uppercase">
+            <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
+            <span>{successMsg}</span>
+          </div>
+        )}
+
+        <button
+          type="submit"
+          disabled={isSubmitting || !email.trim() || !amountStr.trim()}
+          className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:brightness-110 text-white font-semibold transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? (
+            <RefreshCw className="w-4 h-4 animate-spin" />
+          ) : (
+            <>
+              <ArrowUpRight className="w-4 h-4" />
+              Realizar Transferencia
+            </>
+          )}
+        </button>
+      </form>
+    </div>
+  );
+};
 
 const BalanceCard = ({ balance, loadingTokens }: { balance: number; loadingTokens: boolean }) => {
   const pct = Math.min(100, (balance / 200) * 100); // max barra = 200 tokens
@@ -219,6 +328,36 @@ export const TokensPage: React.FC = () => {
     }
   }, [payStatus]);
 
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-[#0A0A0F] text-white flex flex-col items-center justify-center p-6">
+        <div className="max-w-md w-full rounded-3xl bg-[#0F0F1E]/80 border border-[#2A2A4A] p-8 text-center space-y-6 relative overflow-hidden backdrop-blur-md">
+          {/* Glow */}
+          <div className="absolute -top-10 -left-10 w-32 h-32 bg-red-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-600 to-red-600 flex items-center justify-center mx-auto shadow-xl">
+            <Coins className="w-8 h-8 text-white animate-pulse" />
+          </div>
+
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold uppercase tracking-wider">Acceso Restringido</h2>
+            <p className="text-sm text-slate-400">
+              DEBES INICIAR SESIÓN EN LA PLATAFORMA DE APUCMX PARA GESTIONAR TUS TOKENS, COMPRAR CRÉDITOS Y COMPARTIR SALDO CON OTROS USUARIOS DE LA RED.
+            </p>
+          </div>
+
+          <button
+            onClick={() => navigate('/')}
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:brightness-110 text-white font-semibold transition-all duration-200"
+          >
+            Ir al Inicio para Iniciar Sesión
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#0A0A0F] text-white">
       {/* Header */}
@@ -247,6 +386,8 @@ export const TokensPage: React.FC = () => {
           </div>
           <div className="space-y-6">
             <PurchaseCard />
+            
+            <TransferCard />
 
             {/* Info token */}
             <div className="rounded-2xl bg-[#0F0F1E] border border-[#2A2A4A] p-4 space-y-2">
@@ -261,36 +402,21 @@ export const TokensPage: React.FC = () => {
         </div>
 
         {/* Historial */}
-        {user && (
-          <div className="rounded-2xl bg-[#0F0F1E] border border-[#2A2A4A] p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <Clock className="w-4 h-4 text-[#6366F1]" />
-              <h3 className="text-white font-semibold">Historial de Movimientos</h3>
+        <div className="rounded-2xl bg-[#0F0F1E] border border-[#2A2A4A] p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <Clock className="w-4 h-4 text-[#6366F1]" />
+            <h3 className="text-white font-semibold">Historial de Movimientos</h3>
+          </div>
+          {loadingTokens ? (
+            <div className="flex justify-center py-8">
+              <div className="w-6 h-6 rounded-full border-2 border-[#6366F1] border-t-transparent animate-spin" />
             </div>
-            {loadingTokens ? (
-              <div className="flex justify-center py-8">
-                <div className="w-6 h-6 rounded-full border-2 border-[#6366F1] border-t-transparent animate-spin" />
-              </div>
-            ) : transactions.length === 0 ? (
-              <p className="text-[#666688] text-sm text-center py-8">No hay movimientos aún.</p>
-            ) : (
-              transactions.map(tx => <TransactionRow key={tx.id} tx={tx} />)
-            )}
-          </div>
-        )}
-
-        {/* Guest message */}
-        {!user && (
-          <div className="text-center py-12 space-y-3">
-            <p className="text-[#8888AA]">Inicia sesión para ver tu saldo y comprar tokens</p>
-            <button
-              onClick={() => navigate('/')}
-              className="px-5 py-2 rounded-xl bg-[#6366F1] text-white text-sm hover:bg-[#4F51D9] transition-colors"
-            >
-              Ir al inicio
-            </button>
-          </div>
-        )}
+          ) : transactions.length === 0 ? (
+            <p className="text-[#666688] text-sm text-center py-8">No hay movimientos aún.</p>
+          ) : (
+            transactions.map(tx => <TransactionRow key={tx.id} tx={tx} />)
+          )}
+        </div>
 
         {/* Legal */}
         <p className="text-[#333355] text-xs text-center">

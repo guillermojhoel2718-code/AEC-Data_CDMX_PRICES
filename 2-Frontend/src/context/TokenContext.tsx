@@ -28,6 +28,7 @@ interface TokenContextType {
   loadingTokens: boolean;
   transactions: TokenTransaction[];
   consumeTokens: (amount: number, action: string, description?: string) => Promise<{ ok: boolean; error?: string }>;
+  transferTokens: (receiverEmail: string, amount: number) => Promise<{ ok: boolean; error?: string }>;
   refreshBalance: () => Promise<void>;
   paymentLink: string;     // Link de Stripe para comprar tokens
 }
@@ -133,12 +134,44 @@ export const TokenProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // ── Transferir tokens entre usuarios ───────────────────────────────────────
+  const transferTokens = async (
+    receiverEmail: string,
+    amount: number,
+  ): Promise<{ ok: boolean; error?: string }> => {
+    if (!user) return { ok: false, error: 'NO HAY SESIÓN ACTIVA' };
+    if (balance < amount) return { ok: false, error: `SALDO INSUFICIENTE (${balance} TOKENS DISPONIBLES)` };
+
+    try {
+      const { data, error } = await supabase.rpc('transfer_tokens', {
+        p_sender_id:      user.id,
+        p_receiver_email: receiverEmail,
+        p_amount:         amount,
+      });
+
+      if (error) return { ok: false, error: error.message };
+
+      const result = data as { ok: boolean; error?: string; balance?: number };
+      if (result.ok && result.balance !== undefined) {
+        setBalance(result.balance);
+      }
+      if (!result.ok) return { ok: false, error: result.error ?? 'ERROR DESCONOCIDO' };
+
+      // Actualizar historial
+      await fetchBalance();
+      return { ok: true };
+    } catch (err: any) {
+      return { ok: false, error: err.message ?? 'ERROR DE RED' };
+    }
+  };
+
   return (
     <TokenContext.Provider value={{
       balance,
       loadingTokens,
       transactions,
       consumeTokens,
+      transferTokens,
       refreshBalance: fetchBalance,
       paymentLink: PAYMENT_LINK,
     }}>

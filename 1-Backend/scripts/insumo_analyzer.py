@@ -542,7 +542,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-=======
-# insumo_analyzer.py — ver archivo local para código completo
-# Pipeline: regex AEC → Gemini Flash → outliers → CSV limpio + reporte Markdown
->>>>>>> 97282a4ba7c9c66773235c52d4227b3e04cea21c
