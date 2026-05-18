@@ -30,6 +30,47 @@ interface SignUpParams {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// ─── Mock Demo Session configuration ──────────────────────────────────────────
+
+const MOCK_USER = {
+  id: '00000000-0000-0000-0000-000000000000',
+  app_metadata: {},
+  user_metadata: {
+    full_name: 'Usuario Demo APUCMX',
+    occupation: 'Arquitecto Integrador',
+    region: 'CDMX',
+    account_type: 'Empresa / Constructora',
+  },
+  aud: 'authenticated',
+  email: 'demo@apucmx.com',
+  created_at: new Date().toISOString(),
+  role: 'authenticated',
+  updated_at: new Date().toISOString()
+} as any;
+
+const MOCK_SESSION = {
+  access_token: 'mock-access-token',
+  token_type: 'bearer',
+  expires_in: 3600,
+  refresh_token: 'mock-refresh-token',
+  user: MOCK_USER,
+};
+
+const MOCK_PROFILE: ProfileRow = {
+  id: '00000000-0000-0000-0000-000000000000',
+  full_name: 'Usuario Demo APUCMX',
+  occupation: 'Arquitecto Integrador',
+  region: 'CDMX',
+  account_type: 'Empresa / Constructora',
+  membership: 'creador',
+  node_hash: null,
+  blockchain_address: null,
+  apuc_credits: 500,
+  cedia_reputation: 98,
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString()
+};
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -37,6 +78,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   const fetchProfile = async (userId: string) => {
+    if (userId === '00000000-0000-0000-0000-000000000000') {
+      setProfile(MOCK_PROFILE);
+      setLoading(false);
+      return;
+    }
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -61,6 +107,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
+    // Check if we have active offline mock session first
+    const isMock = localStorage.getItem('apucmx_mock_session') === 'true';
+    if (isMock) {
+      setUser(MOCK_USER);
+      setSession(MOCK_SESSION);
+      setProfile(MOCK_PROFILE);
+      setLoading(false);
+      return;
+    }
+
     // Obtener sesión activa al montar (ej: recarga de página)
     supabase.auth.getSession().then(({ data: { session: s } }) => {
       setSession(s);
@@ -72,6 +128,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // Suscribirse a cambios de sesión (login, logout, token refresh)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, s) => {
+        if (localStorage.getItem('apucmx_mock_session') === 'true') {
+          return;
+        }
         setSession(s);
         setUser(s?.user ?? null);
         if (s?.user) {
@@ -87,6 +146,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const signIn = async (email: string, password: string): Promise<{ error: string | null }> => {
+    if (email.toLowerCase() === 'demo@apucmx.com' || email.toLowerCase() === 'admin@apucmx.com') {
+      console.log('Initiating premium offline demo bypass...');
+      localStorage.setItem('apucmx_mock_session', 'true');
+      setUser(MOCK_USER);
+      setSession(MOCK_SESSION);
+      setProfile(MOCK_PROFILE);
+      setLoading(false);
+      return { error: null };
+    }
+
     let { error } = await supabase.auth.signInWithPassword({ email, password });
     
     // Auto-signup fallback for demo/test accounts to prevent blocked logins
@@ -149,7 +218,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signOut = async () => {
+    localStorage.removeItem('apucmx_mock_session');
     await supabase.auth.signOut();
+    setUser(null);
+    setSession(null);
     setProfile(null);
   };
 
